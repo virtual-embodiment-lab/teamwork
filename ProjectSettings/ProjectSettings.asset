@@ -547,10 +547,10 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: 
+  cameraUsageDescription: camera
   locationUsageDescription: 
-  microphoneUsageDescription: 
-  bluetoothUsageDescription: 
+  microphoneUsageDescription: microphone
+  bluetoothUsageDescription: bluetooth
   macOSTargetOSVersion: 10.13.0
   switchNMETAOverride: 
   switchNetLibKey: 
@@ -799,7 +799,8 @@ PlayerSettings:
   webGLMemoryGeometricGrowthStep: 0.2
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: NORMCORE
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
