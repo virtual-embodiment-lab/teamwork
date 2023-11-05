@@ -945,12 +945,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b88b69b95a0714c87932627c7789244c,
         type: 3}
       propertyPath: m_Name
-      value: Maze 1
+      value: Maze Small
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b88b69b95a0714c87932627c7789244c,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b88b69b95a0714c87932627c7789244c,
         type: 3}
@@ -977,6 +977,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1199366598575931352}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b88b69b95a0714c87932627c7789244c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2392908155254378584}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b88b69b95a0714c87932627c7789244c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2784954854788130587}
   m_SourcePrefab: {fileID: 100100000, guid: b88b69b95a0714c87932627c7789244c, type: 3}
 --- !u!4 &130507896619057185 stripped
 Transform:
@@ -1046,6 +1054,47 @@ MonoBehaviour:
   m_ShadowMasks:
   - {fileID: 0}
   m_LightInfo: []
+--- !u!114 &2392908155254378584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757863201620400795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 0}
+  _sceneViewUUID: 
+  _viewUUID: 
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
+  _sceneViewDestroyWhenLastClientLeaves: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 2784954854788130587}
+  _childViews: []
+--- !u!114 &2784954854788130587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757863201620400795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 0
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 1
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0
 --- !u!23 &1262279898517683022 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: b88b69b95a0714c87932627c7789244c,

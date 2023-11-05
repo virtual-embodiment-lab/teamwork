@@ -8079,11 +8079,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Maze Large
       objectReference: {fileID: 0}
-    - target: {fileID: 1725340189325907861, guid: b6c1f0ca04e904df9b0a39db1563f510,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3942427895426867657, guid: b6c1f0ca04e904df9b0a39db1563f510,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8133,6 +8128,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082839719527255720, guid: b6c1f0ca04e904df9b0a39db1563f510,
+        type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 1087383194}
+    - target: {fileID: 9082839719527255720, guid: b6c1f0ca04e904df9b0a39db1563f510,
+        type: 3}
+      propertyPath: _viewUUID
+      value: adec272c-a6c2-4f70-b83b-d954d1208d7a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8368,10 +8373,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Maze Small
       objectReference: {fileID: 0}
-    - target: {fileID: 757863201620400795, guid: 37306f8a6f81948faa3fc64e726ed7b9,
+    - target: {fileID: 2392908155254378584, guid: 37306f8a6f81948faa3fc64e726ed7b9,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 1087383194}
+    - target: {fileID: 2392908155254378584, guid: 37306f8a6f81948faa3fc64e726ed7b9,
+        type: 3}
+      propertyPath: _viewUUID
+      value: 138904e5-337c-4fc3-ab25-b7ec9ddbee0c
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8440,6 +8450,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080857969376715946, guid: 6f4277641df8342a7866e3497423f143,
+        type: 3}
+      propertyPath: _realtime
+      value: 
+      objectReference: {fileID: 1087383194}
+    - target: {fileID: 9080857969376715946, guid: 6f4277641df8342a7866e3497423f143,
+        type: 3}
+      propertyPath: _viewUUID
+      value: 68a1b4e9-605d-4e68-a1c1-827c665db64f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
