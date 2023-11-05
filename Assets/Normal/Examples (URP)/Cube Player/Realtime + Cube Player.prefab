@@ -10,13 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3819965731168151648}
   - component: {fileID: 3784884939345992268}
-  - component: {fileID: 3784984920720941586}
+  - component: {fileID: 4292834263015932038}
   m_Layer: 0
   m_Name: Realtime + Cube Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3819965731168151648
 Transform:
@@ -25,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3825313061053131742}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3784884939345992268
 MonoBehaviour:
@@ -45,10 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _obsoleteAppKey: 
-  _normcoreAppSettings: {fileID: 0}
+  _normcoreAppSettings: {fileID: 11400000, guid: 15dcd3df86c7f4424b4b891dda120cf0,
+    type: 2}
   _roomToJoinOnStart: Test Room
   _joinRoomOnStart: 1
---- !u!114 &3784984920720941586
+--- !u!114 &4292834263015932038
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,7 +59,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 3825313061053131742}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d11d1e6dbd5afa940b6f8525d39eece5, type: 3}
+  m_Script: {fileID: 11500000, guid: 57afa5e7f12904457923e6fd2f80a01d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 1074762632099066, guid: cef776ec7b013e94a82b48614f281026, type: 3}
+  _prefab: {fileID: 7339354330893357622, guid: 897650fbb323c4a65af54c686e00280a, type: 3}
+  _spawnLocation: {fileID: 3819965731168151648}
