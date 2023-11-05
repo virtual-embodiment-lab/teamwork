@@ -1532,6 +1532,8 @@ GameObject:
   m_Component:
   - component: {fileID: 544275806}
   - component: {fileID: 544275807}
+  - component: {fileID: 544275808}
+  - component: {fileID: 544275809}
   m_Layer: 0
   m_Name: Maze Select
   m_TagString: Untagged
@@ -1567,15 +1569,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9443faa78425b4f3595baf0b2555e029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  largeMaze: {fileID: 576484942}
-  mediumMaze: {fileID: 1021603008}
-  smallMaze: {fileID: 135400887}
   largeMazeButton: {fileID: 65755287}
   mediumMazeButton: {fileID: 1708778537}
   smallMazeButton: {fileID: 323187768}
-  uiCamera: {fileID: 0}
-  graphicRaycaster: {fileID: 0}
-  eventSystem: {fileID: 0}
+  mazeStateSync: {fileID: 544275809}
+--- !u!114 &544275808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544275805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 1087383194}
+  _sceneViewUUID: 
+  _viewUUID: a7a8ca2e-563b-4f3f-a117-55dac05b7d9d
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
+  _sceneViewDestroyWhenLastClientLeaves: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 0}
+  - componentID: 2
+    component: {fileID: 544275809}
+  _childViews: []
+--- !u!114 &544275809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544275805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe67bcdf48ed14edc89571cba936f562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mazes:
+  - {fileID: 135400887}
+  - {fileID: 1021603008}
+  - {fileID: 576484942}
 --- !u!1 &551583310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +1974,7 @@ GameObject:
   - component: {fileID: 632635314}
   - component: {fileID: 632635313}
   - component: {fileID: 632635312}
+  - component: {fileID: 632635316}
   m_Layer: 0
   m_Name: Start Trigger
   m_TagString: Untagged
@@ -2029,6 +2068,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 718684560}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &632635316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632635311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8167e2d873603495ea8637050ed599d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mazeStateSync: {fileID: 544275809}
+  roleSelect: {fileID: 915958178}
+  door: {fileID: 572763083}
 --- !u!1 &639658182
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,51 +3,40 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
 using Normal.Realtime;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
-public class MazeSelect : MonoBehaviour
+public class MazeSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField] public GameObject largeMaze;
-    [SerializeField] public GameObject mediumMaze;
-    [SerializeField] public GameObject smallMaze;
     [SerializeField] public TMP_Text largeMazeButton;
     [SerializeField] public TMP_Text mediumMazeButton;
     [SerializeField] public TMP_Text smallMazeButton;
+    [SerializeField] private MazeStateSync mazeStateSync;
 
-    [SerializeField] private Camera uiCamera; // This will be set when the player is found
-    [SerializeField] private GraphicRaycaster graphicRaycaster;
-    [SerializeField] private EventSystem eventSystem;
+
+    private Camera uiCamera;
+    private GraphicRaycaster graphicRaycaster;
+    private EventSystem eventSystem;
+    private PointerEventData pointerEventData;
+    private TMP_Text currentHoveredButton;
 
     void Start()
     {
         graphicRaycaster = FindObjectOfType<GraphicRaycaster>();
         eventSystem = FindObjectOfType<EventSystem>();
-
-        // Start the coroutine to find the locally owned player's camera
         StartCoroutine(FindLocalPlayerCamera());
     }
 
     void Update()
     {
-        if (uiCamera == null) return; // If the camera hasn't been found yet, don't proceed
+        if (uiCamera == null) return;
 
-        if (IsCrosshairOverUI(out TMP_Text hitButton))
+        // Detect if the crosshair is over a UI button
+        if (IsCrosshairOverUI())
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && currentHoveredButton != null)
             {
-                if (hitButton == largeMazeButton)
-                {
-                    ActivateMaze(largeMaze);
-                }
-                else if (hitButton == mediumMazeButton)
-                {
-                    ActivateMaze(mediumMaze);
-                }
-                else if (hitButton == smallMazeButton)
-                {
-                    ActivateMaze(smallMaze);
-                }
+                OnPointerClick(new PointerEventData(eventSystem));
             }
         }
     }
@@ -61,51 +50,95 @@ public class MazeSelect : MonoBehaviour
             {
                 if (view.isOwnedLocallyInHierarchy)
                 {
-                    // Assuming the camera is a direct child of the player object
                     uiCamera = view.GetComponentInChildren<Camera>();
-                    break; // Stop the loop once the local player camera is found
+                    break;
                 }
             }
-
-            if (uiCamera == null)
-            {
-                // Wait for a short time before trying again if no camera is found
-                yield return new WaitForSeconds(0.1f);
-            }
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
-    private bool IsCrosshairOverUI(out TMP_Text hitButton)
+    private bool IsCrosshairOverUI()
     {
-        hitButton = null;
-        if (uiCamera == null) return false;
-
-        PointerEventData pointerEventData = new PointerEventData(eventSystem)
+        pointerEventData = new PointerEventData(eventSystem)
         {
             position = new Vector2(uiCamera.pixelWidth / 2, uiCamera.pixelHeight / 2)
         };
 
-        var results = new List<RaycastResult>();
+        List<RaycastResult> results = new List<RaycastResult>();
         graphicRaycaster.Raycast(pointerEventData, results);
 
         foreach (RaycastResult result in results)
         {
-            hitButton = result.gameObject.GetComponent<TMP_Text>();
+            TMP_Text hitButton = result.gameObject.GetComponent<TMP_Text>();
             if (hitButton != null)
+            {
+                if (currentHoveredButton != hitButton)
+                {
+                    if (currentHoveredButton != null)
+                    {
+                        OnPointerExit(new PointerEventData(eventSystem)); // Simulate pointer exit for the previous button
+                    }
+                    currentHoveredButton = hitButton;
+                    OnPointerEnter(new PointerEventData(eventSystem)); // Simulate pointer enter for the new button
+                }
                 return true;
+            }
+        }
+
+        if (currentHoveredButton != null)
+        {
+            OnPointerExit(new PointerEventData(eventSystem)); // Simulate pointer exit if no button is hovered
+            currentHoveredButton = null;
         }
 
         return false;
     }
 
-    private void ActivateMaze(GameObject maze)
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        // Deactivate all mazes
-        largeMaze.SetActive(false);
-        mediumMaze.SetActive(false);
-        smallMaze.SetActive(false);
+        // Trigger the highlight state of the button
+        TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
+        if (button != null)
+        {
+            // Your code to change the color or visual state when the button is highlighted
+        }
+    }
 
-        // Activate the selected maze
-        maze.SetActive(true);
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        // Trigger the normal state of the button
+        TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
+        if (button != null)
+        {
+            // Your code to revert the color or visual state when the button is no longer highlighted
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // Trigger the pressed state of the button and activate the corresponding maze
+        TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
+        if (button != null)
+        {
+            // Your code to change the color or visual state when the button is pressed
+            if (button == largeMazeButton)
+            {
+                ActivateMaze(2);
+            }
+            else if (button == mediumMazeButton)
+            {
+                ActivateMaze(1);
+            }
+            else if (button == smallMazeButton)
+            {
+                ActivateMaze(0);
+            }
+        }
+    }
+
+    private void ActivateMaze(int index)
+    {
+        mazeStateSync.SetActiveMaze(index);
     }
 }

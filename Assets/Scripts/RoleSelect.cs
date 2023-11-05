@@ -122,4 +122,31 @@ public class RoleSelect : MonoBehaviour
         if (!playerRenderer) return;
         playerRenderer.material = role == Role.None ? defaultMaterial : GetMaterialForRole(role);
     }
+
+    public bool AreAllRolesAssigned()
+    {
+        // Find all player GameObjects
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        // Check if the dictionary already contains all players
+        if (playerRoles.Count < players.Length)
+        {
+            // Not all players have a role assigned
+            return false;
+        }
+
+        // Check if any player has a Role.None
+        foreach (var playerRole in playerRoles)
+        {
+            if (playerRole.Value == Role.None)
+            {
+                // A player has not selected a role
+                return false;
+            }
+        }
+
+        // All players have a role that is not None
+        return true;
+    }
+
 }
