@@ -122,7 +122,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7048389785861796939
 Transform:
@@ -697,7 +697,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3942427895426867657}
   m_Layer: 0
-  m_Name: Maze 3
+  m_Name: Maze Large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

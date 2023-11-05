@@ -1,3 +1,4 @@
+using Normal.Realtime;
 using UnityEngine;
 
 /*
@@ -45,7 +46,7 @@ public class Coin : MonoBehaviour
 
     public void onCollected()
     {
-        Instantiate(particles, transform.position, transform.rotation);
+        _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
         collected = true;
         gameObject.SetActive(false);
     }

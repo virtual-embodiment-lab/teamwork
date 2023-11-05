@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5248125460824737501}
   - component: {fileID: 7586131352406392517}
   - component: {fileID: 9198026107034556293}
+  - component: {fileID: 5857332819489370807}
+  - component: {fileID: 9109830629899045319}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Coin
@@ -119,12 +121,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 20
+  particles: {fileID: 2191228311670666601, guid: 907f386a7ab77da44a1690b118c3c003,
+    type: 3}
   Mesh: {fileID: 3672561929674047400}
   found: 0
   collected: 0
-  mode: 
-  colors:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
   Coin_Hidden: {fileID: 2100000, guid: 2f12cdaa721cdc54ab8682312c470c92, type: 2}
   Coin_Found: {fileID: 2100000, guid: 877f32419ecb2ed4c82a6efbf15439fc, type: 2}
+--- !u!114 &5857332819489370807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3672561929674047400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 0}
+  _sceneViewUUID: 
+  _viewUUID: 
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
+  _sceneViewDestroyWhenLastClientLeaves: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 9109830629899045319}
+  _childViews: []
+--- !u!114 &9109830629899045319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3672561929674047400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1029778088, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolate: 1
+  _syncPosition: 1
+  _syncRotation: 1
+  _syncScale: 1
+  _syncVelocity: 1
+  _maintainOwnershipWhileSleeping: 0

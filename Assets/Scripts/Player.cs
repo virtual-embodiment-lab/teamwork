@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using Normal.Realtime;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
@@ -14,6 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField] public Role currentRole = Role.None;
     [SerializeField] private GameObject batteryPrefab;
     [SerializeField] private RealtimeView _realtimeView;
+    [SerializeField] private Image crosshairImage;
+    [SerializeField] private Sprite crosshairSprite;
 
     [HideInInspector] private CharacterController characterController;
     [HideInInspector] private Vector3 moveDirection = Vector3.zero;
@@ -43,6 +46,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SetRole(Role.None);
+        CreateCrosshairUI();
         // Request ownership of the Player and the character RealtimeTransforms
         GetComponent<RealtimeTransform>().RequestOwnership();
     }
@@ -73,6 +77,9 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
+
+            if (crosshairImage != null)
+                crosshairImage.enabled = Cursor.lockState == CursorLockMode.Locked;
         }
     }
 
@@ -112,7 +119,7 @@ public class Player : MonoBehaviour
         {
             // Spawn the battery a bit in front of the player
             Vector3 spawnPosition = transform.position + transform.forward * 1.5f; // Adjust the multiplier as needed for the desired distance
-            Instantiate(batteryPrefab, spawnPosition, Quaternion.identity);
+            _ = Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
         }
     }
 
@@ -157,5 +164,35 @@ public class Player : MonoBehaviour
         {
             other.GetComponent<TacticalControlTrigger>().tacticalControl.DisableTacticalControl();
         }
+    }
+
+    private void CreateCrosshairUI()
+    {
+        // Create a new Canvas object as a child of the camera
+        GameObject canvasObject = new GameObject("CrosshairCanvas");
+        canvasObject.transform.SetParent(playerCamera.transform, false);
+        Canvas canvas = canvasObject.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasObject.AddComponent<GraphicRaycaster>();
+
+        // Set the canvas to cover the whole camera view
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+        canvasRect.sizeDelta = new Vector2(playerCamera.pixelWidth, playerCamera.pixelHeight);
+        canvasRect.localPosition = new Vector3(0, 0, 0);
+
+        // Create the Image component for the crosshair
+        GameObject crosshairObject = new GameObject("Crosshair");
+        crosshairImage = crosshairObject.AddComponent<Image>();
+        crosshairImage.sprite = crosshairSprite;
+        crosshairImage.rectTransform.sizeDelta = new Vector2(25, 25); // Set the size of the crosshair here
+
+        // Set the crosshair to be at the center of the screen
+        crosshairImage.rectTransform.SetParent(canvas.transform, false);
+        crosshairImage.rectTransform.anchoredPosition = Vector2.zero;
+
+        // Enable the crosshair by default
+        crosshairImage.enabled = true;
     }
 }

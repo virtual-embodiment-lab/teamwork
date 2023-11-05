@@ -1,3 +1,4 @@
+using Normal.Realtime;
 using UnityEngine;
 
 /*
@@ -23,7 +24,7 @@ public class Battery : MonoBehaviour
 
     public void onCollected()
     {
-        Instantiate(particles, transform.position, transform.rotation);
+        _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
         Destroy(gameObject);
     }
 }
