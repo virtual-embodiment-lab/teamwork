@@ -13,23 +13,42 @@ public class MazeSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] public TMP_Text smallMazeButton;
     [SerializeField] private MazeStateSync mazeStateSync;
 
-
     private Camera uiCamera;
     private GraphicRaycaster graphicRaycaster;
     private EventSystem eventSystem;
     private PointerEventData pointerEventData;
     private TMP_Text currentHoveredButton;
+    private bool isGameStarted = false;
+    private StartTrigger startTrigger;
 
     void Start()
     {
         graphicRaycaster = FindObjectOfType<GraphicRaycaster>();
         eventSystem = FindObjectOfType<EventSystem>();
         StartCoroutine(FindLocalPlayerCamera());
+        startTrigger = FindObjectOfType<StartTrigger>();
+        if (startTrigger != null)
+        {
+            startTrigger.OnGameStarted += HandleGameStarted;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (startTrigger != null)
+        {
+            startTrigger.OnGameStarted -= HandleGameStarted;
+        }
+    }
+
+    private void HandleGameStarted()
+    {
+        isGameStarted = true;
     }
 
     void Update()
     {
-        if (uiCamera == null) return;
+        if (uiCamera == null || isGameStarted) return;
 
         // Detect if the crosshair is over a UI button
         if (IsCrosshairOverUI())

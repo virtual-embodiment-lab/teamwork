@@ -1,84 +1,87 @@
+using System;
 using UnityEngine;
 using Normal.Realtime;
 
 public class GameManager : RealtimeComponent<GameModel>
 {
-    // Singleton pattern
-    public static GameManager Instance { get; private set; }
+    [SerializeField] private float CountdownDuration = 300.0f; // 5 minutes
+    private StartTrigger _startTrigger;
+
+    public event Action<int> OnCoinsCollectedChanged;
+    public int CoinsCollected => model.coinsCollected;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
+        _startTrigger = FindObjectOfType<StartTrigger>();
+        if (_startTrigger != null)
+            _startTrigger.OnGameStarted += StartCountdown;
+    }
+
+    private void OnDestroy()
+    {
+        if (_startTrigger != null)
+            _startTrigger.OnGameStarted -= StartCountdown;
+    }
+
+    private void Update()
+    {
+        if (_startTrigger == null || !_startTrigger.started || model.gameTime <= 0.0f)
             return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+
+        model.gameTime -= Time.deltaTime;
+        model.gameTime = Mathf.Max(model.gameTime, 0.0f);
+        UpdateCountdownUI(model.gameTime);
     }
 
     protected override void OnRealtimeModelReplaced(GameModel previousModel, GameModel currentModel)
     {
         if (previousModel != null)
         {
-            // Unregister from events on the previous model
-            previousModel.coinsCollectedDidChange -= CoinsCollectedDidChange;
             previousModel.gameTimeDidChange -= GameTimeDidChange;
+            previousModel.coinsCollectedDidChange -= CoinsCollectedDidChange;
         }
 
         if (currentModel != null)
         {
-            // Register for events so we'll know if the coin count or game time changes later
-            currentModel.coinsCollectedDidChange += CoinsCollectedDidChange;
             currentModel.gameTimeDidChange += GameTimeDidChange;
+            currentModel.coinsCollectedDidChange += CoinsCollectedDidChange;
         }
-    }
-
-    public string GetFormattedGameTime()
-    {
-        // Format the game time into a string
-        if (model != null)
-        {
-            float gameTime = model.gameTime;
-            int minutes = (int)(gameTime / 60);
-            int seconds = (int)(gameTime % 60);
-            return $"{minutes:00}:{seconds:00}";
-        }
-        return "00:00";
-    }
-
-    public int GetCoinsCollected()
-    {
-        return model?.coinsCollected ?? 0;
-    }
-
-    private void CoinsCollectedDidChange(GameModel model, int value)
-    {
-        // Update coins collected UI or logic
-        Debug.Log("Coins collected: " + value);
     }
 
     private void GameTimeDidChange(GameModel model, float value)
     {
-        // Update game time UI or logic
-        Debug.Log("Game time: " + value);
+        // Update the UI when the gameTime changes
+        UpdateCountdownUI(value);
     }
 
-    public void AddCoins(int amount)
+    private void CoinsCollectedDidChange(GameModel model, int value)
     {
-        if (realtime.connected && model.isOwnedLocallyInHierarchy)
+        // Notify subscribers that the coins collected count has changed
+        OnCoinsCollectedChanged?.Invoke(value);
+    }
+
+    private void UpdateCountdownUI(float remainingTime)
+    {
+        // Update any UI elements or trigger events based on the remaining time
+    }
+
+    public string GetFormattedGameTime()
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(model.gameTime);
+        return timeSpan.ToString(@"mm\:ss");
+    }
+
+    public void StartCountdown()
+    {
+        if (_startTrigger.started && model.gameTime == 0)
         {
-            model.coinsCollected += amount;
+            model.gameTime = CountdownDuration;
         }
     }
 
-    public void UpdateGameTime(float deltaTime)
+    public void IncrementCoinsCollected()
     {
-        if (realtime.connected && model.isOwnedLocallyInHierarchy)
-        {
-            model.gameTime += deltaTime;
-        }
+        model.coinsCollected++;
+        OnCoinsCollectedChanged?.Invoke(model.coinsCollected);
     }
-
-    // Other methods specific to managing the game's coins and time...
 }

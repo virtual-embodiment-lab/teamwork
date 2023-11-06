@@ -116,6 +116,7 @@ MonoBehaviour:
   rotationSpeed: 20
   particles: {fileID: 2191228311670666601, guid: 4fe31829b01ac41258fc3efe26d670fa,
     type: 3}
+  lifeTime: 20
 --- !u!65 &2746480609595218229
 BoxCollider:
   m_ObjectHideFlags: 0

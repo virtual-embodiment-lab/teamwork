@@ -1,3 +1,4 @@
+using System;
 using Normal.Realtime;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     [SerializeField] private RoleSelect roleSelect; // Reference to RoleSelect script
     [SerializeField] private GameObject door;       // The door GameObject to deactivate
     [SerializeField] public bool started = false;
+    public event Action OnGameStarted;
 
     private int totalPlayers = 0;
     private int playersInTrigger = 0;
@@ -97,5 +99,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     {
         model.started = true;
         started = true;
+        OnGameStarted?.Invoke();
     }
+
 }

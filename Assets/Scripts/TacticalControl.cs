@@ -9,6 +9,7 @@ public class TacticalControl : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private Rigidbody rb;
 
+    [SerializeField] private bool _isTacticalModeActive;
     [SerializeField] private float panSpeed = 20f;
     [SerializeField] private float scrollSpeed = 20f;
     [SerializeField] private Vector2 panLimitX;
@@ -24,15 +25,65 @@ public class TacticalControl : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+    }
 
-        // Disable the tactical controls at the start
+    private void Start()
+    {
+        DisableTacticalControl();
+    }
+
+    public void AssignPlayerComponents(MonoBehaviour controlScript, Camera camera)
+    {
+        playerControlScript = controlScript;
+        playerCamera = camera.gameObject;
+    }
+
+    public bool IsTacticalModeActive
+    {
+        get => _isTacticalModeActive;
+        set
+        {
+            if (_isTacticalModeActive == value) return;
+
+            _isTacticalModeActive = value;
+            if (_isTacticalModeActive)
+            {
+                EnableTacticalControl();
+            }
+            else
+            {
+                DisableTacticalControl();
+            }
+        }
+    }
+
+    private void EnableTacticalControl()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        if (playerControlScript != null)
+            playerControlScript.enabled = false;
+        if (playerCamera != null)
+            playerCamera.SetActive(false);
+        tacticalCamera.SetActive(true);
+        _isTacticalModeActive = true;
+    }
+
+    private void DisableTacticalControl()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         tacticalCamera.SetActive(false);
-        enabled = false; // Ensure this script is disabled
+        if (playerControlScript != null)
+            playerControlScript.enabled = true;
+        if (playerCamera != null)
+            playerCamera.SetActive(true);
+        _isTacticalModeActive = false;
     }
 
     void Update()
     {
-        if (!enabled) return;
+        if (!_isTacticalModeActive) return;
 
         float deltaTime = Time.deltaTime;
         Vector3 pos = pointer.transform.position;
@@ -58,43 +109,5 @@ public class TacticalControl : MonoBehaviour
     void FixedUpdate()
     {
         rb.MovePosition(rb.position + transform.TransformDirection(velocity) * Time.fixedDeltaTime);
-    }
-
-    public void AssignPlayerComponents(MonoBehaviour controlScript, Camera camera)
-    {
-        playerControlScript = controlScript;
-        playerCamera = camera.gameObject;
-    }
-
-    public void EnableTacticalControl()
-    {
-        if (playerControlScript != null)
-        {
-            playerControlScript.enabled = false;
-        }
-
-        if (playerCamera != null)
-        {
-            playerCamera.SetActive(false);
-        }
-
-        tacticalCamera.SetActive(true);
-        enabled = true; // Enable this TacticalControl script
-    }
-
-    public void DisableTacticalControl()
-    {
-        if (playerControlScript != null)
-        {
-            playerControlScript.enabled = true;
-        }
-
-        if (playerCamera != null)
-        {
-            playerCamera.SetActive(true);
-        }
-
-        tacticalCamera.SetActive(false);
-        enabled = false; // Disable this TacticalControl script
     }
 }

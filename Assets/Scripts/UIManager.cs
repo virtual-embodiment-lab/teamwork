@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public class UIManager: MonoBehaviour
 {
     private Player _player;
-    private Camera _playerCamera;
-    private TMP_Text _roleText;
     private Sprite _crosshairSprite;
 
+    private TacticalControl _tacticalControl;
+    private GameManager _gameManager;
     private Image _roleColorIndicator;
     private Image _uiPanelBackground;
     private Image _crosshairImage;
@@ -17,15 +17,16 @@ public class UIManager: MonoBehaviour
     private TextMeshProUGUI _roleUIText;
     private TextMeshProUGUI _coinsCollectedText;
     private TextMeshProUGUI _batteryCountText;
+    private Button _exitTacticalButton;
     private RectTransform _uiPanel;
     private Canvas _mainCanvas;
 
-    public void Initialize(Player player, Camera playerCamera, TMP_Text roleText, Sprite crosshairSprite)
+    public void Initialize(Player player, Sprite crosshairSprite, GameManager gameManager)
     {
         _player = player;
-        _playerCamera = playerCamera;
-        _roleText = roleText;
         _crosshairSprite = crosshairSprite;
+        _gameManager = gameManager;
+        _tacticalControl = FindObjectOfType<TacticalControl>();
 
         InitializeMainCanvas();
         CreateCrosshairUI();
@@ -36,8 +37,8 @@ public class UIManager: MonoBehaviour
         CreateCoinsCollectedUI();
         CreateBatteryCountUI();
         CreateEnergyBarUI();
+        CreateExitTacticalButton();
         UpdateEnergyUI();
-        UpdateRoleDependentUI();
     }
 
     public void UpdateUI()
@@ -46,6 +47,7 @@ public class UIManager: MonoBehaviour
         UpdateCoinsCollectedUI();
         UpdateBatteryRecharge();
         UpdateEnergyUI();
+        UpdateRoleDependentUI();
     }
 
     private void InitializeMainCanvas()
@@ -82,7 +84,7 @@ public class UIManager: MonoBehaviour
         _uiPanel.anchorMin = new Vector2(0, 1);
         _uiPanel.anchorMax = new Vector2(0, 1);
         _uiPanel.pivot = new Vector2(0, 1);
-        _uiPanel.sizeDelta = new Vector2(100, 60); // Adjust the width to be less wide
+        _uiPanel.sizeDelta = new Vector2(120, 80);
         _uiPanel.anchoredPosition = new Vector2(10, -10);
 
         // Add a background image to the UI Panel
@@ -97,28 +99,56 @@ public class UIManager: MonoBehaviour
 
     private void CreateGameTimeUI()
     {
-        _gameTimeText = CreateUIElement<TextMeshProUGUI>("GameTimeText", new Vector2(0, 1), new Vector2(0.5f, 1), new Vector2(10, -10), new Vector2(-10, -10));
+        _gameTimeText = CreateUIElement<TextMeshProUGUI>("GameTimeText", new Vector2(0, 1), new Vector2(0.5f, 1), new Vector2(5, -15), new Vector2(-10, -15), 20);
         _gameTimeText.text = "00:00";
     }
 
     private void CreateRoleUI()
     {
-        _roleUIText = CreateUIElement<TextMeshProUGUI>("RoleText", new Vector2(0, 1), new Vector2(0, 1), new Vector2(10, -50), new Vector2(100, -10)); // Adjusted for a smaller width
+        Vector2 anchorMin = new Vector2(0, 1);
+        Vector2 anchorMax = new Vector2(0, 1);
+
+        Vector2 offsetMin = new Vector2(5, -35);
+        Vector2 offsetMax = new Vector2(5 + 70, -35 - 10);
+
+        // Create the UI element with the specified values
+        _roleUIText = CreateUIElement<TextMeshProUGUI>("RoleText", anchorMin, anchorMax, offsetMin, offsetMax, 20);
         _roleUIText.alignment = TextAlignmentOptions.Left;
         _roleUIText.text = _player.currentRole.ToString();
     }
 
-
     private void CreateCoinsCollectedUI()
     {
-        _coinsCollectedText = CreateUIElement<TextMeshProUGUI>("CoinsCollectedText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(10, -10), new Vector2(-10, -10));
+        _coinsCollectedText = CreateUIElement<TextMeshProUGUI>("CoinsCollectedText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(0, -15), new Vector2(-5, -15), 20);
         _coinsCollectedText.text = "Coins: 0";
     }
 
     private void CreateBatteryCountUI()
     {
-        _batteryCountText = CreateUIElement<TextMeshProUGUI>("BatteryCountText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(10, -60), new Vector2(-10, -10));
-        _batteryCountText.text = $"Batteries: {_player.Batteries}/{Player.MaxBatteries}";
+        _batteryCountText = CreateUIElement<TextMeshProUGUI>("BatteryCountText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(-55, -65), new Vector2(-5, -65), 20);
+        _batteryCountText.text = $"Batteries: {_player.Batteries}";
+    }
+
+    private void CreateExitTacticalButton()
+    {
+        // Define button size and position similar to the battery counter and energy bar
+        Vector2 anchorMin = new Vector2(0, 1);
+        Vector2 anchorMax = new Vector2(0, 1);
+        Vector2 offsetMin = new Vector2(5, -70); // These values should be adjusted to match your UI layout
+        Vector2 offsetMax = new Vector2(115, -60);   // These values should be adjusted to match your UI layout
+        float buttonHeight = 20f; // The height of the button
+
+        // Call the CreateTMPButton method to create the button
+        _exitTacticalButton = CreateTMPButton("ExitTacticalButton", anchorMin, anchorMax, offsetMin, offsetMax, buttonHeight);
+
+        // Get the TextMeshProUGUI component from the button's child to set the text
+        TextMeshProUGUI buttonText = _exitTacticalButton.GetComponentInChildren<TextMeshProUGUI>();
+        buttonText.text = "Exit Tactical"; // Set the button's text
+
+        _exitTacticalButton.gameObject.SetActive(false);
+
+        // Optionally, you can add an event listener to the button to define what happens when it is clicked
+        _exitTacticalButton.onClick.AddListener(OnExitTacticalButtonClicked);
     }
 
     private void CreateEnergyBarUI()
@@ -126,9 +156,22 @@ public class UIManager: MonoBehaviour
         GameObject energyBarObject = new GameObject("EnergyBar");
         _energyBar = energyBarObject.AddComponent<Image>();
         _energyBar.color = Color.green;
-        SetupUIElement(_energyBar.rectTransform, new Vector2(0, 1), new Vector2(0.5f, 1), new Vector2(10, -110), new Vector2(-10, -10));
-        _energyBar.enabled = false;
-        energyBarObject.transform.SetParent(_uiPanel, false);
+
+        RectTransform rt = _energyBar.rectTransform;
+        rt.pivot = new Vector2(0, 0.5f); // Pivot set to the left-middle
+
+        float energyBarTop = -55; // Top position below the role text with a gap
+
+        // Assuming the UIPanel is 100 units wide, and we want the energy bar to start 60 units from the left
+        float energyBarHorizontalStart = 60; // Start 60 units from the left
+
+        // Set up the RectTransform to start 60 units from the left and be 110 units wide
+        SetupUIElement(rt, new Vector2(0, 1), new Vector2(0, 1),
+                       new Vector2(energyBarHorizontalStart, energyBarTop),
+                       new Vector2(energyBarHorizontalStart, energyBarTop - 20));
+
+        _energyBar.enabled = false; // Initially disabled, can be enabled when needed
+        energyBarObject.transform.SetParent(_uiPanel, false); // Set the parent of the energy bar to the UIPanel
     }
 
     private void CreateRoleColorIndicator()
@@ -137,22 +180,17 @@ public class UIManager: MonoBehaviour
         _roleColorIndicator = colorIndicatorObject.AddComponent<Image>();
         RectTransform rt = _roleColorIndicator.GetComponent<RectTransform>();
 
-        // Assuming _roleUIText has already been created and has a defined height
-        float textHeight = _roleUIText.preferredHeight;
-
-        // Set the rectangle to the right of the RoleText and as tall as the RoleText
         rt.anchorMin = new Vector2(0, 1);
         rt.anchorMax = new Vector2(0, 1);
         rt.pivot = new Vector2(0, 0.5f);
-        rt.sizeDelta = new Vector2(20, textHeight); // Width of 20 and height as tall as the RoleText
-        rt.anchoredPosition = new Vector2(_roleUIText.rectTransform.anchoredPosition.x + _roleUIText.rectTransform.sizeDelta.x + 10, _roleUIText.rectTransform.anchoredPosition.y);
+        rt.sizeDelta = new Vector2(35, 20);
+        rt.anchoredPosition = new Vector2(_roleUIText.rectTransform.anchoredPosition.x + 40, _roleUIText.rectTransform.anchoredPosition.y);
 
         colorIndicatorObject.transform.SetParent(_uiPanel.transform, false);
         UpdateRoleColorIndicator(_player.currentRole); // Set initial color
     }
 
-
-    private T CreateUIElement<T>(string name, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax) where T : Component
+    private T CreateUIElement<T>(string name, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax, float? height = null) where T : Component
     {
         GameObject uiElementObject = new GameObject(name);
         T uiElement = uiElementObject.AddComponent<T>();
@@ -164,6 +202,10 @@ public class UIManager: MonoBehaviour
         rt.anchoredPosition = Vector2.zero;
         rt.offsetMin = offsetMin;
         rt.offsetMax = offsetMax;
+        if (height.HasValue)
+        {
+            rt.sizeDelta = new Vector2(rt.sizeDelta.x, height.Value);
+        }
         rt.localScale = Vector3.one;
 
         uiElementObject.transform.SetParent(_uiPanel, false);
@@ -172,13 +214,64 @@ public class UIManager: MonoBehaviour
         if (typeof(T) == typeof(TextMeshProUGUI))
         {
             var textElement = uiElement as TextMeshProUGUI;
-            textElement.fontSize = 18;
+            //textElement.fontSize = 18;
             textElement.color = Color.white;
             textElement.alignment = TextAlignmentOptions.Center;
+            textElement.enableAutoSizing = true;
+            textElement.fontSizeMin = 0; // Set the minimum size to 0
+
         }
 
         return uiElement;
     }
+
+    private Button CreateTMPButton(string name, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax, float? height = null)
+    {
+        // Create the button object
+        GameObject buttonObject = new GameObject(name);
+        Button button = buttonObject.AddComponent<Button>();
+        Image buttonImage = buttonObject.AddComponent<Image>(); // The button also needs an Image component to display the background
+        buttonImage.color = Color.white; // Set default button color
+
+        // Set up the RectTransform for the button
+        RectTransform buttonRect = button.GetComponent<RectTransform>();
+        buttonRect.anchorMin = anchorMin;
+        buttonRect.anchorMax = anchorMax;
+        buttonRect.pivot = new Vector2(0.5f, 0.5f);
+        buttonRect.anchoredPosition = Vector2.zero;
+        buttonRect.offsetMin = offsetMin;
+        buttonRect.offsetMax = offsetMax;
+        if (height.HasValue)
+        {
+            buttonRect.sizeDelta = new Vector2(buttonRect.sizeDelta.x, height.Value);
+        }
+        buttonRect.localScale = Vector3.one;
+        buttonObject.transform.SetParent(_uiPanel, false);
+
+        // Create the TextMeshPro Text object as a child of the button
+        GameObject textObject = new GameObject("Text");
+        TextMeshProUGUI buttonText = textObject.AddComponent<TextMeshProUGUI>();
+        buttonText.text = "Button Text"; // Replace with your button text
+        buttonText.color = Color.black; // Set text color
+        buttonText.alignment = TextAlignmentOptions.Center;
+        buttonText.enableAutoSizing = true;
+        buttonText.fontSizeMin = 10;
+        buttonText.fontSizeMax = 30;
+
+        // Set up the RectTransform for the text
+        RectTransform textRect = textObject.GetComponent<RectTransform>();
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.sizeDelta = Vector2.zero;
+        textRect.anchoredPosition = Vector2.zero;
+        textObject.transform.SetParent(buttonRect, false);
+
+        // Set the button click event, you can add your own method to handle the click event
+        button.onClick.AddListener(() => Debug.Log("Button clicked!"));
+
+        return button;
+    }
+
 
     private void SetupUIElement(RectTransform rt, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax)
     {
@@ -190,7 +283,6 @@ public class UIManager: MonoBehaviour
         rt.offsetMax = offsetMax;
         rt.localScale = Vector3.one;
     }
-
 
     private void UpdateRoleColorIndicator(Role role)
     {
@@ -211,13 +303,15 @@ public class UIManager: MonoBehaviour
         }
     }
 
-    private void UpdateRoleDependentUI()
+    public void UpdateRoleDependentUI()
     {
-        bool isCollector = _player.currentRole == Role.Collector;
-        _batteryCountText.gameObject.SetActive(isCollector); // Only active if the player is a collector
-
-        // If there is an explorer energy bar or other role-specific UI elements, update their visibility here as well
+        _batteryCountText.gameObject.SetActive(_player.currentRole == Role.Collector);
         _energyBar.gameObject.SetActive(_player.currentRole == Role.Explorer);
+        if (_player.currentRole == Role.Tactical)
+        {
+            SetCrosshairVisibility(!_tacticalControl.IsTacticalModeActive);
+            _exitTacticalButton.gameObject.SetActive(_tacticalControl.IsTacticalModeActive);
+        }
     }
 
     public void SetCrosshairVisibility(bool isVisible)
@@ -232,7 +326,7 @@ public class UIManager: MonoBehaviour
     {
         if (_energyBar != null)
         {
-            _energyBar.rectTransform.sizeDelta = new Vector2(200 * (_player.CurrentEnergy / _player.MaxEnergy), 20);
+            _energyBar.rectTransform.sizeDelta = new Vector2(110 * (_player.CurrentEnergy / _player.MaxEnergy), 20);
         }
     }
 
@@ -244,12 +338,12 @@ public class UIManager: MonoBehaviour
 
     private void UpdateCoinsCollectedUI()
     {
-        _coinsCollectedText.text = $"Coins: 0";
+        _coinsCollectedText.text = $"Coins: {_gameManager.CoinsCollected}";
     }
 
-    private void UpdateBatteryRecharge()
+    public void UpdateBatteryRecharge()
     {
-        _batteryCountText.text = $"Batteries: {_player.Batteries}/{Player.MaxBatteries}";
+        _batteryCountText.text = $"Batteries: {_player.Batteries}";
     }
 
     public void UpdateRoleUI(Role newRole)
@@ -264,13 +358,47 @@ public class UIManager: MonoBehaviour
         }
     }
 
-
     public void SetEnergyBarVisibility(bool isVisible)
     {
         if (_energyBar != null)
         {
             _energyBar.enabled = isVisible;
         }
+    }
+
+    private void OnExitTacticalButtonClicked()
+    {
+        if (_tacticalControl != null)
+        {
+            _tacticalControl.IsTacticalModeActive = false;
+        }
+        _exitTacticalButton.gameObject.SetActive(false);
+    }
+
+    public void DisplayTrialOverScreen()
+    {
+        // Now create the "Trial Over" screen
+        GameObject trialOverPanelObject = new GameObject("TrialOverPanel");
+        Image trialOverPanel = trialOverPanelObject.AddComponent<Image>();
+        trialOverPanel.color = Color.white; // Set the color to white
+
+        RectTransform rt = trialOverPanel.GetComponent<RectTransform>();
+        rt.SetParent(_mainCanvas.transform, false);
+        rt.SetAsLastSibling(); // Ensure it's on top
+        rt.sizeDelta = new Vector2(Screen.width, Screen.height); // Make it full screen
+
+        // Make sure to add a CanvasRenderer
+        trialOverPanelObject.AddComponent<CanvasRenderer>();
+
+        TextMeshProUGUI trialOverText = trialOverPanelObject.AddComponent<TextMeshProUGUI>();
+        // Assign a TMP_FontAsset here, which you would usually get from your resources or settings
+        // trialOverText.font = ...;
+        trialOverText.text = "Trial Over";
+        trialOverText.fontSize = 32;
+        trialOverText.color = Color.black;
+        trialOverText.alignment = TextAlignmentOptions.Center;
+        trialOverText.enableAutoSizing = true; // Optional: Enable auto-sizing for the font
+        trialOverText.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height); // Make the text full screen as well
     }
 
 }

@@ -551,6 +551,7 @@ MonoBehaviour:
   crosshairSprite: {fileID: 21300000, guid: 9599645da611343f985aa8c157a73919, type: 3}
   minWalkingSpeed: 1
   maxEnergy: 100
+  batteryRechargeTime: 2
 --- !u!114 &6979846831541935089
 MonoBehaviour:
   m_ObjectHideFlags: 0

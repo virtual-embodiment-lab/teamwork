@@ -1,6 +1,5 @@
 using UnityEngine;
 using Normal.Realtime;
-using System;
 using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
@@ -18,19 +17,23 @@ public class Player : MonoBehaviour
     [SerializeField] private Sprite crosshairSprite;
     [SerializeField] private float minWalkingSpeed = 1.0f;
     [SerializeField] private float maxEnergy = 100f;
+    [SerializeField] private float batteryRechargeTime = 2.0f;
 
+    private float batteryTimer = 0f;
     private RealtimeView realtimeView;
+    private GameManager gameManager;
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
     private bool canMove = true;
     private float currentEnergy;
     private bool isMoving = false;
+    private bool isTacticalModeActive = false;
 
     public float CurrentEnergy => currentEnergy; // Expose current energy for the UI
     public float MaxEnergy => maxEnergy; // Expose max energy for the UI
     public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
-    public const int MaxBatteries = 25;
+    public const int MaxBatteries = 10;
 
     private UIManager uiManager; // Reference to the UIManager
 
@@ -38,17 +41,26 @@ public class Player : MonoBehaviour
     {
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
+        gameManager = FindObjectOfType<GameManager>();
         uiManager = GetComponent<UIManager>();
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
             InitializePlayer();
-            uiManager.Initialize(this, playerCamera, roleText, crosshairSprite);
+            uiManager.Initialize(this, crosshairSprite, gameManager);
         }
         else
         {
             playerCamera.gameObject.SetActive(false);
         }
+    }
+
+    public void EndTrial()
+    {
+        canMove = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        uiManager.DisplayTrialOverScreen();
     }
 
     private void InitializePlayer()
@@ -72,6 +84,7 @@ public class Player : MonoBehaviour
         switch (currentRole)
         {
             case Role.Collector:
+                UpdateBatteryRecharge();
                 HandleBatteryDrop();
                 break;
             case Role.Explorer:
@@ -100,13 +113,14 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("TacticalControlTrigger"))
         {
-            other.GetComponent<TacticalControlTrigger>().tacticalControl.DisableTacticalControl();
+            other.GetComponent<TacticalControlTrigger>().tacticalControl.IsTacticalModeActive = false;
+            isTacticalModeActive = false;
         }
     }
 
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !isTacticalModeActive)
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
@@ -163,7 +177,9 @@ public class Player : MonoBehaviour
         if (other.CompareTag("TacticalControlTrigger") && currentRole.Equals(Role.Tactical))
         {
             other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
-            other.GetComponent<TacticalControlTrigger>().tacticalControl.EnableTacticalControl();
+            other.GetComponent<TacticalControlTrigger>().tacticalControl.IsTacticalModeActive = true;
+            isTacticalModeActive = true;
+            uiManager.UpdateRoleDependentUI();
         }
     }
 
@@ -205,11 +221,14 @@ public class Player : MonoBehaviour
 
     private void HandleBatteryDrop()
     {
-        if (currentRole == Role.Collector && Input.GetKeyDown(KeyCode.B))
+        if (currentRole == Role.Collector && Input.GetKeyDown(KeyCode.B) && Batteries > 1)
         {
-            // Spawn the battery a bit in front of the player
-            Vector3 spawnPosition = transform.position + transform.forward * 1.5f; // Adjust the multiplier as needed for the desired distance
-            _ = Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
+            Batteries--;
+
+            Vector3 spawnPosition = transform.position + transform.forward * 1.5f;
+            Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
+
+            uiManager.UpdateBatteryRecharge();
         }
     }
 
@@ -229,26 +248,26 @@ public class Player : MonoBehaviour
 
     public string GetFormattedGameTime()
     {
-         return DateTime.UtcNow.ToString("mm:ss");
+        return gameManager != null ? gameManager.GetFormattedGameTime() : "00:00";
     }
+
 
     public int GetCoinsCollected()
     {
         return 0;
     }
 
-    //private void UpdateBatteryRecharge()
-    //{
-    //    if (currentRole == Role.Collector)
-    //    {
-    //        batteryTimer += Time.deltaTime;
-    //        if (batteryTimer >= batteryRechargeTime)
-    //        {
-    //            batteries = Mathf.Min(batteries + 1, MaxBatteries);
-    //            batteryTimer = 0;
-    //            if (currentRole == Role.Collector)
-    //                batteryCountText.text = $"Batteries: {batteries}/{MaxBatteries}";
-    //        }
-    //    }
-    //}
+    private void UpdateBatteryRecharge()
+    {
+        if (Batteries < MaxBatteries)
+        {
+            batteryTimer += Time.deltaTime;
+            if (batteryTimer >= batteryRechargeTime)
+            {
+                Batteries++;
+                batteryTimer = 0;
+                uiManager.UpdateBatteryRecharge();
+            }
+        }
+    }
 }
