@@ -48,7 +48,24 @@ public class MazeSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     void Update()
     {
-        if (uiCamera == null || isGameStarted) return;
+        if (isGameStarted) return;
+        // Check if key "1" is pressed
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            ActivateMaze(0); // Assume this corresponds to the small maze
+        }
+        // Check if key "2" is pressed
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ActivateMaze(1); // Assume this corresponds to the medium maze
+        }
+        // Check if key "3" is pressed
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ActivateMaze(2); // Assume this corresponds to the large maze
+        }
+
+        if (uiCamera == null) return;
 
         // Detect if the crosshair is over a UI button
         if (IsCrosshairOverUI())
