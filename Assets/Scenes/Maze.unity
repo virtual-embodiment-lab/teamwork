@@ -1975,6 +1975,7 @@ GameObject:
   - component: {fileID: 632635313}
   - component: {fileID: 632635312}
   - component: {fileID: 632635316}
+  - component: {fileID: 632635317}
   m_Layer: 0
   m_Name: Start Trigger
   m_TagString: Untagged
@@ -2083,6 +2084,29 @@ MonoBehaviour:
   mazeStateSync: {fileID: 544275809}
   roleSelect: {fileID: 915958178}
   door: {fileID: 572763083}
+--- !u!114 &632635317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632635311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 1087383194}
+  _sceneViewUUID: 
+  _viewUUID: 6a94a428-9e19-4741-b902-d5c2864b32cb
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
+  _sceneViewDestroyWhenLastClientLeaves: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 632635316}
+  _childViews: []
 --- !u!1 &639658182
 GameObject:
   m_ObjectHideFlags: 0
@@ -6676,113 +6700,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1001 &1756400895
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 5.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2799822725568344473, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7339354330893357622, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_Name
-      value: Offline Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7339354330893357622, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7557855528685443460, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: batteryPrefab
-      value: 
-      objectReference: {fileID: 1798208509912870752, guid: 9bdacd6fbb771465fa09dbde4196aec1,
-        type: 3}
-    - target: {fileID: 7557855528685443460, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      propertyPath: tacticalControl
-      value: 
-      objectReference: {fileID: 722822591}
-    m_RemovedComponents:
-    - {fileID: 1318413670029736442, guid: 7a03cd9803a754da09af30561879ec86, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4493581072635056374, guid: 7a03cd9803a754da09af30561879ec86,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1759004468}
-  m_SourcePrefab: {fileID: 100100000, guid: 7a03cd9803a754da09af30561879ec86, type: 3}
---- !u!1 &1759004463 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4493581072635056374, guid: 7a03cd9803a754da09af30561879ec86,
-    type: 3}
-  m_PrefabInstance: {fileID: 1756400895}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1759004468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1759004463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6037cd1710eff4c6688267842a1e7f90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1775202406
 GameObject:
   m_ObjectHideFlags: 0
@@ -8133,6 +8050,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Maze Large
       objectReference: {fileID: 0}
+    - target: {fileID: 1725340189325907861, guid: b6c1f0ca04e904df9b0a39db1563f510,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3942427895426867657, guid: b6c1f0ca04e904df9b0a39db1563f510,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8427,6 +8349,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Maze Small
       objectReference: {fileID: 0}
+    - target: {fileID: 757863201620400795, guid: 37306f8a6f81948faa3fc64e726ed7b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2392908155254378584, guid: 37306f8a6f81948faa3fc64e726ed7b9,
         type: 3}
       propertyPath: _realtime
@@ -8454,6 +8381,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Maze Medium
+      objectReference: {fileID: 0}
+    - target: {fileID: 457951878273588962, guid: 6f4277641df8342a7866e3497423f143,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3067341486263225996, guid: 6f4277641df8342a7866e3497423f143,
         type: 3}
@@ -8534,6 +8466,5 @@ SceneRoots:
   - {fileID: 1206556489}
   - {fileID: 1788756317}
   - {fileID: 1214003447}
-  - {fileID: 1756400895}
   - {fileID: 2119438705719466471}
   - {fileID: 3738404273084970391}

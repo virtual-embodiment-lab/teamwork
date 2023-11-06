@@ -1,73 +1,106 @@
 using UnityEngine;
-using TMPro;
 using Normal.Realtime;
-using UnityEngine.UI;
+using System;
+using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(UIManager))]
 public class Player : MonoBehaviour
 {
-    [SerializeField] public float walkingSpeed = 7.5f;
-    [SerializeField] public float gravity = 20.0f;
-    [SerializeField] public Camera playerCamera;
-    [SerializeField] public float lookSpeed = 2.0f;
-    [SerializeField] public float lookXLimit = 45.0f;
-    [SerializeField] public TMP_Text roleText;
+    [SerializeField] private float walkingSpeed = 7.5f;
+    [SerializeField] private float gravity = 20.0f;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float lookSpeed = 2.0f;
+    [SerializeField] private float lookXLimit = 45.0f;
     [SerializeField] public Role currentRole = Role.None;
+    [SerializeField] public TMP_Text roleText;
     [SerializeField] private GameObject batteryPrefab;
-    [SerializeField] private RealtimeView _realtimeView;
-    [SerializeField] private Image crosshairImage;
     [SerializeField] private Sprite crosshairSprite;
+    [SerializeField] private float minWalkingSpeed = 1.0f;
+    [SerializeField] private float maxEnergy = 100f;
 
-    [HideInInspector] private CharacterController characterController;
-    [HideInInspector] private Vector3 moveDirection = Vector3.zero;
-    [HideInInspector] private float rotationX = 0;
-    [HideInInspector] public bool canMove = true;
+    private RealtimeView realtimeView;
+    private CharacterController characterController;
+    private Vector3 moveDirection = Vector3.zero;
+    private float rotationX = 0;
+    private bool canMove = true;
+    private float currentEnergy;
+    private bool isMoving = false;
 
-    private void Awake()
+    public float CurrentEnergy => currentEnergy; // Expose current energy for the UI
+    public float MaxEnergy => maxEnergy; // Expose max energy for the UI
+    public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
+    public const int MaxBatteries = 25;
+
+    private UIManager uiManager; // Reference to the UIManager
+
+    private void Start()
     {
-        // Store a reference to the RealtimeView for easy access
-        _realtimeView = GetComponent<RealtimeView>();
-    }
+        realtimeView = GetComponent<RealtimeView>();
+        characterController = GetComponent<CharacterController>();
+        uiManager = GetComponent<UIManager>();
 
-    void Start()
-    {
-        if (_realtimeView.isOwnedLocallyInHierarchy)
+        if (realtimeView.isOwnedLocallyInHierarchy)
         {
-            LocalStart();
-        } else
+            InitializePlayer();
+            uiManager.Initialize(this, playerCamera, roleText, crosshairSprite);
+        }
+        else
         {
             playerCamera.gameObject.SetActive(false);
         }
     }
 
-    private void LocalStart()
+    private void InitializePlayer()
     {
-        characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         SetRole(Role.None);
-        CreateCrosshairUI();
-        // Request ownership of the Player and the character RealtimeTransforms
         GetComponent<RealtimeTransform>().RequestOwnership();
+        currentEnergy = maxEnergy;
     }
 
     void Update()
     {
-        if (_realtimeView.isOwnedLocallyInHierarchy)
+        if (!realtimeView.isOwnedLocallyInHierarchy) return;
+
+        HandleInput();
+        HandleMovement();
+        HandleRotation();
+        uiManager.UpdateUI();
+
+        switch (currentRole)
         {
-            HandleInput();
-            HandleMovement();
-            HandleRotation();
-            HandleBatteryDrop();
+            case Role.Collector:
+                HandleBatteryDrop();
+                break;
+            case Role.Explorer:
+                HandleEnergyConsumption();
+                break;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_realtimeView.isOwnedLocallyInHierarchy)
+        if (!realtimeView.isOwnedLocallyInHierarchy) return;
+
+        switch (currentRole)
         {
-            triggerTactical(other);
-            PickUpBattery(other);
+            case Role.Tactical:
+                TriggerTactical(other);
+                break;
+            case Role.Explorer:
+                PickUpBattery(other);
+                break;
+        }
+    }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("TacticalControlTrigger"))
+        {
+            other.GetComponent<TacticalControlTrigger>().tacticalControl.DisableTacticalControl();
         }
     }
 
@@ -77,19 +110,30 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
-
-            if (crosshairImage != null)
-                crosshairImage.enabled = Cursor.lockState == CursorLockMode.Locked;
+            uiManager.SetCrosshairVisibility(Cursor.lockState == CursorLockMode.Locked);
         }
     }
+
 
     private void HandleMovement()
     {
         if (!canMove) return;
 
-        float curSpeedX = walkingSpeed * Input.GetAxis("Vertical");
-        float curSpeedY = walkingSpeed * Input.GetAxis("Horizontal");
+        float curSpeedX, curSpeedY;
 
+        if (currentRole.Equals(Role.Explorer))
+        {
+            float energyRatio = currentEnergy / maxEnergy;
+            float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
+
+            curSpeedX = scaledSpeed * Input.GetAxis("Vertical");
+            curSpeedY = scaledSpeed * Input.GetAxis("Horizontal");
+        } else
+        {
+            curSpeedX = walkingSpeed * Input.GetAxis("Vertical");
+            curSpeedY = walkingSpeed * Input.GetAxis("Horizontal");
+        }
+        
         if (characterController.isGrounded)
         {
             moveDirection = transform.TransformDirection(Vector3.forward * curSpeedX + Vector3.right * curSpeedY);
@@ -113,6 +157,52 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    private void TriggerTactical(Collider other)
+    {
+        if (other.CompareTag("TacticalControlTrigger") && currentRole.Equals(Role.Tactical))
+        {
+            other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
+            other.GetComponent<TacticalControlTrigger>().tacticalControl.EnableTacticalControl();
+        }
+    }
+
+    private void PickUpBattery(Collider other)
+    {
+        if (other.CompareTag("Battery"))
+        {
+            // Assuming batteries restore a fixed amount of energy
+            float energyRestored = 25f; // Adjust this value as needed
+            currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
+
+            // Assuming the battery should be destroyed after being picked up
+            Destroy(other.gameObject);
+
+            Debug.Log("Picked up a battery. Energy restored.");
+        }
+    }
+
+    private void HandleEnergyConsumption()
+    {
+        // Determine if the player is moving
+        isMoving = characterController.velocity.magnitude > 0;
+
+        // If moving, deplete energy
+        if (isMoving)
+        {
+            float energyRatio = currentEnergy / maxEnergy;
+            float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
+
+            currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime * scaledSpeed, 1); // Keep energy above 0 to avoid division by zero
+        }
+
+        // Handle energy reaching zero if needed
+        if (currentEnergy <= 1)
+        {
+            // Perform any logic for when energy depletes (like disabling movement)
+        }
+    }
+
     private void HandleBatteryDrop()
     {
         if (currentRole == Role.Collector && Input.GetKeyDown(KeyCode.B))
@@ -123,76 +213,42 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void PickUpBattery(Collider other)
-    {
-        if (other.CompareTag("Battery") && currentRole.Equals(Role.Explorer))
-        {
-            Debug.Log("get Battery");
-        }
-    }
-
     public void SetRole(Role newRole)
     {
         if (currentRole != newRole)
         {
             currentRole = newRole;
-            UpdateRoleText();
+            uiManager.UpdateRoleUI(currentRole);
+            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
+            if (newRole == Role.Explorer)
+            {
+                currentEnergy = maxEnergy;
+            }
         }
     }
 
-    private void UpdateRoleText()
+    public string GetFormattedGameTime()
     {
-        if (roleText != null)
-        {
-            roleText.text = currentRole.ToString();
-        }
+         return DateTime.UtcNow.ToString("mm:ss");
     }
 
-    private void triggerTactical(Collider other)
+    public int GetCoinsCollected()
     {
-        if (other.CompareTag("TacticalControlTrigger") && currentRole.Equals(Role.Tactical))
-        {
-            other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
-            other.GetComponent<TacticalControlTrigger>().tacticalControl.EnableTacticalControl();
-        }
+        return 0;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        // Check if the collider they exit has the tag "TacticalControlTrigger"
-        if (other.CompareTag("TacticalControlTrigger"))
-        {
-            other.GetComponent<TacticalControlTrigger>().tacticalControl.DisableTacticalControl();
-        }
-    }
-
-    private void CreateCrosshairUI()
-    {
-        // Create a new Canvas object as a child of the camera
-        GameObject canvasObject = new GameObject("CrosshairCanvas");
-        canvasObject.transform.SetParent(playerCamera.transform, false);
-        Canvas canvas = canvasObject.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
-        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvasObject.AddComponent<GraphicRaycaster>();
-
-        // Set the canvas to cover the whole camera view
-        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-        canvasRect.sizeDelta = new Vector2(playerCamera.pixelWidth, playerCamera.pixelHeight);
-        canvasRect.localPosition = new Vector3(0, 0, 0);
-
-        // Create the Image component for the crosshair
-        GameObject crosshairObject = new GameObject("Crosshair");
-        crosshairImage = crosshairObject.AddComponent<Image>();
-        crosshairImage.sprite = crosshairSprite;
-        crosshairImage.rectTransform.sizeDelta = new Vector2(25, 25); // Set the size of the crosshair here
-
-        // Set the crosshair to be at the center of the screen
-        crosshairImage.rectTransform.SetParent(canvas.transform, false);
-        crosshairImage.rectTransform.anchoredPosition = Vector2.zero;
-
-        // Enable the crosshair by default
-        crosshairImage.enabled = true;
-    }
+    //private void UpdateBatteryRecharge()
+    //{
+    //    if (currentRole == Role.Collector)
+    //    {
+    //        batteryTimer += Time.deltaTime;
+    //        if (batteryTimer >= batteryRechargeTime)
+    //        {
+    //            batteries = Mathf.Min(batteries + 1, MaxBatteries);
+    //            batteryTimer = 0;
+    //            if (currentRole == Role.Collector)
+    //                batteryCountText.text = $"Batteries: {batteries}/{MaxBatteries}";
+    //        }
+    //    }
+    //}
 }

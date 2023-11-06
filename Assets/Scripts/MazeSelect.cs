@@ -97,22 +97,22 @@ public class MazeSelect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Trigger the highlight state of the button
-        TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
-        if (button != null)
-        {
-            // Your code to change the color or visual state when the button is highlighted
-        }
+        //// Trigger the highlight state of the button
+        //TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
+        //if (button != null)
+        //{
+        //    // Your code to change the color or visual state when the button is highlighted
+        //}
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // Trigger the normal state of the button
-        TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
-        if (button != null)
-        {
-            // Your code to revert the color or visual state when the button is no longer highlighted
-        }
+        //// Trigger the normal state of the button
+        //TMP_Text button = currentHoveredButton.GetComponent<TMP_Text>();
+        //if (button != null)
+        //{
+        //    // Your code to revert the color or visual state when the button is no longer highlighted
+        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)

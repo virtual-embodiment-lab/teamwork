@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 6979846831541935089}
   - component: {fileID: 7678388991693808837}
   - component: {fileID: 3677271381209697300}
+  - component: {fileID: 2426875997383512005}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -543,14 +544,13 @@ MonoBehaviour:
   playerCamera: {fileID: 1147570328660757681}
   lookSpeed: 2
   lookXLimit: 45
-  roleText: {fileID: 2339355016390618030}
   currentRole: 0
+  roleText: {fileID: 2339355016390618030}
   batteryPrefab: {fileID: 1798208509912870752, guid: 9bdacd6fbb771465fa09dbde4196aec1,
     type: 3}
-  _realtimeView: {fileID: 0}
-  crosshairImage: {fileID: 0}
   crosshairSprite: {fileID: 21300000, guid: 9599645da611343f985aa8c157a73919, type: 3}
-  canMove: 1
+  minWalkingSpeed: 1
+  maxEnergy: 100
 --- !u!114 &6979846831541935089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,5 +604,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd4ff7916cbc1db4dae0b06d829ff79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2426875997383512005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7339354330893357622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2bd8a224be148b8b32d91a2f1c423d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

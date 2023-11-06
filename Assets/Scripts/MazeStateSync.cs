@@ -5,6 +5,11 @@ public class MazeStateSync : RealtimeComponent<MazeStateModel>
 {
     [SerializeField] private GameObject[] mazes; // Assign your mazes in the inspector.
 
+    protected void Start()
+    {
+        UpdateActiveMaze(-1);
+    }
+
     protected override void OnRealtimeModelReplaced(MazeStateModel previousModel, MazeStateModel currentModel)
     {
         if (previousModel != null)
