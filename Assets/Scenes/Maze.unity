@@ -6862,7 +6862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b46eaddd5e4d44c1aa37d334ca396e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountdownDuration: 10
+  CountdownDuration: 300
 --- !u!114 &1788756319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8167,7 +8167,7 @@ PrefabInstance:
     - target: {fileID: 1725340189325907861, guid: b6c1f0ca04e904df9b0a39db1563f510,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1975991649534804998, guid: b6c1f0ca04e904df9b0a39db1563f510,
         type: 3}
@@ -8919,7 +8919,7 @@ PrefabInstance:
     - target: {fileID: 457951878273588962, guid: 6f4277641df8342a7866e3497423f143,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 505526166843285561, guid: 6f4277641df8342a7866e3497423f143,
         type: 3}
