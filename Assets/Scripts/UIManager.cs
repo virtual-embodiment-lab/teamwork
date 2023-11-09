@@ -346,10 +346,11 @@ public class UIManager: MonoBehaviour
         _batteryCountText.text = $"Batteries: {_player.Batteries}";
     }
 
-    public void UpdateRoleUI(Role newRole)
+    public void UpdateRoleUI(Role newRole, TMP_Text roleText)
     {
         if (_roleUIText != null)
         {
+            roleText.text = newRole.ToString();
             _roleUIText.text = newRole.ToString();
         }
         if (_roleColorIndicator != null)

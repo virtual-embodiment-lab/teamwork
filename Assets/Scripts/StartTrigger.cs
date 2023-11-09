@@ -8,20 +8,13 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     [SerializeField] private RoleSelect roleSelect; // Reference to RoleSelect script
     [SerializeField] private GameObject door;       // The door GameObject to deactivate
     [SerializeField] public bool started = false;
+    [SerializeField] private int totalPlayers = 0;
+    [SerializeField] private int playersInTrigger = 0;
     public event Action OnGameStarted;
-
-    private int totalPlayers = 0;
-    private int playersInTrigger = 0;
 
     private void Start()
     {
         started = false;
-    }
-
-    void Awake()
-    {
-        // Count all players in the game at start
-        totalPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
     }
 
     protected override void OnRealtimeModelReplaced(StartTriggerModel previousModel, StartTriggerModel currentModel)
@@ -70,6 +63,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
 
     void CheckStartConditions()
     {
+        totalPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
         // Check if the game is not started and all conditions are met to start the game
         if (!model.started && IsEveryoneReady())
         {

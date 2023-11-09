@@ -4,7 +4,7 @@ using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(UIManager))]
-public class Player : MonoBehaviour
+public class Player : RealtimeComponent<PlayerModel>
 {
     [SerializeField] private float walkingSpeed = 7.5f;
     [SerializeField] private float gravity = 20.0f;
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float batteryRechargeTime = 2.0f;
 
     private float batteryTimer = 0f;
-    private RealtimeView realtimeView;
+    new private RealtimeView realtimeView;
     private GameManager gameManager;
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
         uiManager = GetComponent<UIManager>();
+        model.roleDidChange += RoleDidChange;
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -56,6 +57,24 @@ public class Player : MonoBehaviour
         {
             playerCamera.gameObject.SetActive(false);
         }
+    }
+
+    protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
+    {
+        if (previousModel != null)
+            previousModel.roleDidChange -= RoleDidChange;
+
+        if (currentModel != null)
+        {
+            if (currentModel.isFreshModel)
+                currentModel.role = (int)currentRole;
+            currentModel.roleDidChange += RoleDidChange;
+        }
+    }
+
+    public int GetRole()
+    {
+        return model.role;
     }
 
     public void EndTrial()
@@ -79,7 +98,6 @@ public class Player : MonoBehaviour
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
 
-        
         if (gameManager.CheckFinished() && !isFinished)
         {
             Debug.Log("Time is up!");
@@ -250,12 +268,20 @@ public class Player : MonoBehaviour
     public void SetRole(Role newRole)
     {
         if (currentRole != newRole)
+            if (realtimeView.isOwnedLocallyInHierarchy)
+            model.role = (int)newRole;
+    }
+
+    private void RoleDidChange(PlayerModel model, int value)
+    {
+        Role newRole = (Role)value;
+        if (currentRole != newRole)
         {
             currentRole = newRole;
-            uiManager.UpdateRoleUI(currentRole);
-            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
+            uiManager.UpdateRoleUI(currentRole, roleText);
             if (newRole == Role.Explorer)
             {
+                uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
                 currentEnergy = maxEnergy;
             }
         }

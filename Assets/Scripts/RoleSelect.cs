@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Normal.Realtime;
 using UnityEngine;
 
 public class RoleSelect : MonoBehaviour
@@ -20,49 +21,44 @@ public class RoleSelect : MonoBehaviour
     public void HandlePlayerEnterTrigger(Collider triggerCollider, GameObject player)
     {
         Player playerController = player.GetComponent<Player>();
-        if (triggerRoles.TryGetValue(triggerCollider, out Role roleEntered))
+        RealtimeView realtimeView = player.GetComponent<RealtimeView>();
+        if (realtimeView.isOwnedLocallyInHierarchy)
         {
-            if (playerRoles.TryGetValue(player, out Role currentRole))
+            if (triggerRoles.TryGetValue(triggerCollider, out Role roleEntered))
             {
+                Role currentRole = (Role)playerController.GetRole();
                 if (currentRole == roleEntered)
-                {
-                    playerRoles[player] = Role.None;
-                    takenRoles.Remove(currentRole);
-                    UpdateRoleVisuals(roleEntered, false);
-                    playerController.SetRole(Role.None); // Call to update the player's role to None.
-                    ChangePlayerMaterial(player, Role.None);
-                    Debug.Log($"Player {player.name} removed their role. They are now {Role.None}.");
-                }
-                else
-                {
-                    if (!takenRoles.Contains(roleEntered))
-                    {
-                        if (currentRole != Role.None)
-                        {
-                            takenRoles.Remove(currentRole);
-                            UpdateRoleVisuals(currentRole, false);
-                            playerController.SetRole(Role.None); // Change previous role to None.
-                            ChangePlayerMaterial(player, Role.None);
-                        }
-                        playerRoles[player] = roleEntered;
-                        takenRoles.Add(roleEntered);
-                        UpdateRoleVisuals(roleEntered, true);
-                        playerController.SetRole(roleEntered); // Update the player's role.
-                        ChangePlayerMaterial(player, roleEntered);
-                        Debug.Log($"Player {player.name} has taken the role of {roleEntered}.");
-                    }
-                }
-            }
-            else if (!takenRoles.Contains(roleEntered))
-            {
-                playerRoles.Add(player, roleEntered);
-                takenRoles.Add(roleEntered);
-                UpdateRoleVisuals(roleEntered, true);
-                playerController.SetRole(roleEntered); // Update the player's role.
-                ChangePlayerMaterial(player, roleEntered);
-                Debug.Log($"Player {player.name} has taken the role of {roleEntered}.");
+                    FreeRole(playerController, player, roleEntered);
+                else if (!takenRoles.Contains(roleEntered))
+                    AssignRole(playerController, player, roleEntered, currentRole);
             }
         }
+    }
+
+    private void AssignRole(Player playerController, GameObject playerGameObject, Role newRole, Role oldRole)
+    {
+        if (oldRole != Role.None)
+        {
+            takenRoles.Remove(oldRole);
+            UpdateRoleVisuals(oldRole, false);
+        }
+
+        playerController.SetRole(newRole); // This will update the model and sync the role
+        playerRoles[playerGameObject] = newRole;
+        takenRoles.Add(newRole);
+        UpdateRoleVisuals(newRole, true);
+        ChangePlayerMaterial(playerGameObject, newRole);
+        Debug.Log($"Player {playerGameObject.name} has taken the role of {newRole}.");
+    }
+
+    private void FreeRole(Player playerController, GameObject playerGameObject, Role role)
+    {
+        playerController.SetRole(Role.None); // This will update the model and sync the role
+        playerRoles[playerGameObject] = Role.None;
+        takenRoles.Remove(role);
+        UpdateRoleVisuals(role, false);
+        ChangePlayerMaterial(playerGameObject, Role.None);
+        Debug.Log($"Player {playerGameObject.name} removed their role. They are now {Role.None}.");
     }
 
     private void InitializeRoleTriggers()
