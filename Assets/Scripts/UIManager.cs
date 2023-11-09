@@ -377,7 +377,7 @@ public class UIManager: MonoBehaviour
 
     public void DisplayTrialOverScreen()
     {
-        // Now create the "Trial Over" screen
+       // Now create the "Trial Over" screen
         GameObject trialOverPanelObject = new GameObject("TrialOverPanel");
         Image trialOverPanel = trialOverPanelObject.AddComponent<Image>();
         trialOverPanel.color = Color.white; // Set the color to white
@@ -388,9 +388,14 @@ public class UIManager: MonoBehaviour
         rt.sizeDelta = new Vector2(Screen.width, Screen.height); // Make it full screen
 
         // Make sure to add a CanvasRenderer
-        trialOverPanelObject.AddComponent<CanvasRenderer>();
+        // trialOverPanelObject.AddComponent<CanvasRenderer>();
+        // TextMeshProUGUI trialOverText = trialOverPanelObject.AddComponent<TextMeshProUGUI>();
 
-        TextMeshProUGUI trialOverText = trialOverPanelObject.AddComponent<TextMeshProUGUI>();
+        // Add TextMeshProUGUI component to a child GameObject
+        GameObject textObject = new GameObject("TrialOverText");
+        textObject.transform.SetParent(trialOverPanelObject.transform, false);
+
+        TextMeshProUGUI trialOverText = textObject.AddComponent<TextMeshProUGUI>();
         // Assign a TMP_FontAsset here, which you would usually get from your resources or settings
         // trialOverText.font = ...;
         trialOverText.text = "Trial Over";
@@ -398,7 +403,7 @@ public class UIManager: MonoBehaviour
         trialOverText.color = Color.black;
         trialOverText.alignment = TextAlignmentOptions.Center;
         trialOverText.enableAutoSizing = true; // Optional: Enable auto-sizing for the font
-        trialOverText.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height); // Make the text full screen as well
+        trialOverText.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
     }
 
 }

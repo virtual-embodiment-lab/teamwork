@@ -6862,7 +6862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b46eaddd5e4d44c1aa37d334ca396e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountdownDuration: 300
+  CountdownDuration: 10
 --- !u!114 &1788756319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8766,7 +8766,7 @@ PrefabInstance:
     - target: {fileID: 757863201620400795, guid: 37306f8a6f81948faa3fc64e726ed7b9,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1793389389920502549, guid: 37306f8a6f81948faa3fc64e726ed7b9,
         type: 3}

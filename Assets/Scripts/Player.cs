@@ -37,8 +37,11 @@ public class Player : MonoBehaviour
 
     private UIManager uiManager; // Reference to the UIManager
 
+    private bool isFinished;
+
     private void Start()
     {
+        isFinished = false;
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
@@ -76,21 +79,33 @@ public class Player : MonoBehaviour
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
 
-        HandleInput();
-        HandleMovement();
-        HandleRotation();
-        uiManager.UpdateUI();
-
-        switch (currentRole)
+        
+        if (gameManager.CheckFinished() && !isFinished)
         {
-            case Role.Collector:
-                UpdateBatteryRecharge();
-                HandleBatteryDrop();
-                break;
-            case Role.Explorer:
-                HandleEnergyConsumption();
-                break;
+            Debug.Log("Time is up!");
+            isFinished = true;
+            EndTrial();
+            return;
         }
+
+        if (!isFinished) {
+            HandleInput();
+            HandleMovement();
+            HandleRotation();
+            uiManager.UpdateUI();
+
+            switch (currentRole)
+            {
+                case Role.Collector:
+                    UpdateBatteryRecharge();
+                    HandleBatteryDrop();
+                    break;
+                case Role.Explorer:
+                    HandleEnergyConsumption();
+                    break;
+            }
+        }
+       
     }
 
     private void OnTriggerEnter(Collider other)

@@ -25,8 +25,16 @@ public class GameManager : RealtimeComponent<GameModel>
 
     private void Update()
     {
-        if (_startTrigger == null || !_startTrigger.started || model.gameTime <= 0.0f)
+        // if (_startTrigger == null || !_startTrigger.started || model.gameTime <= 0.0f)
+        //    return;
+
+        if (_startTrigger == null || !_startTrigger.started) {
             return;
+        }
+
+        if (CheckFinished()) {
+            return;
+        }
 
         model.gameTime -= Time.deltaTime;
         model.gameTime = Mathf.Max(model.gameTime, 0.0f);
@@ -83,5 +91,9 @@ public class GameManager : RealtimeComponent<GameModel>
     {
         model.coinsCollected++;
         OnCoinsCollectedChanged?.Invoke(model.coinsCollected);
+    }
+
+    public bool CheckFinished() {
+        return model.gameTime <= 0 && _startTrigger != null && _startTrigger.started;
     }
 }
