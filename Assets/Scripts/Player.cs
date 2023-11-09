@@ -66,9 +66,10 @@ public class Player : RealtimeComponent<PlayerModel>
 
         if (currentModel != null)
         {
+            currentModel.roleDidChange += RoleDidChange;
             if (currentModel.isFreshModel)
                 currentModel.role = (int)currentRole;
-            currentModel.roleDidChange += RoleDidChange;
+            RoleDidChange(currentModel, currentModel.role);
         }
     }
 
@@ -269,9 +270,16 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void SetRole(Role newRole)
     {
-        if (currentRole != newRole)
-            if (realtimeView.isOwnedLocallyInHierarchy)
+        if (model.role != (int)newRole)
             model.role = (int)newRole;
+
+        currentRole = newRole;
+        uiManager.UpdateRoleUI(currentRole, roleText);
+        if (newRole == Role.Explorer)
+        {
+            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
+            currentEnergy = maxEnergy;
+        }
     }
 
     private void RoleDidChange(PlayerModel model, int value)
@@ -279,13 +287,7 @@ public class Player : RealtimeComponent<PlayerModel>
         Role newRole = (Role)value;
         if (currentRole != newRole)
         {
-            currentRole = newRole;
-            uiManager.UpdateRoleUI(currentRole, roleText);
-            if (newRole == Role.Explorer)
-            {
-                uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
-                currentEnergy = maxEnergy;
-            }
+            SetRole(newRole);
         }
     }
 
