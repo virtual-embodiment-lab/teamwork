@@ -2085,6 +2085,8 @@ MonoBehaviour:
   roleSelect: {fileID: 915958178}
   door: {fileID: 572763083}
   started: 0
+  totalPlayers: 0
+  playersInTrigger: 0
 --- !u!114 &632635317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6862,7 +6864,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b46eaddd5e4d44c1aa37d334ca396e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountdownDuration: 10
+  CountdownDuration: 5
 --- !u!114 &1788756319
 MonoBehaviour:
   m_ObjectHideFlags: 0

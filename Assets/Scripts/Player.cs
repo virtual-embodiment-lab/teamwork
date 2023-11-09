@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
 
-        
+        /*
         if (gameManager.CheckFinished() && !isFinished)
         {
             Debug.Log("Time is up!");
@@ -87,6 +87,7 @@ public class Player : MonoBehaviour
             EndTrial();
             return;
         }
+        */
 
         if (!isFinished) {
             HandleInput();

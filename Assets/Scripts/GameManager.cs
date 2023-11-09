@@ -10,11 +10,18 @@ public class GameManager : RealtimeComponent<GameModel>
     public event Action<int> OnCoinsCollectedChanged;
     public int CoinsCollected => model.coinsCollected;
 
+    private Player[] players;
+
     private void Awake()
     {
         _startTrigger = FindObjectOfType<StartTrigger>();
         if (_startTrigger != null)
             _startTrigger.OnGameStarted += StartCountdown;
+    }
+
+    private void Start()
+    {
+        players = FindObjectOfType<Player>();
     }
 
     private void OnDestroy()
@@ -33,7 +40,10 @@ public class GameManager : RealtimeComponent<GameModel>
         }
 
         if (CheckFinished()) {
-            return;
+            foreach (Player player in players)
+            {
+                player.EndTrial();
+            }
         }
 
         model.gameTime -= Time.deltaTime;
