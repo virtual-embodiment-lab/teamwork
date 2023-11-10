@@ -1596,6 +1596,8 @@ MonoBehaviour:
   - componentID: 1
     component: {fileID: 0}
   - componentID: 2
+    component: {fileID: 0}
+  - componentID: 3
     component: {fileID: 544275809}
   _childViews: []
 --- !u!114 &544275809
@@ -2108,6 +2110,8 @@ MonoBehaviour:
   _sceneViewDestroyWhenLastClientLeaves: 1
   _components:
   - componentID: 1
+    component: {fileID: 0}
+  - componentID: 2
     component: {fileID: 632635316}
   _childViews: []
 --- !u!1 &639658182
@@ -6886,6 +6890,8 @@ MonoBehaviour:
   _sceneViewDestroyWhenLastClientLeaves: 1
   _components:
   - componentID: 1
+    component: {fileID: 0}
+  - componentID: 2
     component: {fileID: 1788756318}
   _childViews:
   - componentID: 1

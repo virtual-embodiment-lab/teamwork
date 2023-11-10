@@ -346,11 +346,10 @@ public class UIManager: MonoBehaviour
         _batteryCountText.text = $"Batteries: {_player.Batteries}";
     }
 
-    public void UpdateRoleUI(Role newRole, TMP_Text roleText)
+    public void UpdateRoleUI(Role newRole)
     {
         if (_roleUIText != null)
         {
-            roleText.text = newRole.ToString();
             _roleUIText.text = newRole.ToString();
         }
         if (_roleColorIndicator != null)
@@ -378,6 +377,11 @@ public class UIManager: MonoBehaviour
 
     public void DisplayTrialOverScreen()
     {
+        if (_mainCanvas == null)
+        {
+            // Debug.LogError("MainCanvas is null");
+            InitializeMainCanvas();
+        }
        // Now create the "Trial Over" screen
         GameObject trialOverPanelObject = new GameObject("TrialOverPanel");
         Image trialOverPanel = trialOverPanelObject.AddComponent<Image>();

@@ -4,7 +4,7 @@ using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(UIManager))]
-public class Player : RealtimeComponent<PlayerModel>
+public class Player : MonoBehaviour
 {
     [SerializeField] private float walkingSpeed = 7.5f;
     [SerializeField] private float gravity = 20.0f;
@@ -20,7 +20,7 @@ public class Player : RealtimeComponent<PlayerModel>
     [SerializeField] private float batteryRechargeTime = 2.0f;
 
     private float batteryTimer = 0f;
-    new private RealtimeView realtimeView;
+    private RealtimeView realtimeView;
     private GameManager gameManager;
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
@@ -37,16 +37,12 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private UIManager uiManager; // Reference to the UIManager
 
-    private bool isFinished;
-
     private void Start()
     {
-        isFinished = false;
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
         uiManager = GetComponent<UIManager>();
-        model.roleDidChange += RoleDidChange;
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -59,27 +55,13 @@ public class Player : RealtimeComponent<PlayerModel>
         }
     }
 
-    protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
-    {
-        if (previousModel != null)
-            previousModel.roleDidChange -= RoleDidChange;
-
-        if (currentModel != null)
-        {
-            currentModel.roleDidChange += RoleDidChange;
-            if (currentModel.isFreshModel)
-                currentModel.role = (int)currentRole;
-            RoleDidChange(currentModel, currentModel.role);
-        }
-    }
-
-    public int GetRole()
-    {
-        return model.role;
-    }
-
     public void EndTrial()
     {
+        if (uiManager == null)
+        {
+            Debug.LogError("UIManager is null in EndTrial");
+            return;
+        }
         canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -99,34 +81,21 @@ public class Player : RealtimeComponent<PlayerModel>
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
 
-        /*
-        if (gameManager.CheckFinished() && !isFinished)
+        HandleInput();
+        HandleMovement();
+        HandleRotation();
+        uiManager.UpdateUI();
+
+        switch (currentRole)
         {
-            Debug.Log("Time is up!");
-            isFinished = true;
-            EndTrial();
-            return;
+            case Role.Collector:
+                UpdateBatteryRecharge();
+                HandleBatteryDrop();
+                break;
+            case Role.Explorer:
+                HandleEnergyConsumption();
+                break;
         }
-        */
-
-        if (!isFinished) {
-            HandleInput();
-            HandleMovement();
-            HandleRotation();
-            uiManager.UpdateUI();
-
-            switch (currentRole)
-            {
-                case Role.Collector:
-                    UpdateBatteryRecharge();
-                    HandleBatteryDrop();
-                    break;
-                case Role.Explorer:
-                    HandleEnergyConsumption();
-                    break;
-            }
-        }
-       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -270,24 +239,15 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void SetRole(Role newRole)
     {
-        if (model.role != (int)newRole)
-            model.role = (int)newRole;
-
-        currentRole = newRole;
-        uiManager.UpdateRoleUI(currentRole, roleText);
-        if (newRole == Role.Explorer)
-        {
-            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
-            currentEnergy = maxEnergy;
-        }
-    }
-
-    private void RoleDidChange(PlayerModel model, int value)
-    {
-        Role newRole = (Role)value;
         if (currentRole != newRole)
         {
-            SetRole(newRole);
+            currentRole = newRole;
+            uiManager.UpdateRoleUI(currentRole);
+            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
+            if (newRole == Role.Explorer)
+            {
+                currentEnergy = maxEnergy;
+            }
         }
     }
 

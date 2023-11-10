@@ -10,18 +10,13 @@ public class GameManager : RealtimeComponent<GameModel>
     public event Action<int> OnCoinsCollectedChanged;
     public int CoinsCollected => model.coinsCollected;
 
-    private Player[] players;
+    // private Player[] players;
 
     private void Awake()
     {
         _startTrigger = FindObjectOfType<StartTrigger>();
         if (_startTrigger != null)
             _startTrigger.OnGameStarted += StartCountdown;
-    }
-
-    private void Start()
-    {
-        players = FindObjectOfType<Player>();
     }
 
     private void OnDestroy()
@@ -40,15 +35,13 @@ public class GameManager : RealtimeComponent<GameModel>
         }
 
         if (CheckFinished()) {
-            foreach (Player player in players)
-            {
-                player.EndTrial();
-            }
+           SetTrialOver(true);
+        } else {
+            model.gameTime -= Time.deltaTime;
+            model.gameTime = Mathf.Max(model.gameTime, 0.0f);
+            UpdateCountdownUI(model.gameTime);
         }
-
-        model.gameTime -= Time.deltaTime;
-        model.gameTime = Mathf.Max(model.gameTime, 0.0f);
-        UpdateCountdownUI(model.gameTime);
+       
     }
 
     protected override void OnRealtimeModelReplaced(GameModel previousModel, GameModel currentModel)
@@ -57,12 +50,17 @@ public class GameManager : RealtimeComponent<GameModel>
         {
             previousModel.gameTimeDidChange -= GameTimeDidChange;
             previousModel.coinsCollectedDidChange -= CoinsCollectedDidChange;
+            previousModel.trialOverDidChange -= TrialOverDidChange;
         }
 
         if (currentModel != null)
         {
             currentModel.gameTimeDidChange += GameTimeDidChange;
             currentModel.coinsCollectedDidChange += CoinsCollectedDidChange;
+            if (currentModel.isFreshModel) {
+                currentModel.trialOver = false;
+            }
+            currentModel.trialOverDidChange += TrialOverDidChange;
         }
     }
 
@@ -76,6 +74,20 @@ public class GameManager : RealtimeComponent<GameModel>
     {
         // Notify subscribers that the coins collected count has changed
         OnCoinsCollectedChanged?.Invoke(value);
+    }
+
+    private void TrialOverDidChange(GameModel model, bool value) {
+        if (value) {
+            EndTrialForAllPlayers();
+        }
+    }
+
+    private void EndTrialForAllPlayers() {
+        Player[] players = FindObjectsOfType<Player>();
+
+        foreach (Player player in players) {
+            player.EndTrial();
+        }
     }
 
     private void UpdateCountdownUI(float remainingTime)
@@ -103,7 +115,11 @@ public class GameManager : RealtimeComponent<GameModel>
         OnCoinsCollectedChanged?.Invoke(model.coinsCollected);
     }
 
-    public bool CheckFinished() {
+    public void SetTrialOver(bool over) {
+        model.trialOver = over;
+    }
+
+     public bool CheckFinished() {
         return model.gameTime <= 0 && _startTrigger != null && _startTrigger.started;
     }
 }

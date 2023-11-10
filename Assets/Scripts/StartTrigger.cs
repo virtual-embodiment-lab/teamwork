@@ -18,7 +18,6 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
         started = false;
     }
 
-
     protected override void OnRealtimeModelReplaced(StartTriggerModel previousModel, StartTriggerModel currentModel)
     {
         if (previousModel != null)
@@ -65,7 +64,6 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
 
     void CheckStartConditions()
     {
-        // Count all players in the game at start
         totalPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
         // Check if the game is not started and all conditions are met to start the game
         if (!model.started && IsEveryoneReady())
