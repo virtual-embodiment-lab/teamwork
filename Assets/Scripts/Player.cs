@@ -137,7 +137,15 @@ public class Player : MonoBehaviour
 
         if (currentRole.Equals(Role.Explorer))
         {
-            float energyRatio = currentEnergy / maxEnergy;
+            //float energyRatio = currentEnergy / maxEnergy;
+
+            // does not decrease walking speed as long as energy is not gone.
+            float energyRatio = 1;
+            if (currentEnergy <= 1)
+            {
+                energyRatio = 1.0f / maxEnergy;
+            }
+
             float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
 
             curSpeedX = scaledSpeed * Input.GetAxis("Vertical");
@@ -188,7 +196,7 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Battery"))
         {
             // Assuming batteries restore a fixed amount of energy
-            float energyRestored = 25f; // Adjust this value as needed
+            float energyRestored = 10f*maxEnergy/20f; // Adds 10 secs. Adjust this value as needed
             currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
 
             // Assuming the battery should be destroyed after being picked up
@@ -203,6 +211,10 @@ public class Player : MonoBehaviour
         // Determine if the player is moving
         isMoving = characterController.velocity.magnitude > 0;
 
+        // energy change based on time instead of movement
+        currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/20.0f, 1);
+        
+        /*
         // If moving, deplete energy
         if (isMoving)
         {
@@ -213,6 +225,8 @@ public class Player : MonoBehaviour
         }
 
         // Handle energy reaching zero if needed
+        */
+
         if (currentEnergy <= 1)
         {
             // Perform any logic for when energy depletes (like disabling movement)
