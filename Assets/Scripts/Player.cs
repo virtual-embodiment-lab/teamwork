@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float minWalkingSpeed = 1.0f;
     [SerializeField] private float maxEnergy = 100f;
     [SerializeField] private float batteryRechargeTime = 2.0f;
-
+    
     private float batteryTimer = 0f;
     private RealtimeView realtimeView;
     private GameManager gameManager;
@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     public float MaxEnergy => maxEnergy; // Expose max energy for the UI
     public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
     public const int MaxBatteries = 10;
+    public CoinShape targetCoin = CoinShape.None;
 
     private UIManager uiManager; // Reference to the UIManager
 

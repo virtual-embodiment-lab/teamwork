@@ -17,7 +17,10 @@ public class Coin : RealtimeComponent<CoinModel>
     [SerializeField] Material coinFound = null;
     [SerializeField] GameObject tmp = null;
     [SerializeField] private float detectionDistance = 10f;
+    [SerializeField] bool isFirst = false;
+    [SerializeField] CoinShape currentShape = CoinShape.None;
     private GameManager gameManager;
+    
 
     protected void Start()
     {
@@ -52,7 +55,21 @@ public class Coin : RealtimeComponent<CoinModel>
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Explorer))
             onFound();
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Collector) && model.found && !model.collected)
-            onCollected();
+        {
+            if (isFirst)
+            {
+                onCollected();
+                other.gameObject.GetComponent<Player>().targetCoin = getShape(nextCoinColor);
+                Debug.Log(nextCoinColor);
+            }
+
+            else if (other.gameObject.GetComponent<Player>().targetCoin == currentShape)
+            {
+                onCollected();
+                other.gameObject.GetComponent<Player>().targetCoin = getShape(nextCoinColor);
+                Debug.Log(nextCoinColor);
+            }
+        }
     }
 
     public void onFound()
@@ -125,5 +142,22 @@ public class Coin : RealtimeComponent<CoinModel>
                 //Destroy(gameObject);
             }
         }
+    }
+
+    private CoinShape getShape(string nextCoinColor)
+    {
+        switch (nextCoinColor)
+        {
+            case "Red":
+                return CoinShape.Triangle;
+
+            case "Blue":
+                return CoinShape.Circle;
+
+            case "Green":
+                return CoinShape.Rectangle;
+        }
+
+        return CoinShape.None;
     }
 }
