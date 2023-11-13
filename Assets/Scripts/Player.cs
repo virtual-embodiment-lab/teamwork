@@ -57,6 +57,11 @@ public class Player : MonoBehaviour
 
     public void EndTrial()
     {
+        if (uiManager == null)
+        {
+            Debug.LogError("UIManager is null in EndTrial");
+            return;
+        }
         canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
