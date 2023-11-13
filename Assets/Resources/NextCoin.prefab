@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8321479416820035572}
   - component: {fileID: 66345505945514530}
   - component: {fileID: 8624090153815575171}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 5630138652996335775}
   - component: {fileID: 9076914836881952406}
   - component: {fileID: 37761900736411312}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 7872587229615577190}
   - component: {fileID: 4589574619357402092}
   - component: {fileID: 6752183752384487649}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 1314336082831014988}
   - component: {fileID: 812485757628689547}
   - component: {fileID: 6958205602620833683}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NextCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -444,7 +444,7 @@ GameObject:
   - component: {fileID: 2143117538008749466}
   - component: {fileID: 2079724899636221160}
   - component: {fileID: 8324063278205521821}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
