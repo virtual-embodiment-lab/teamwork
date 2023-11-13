@@ -9,20 +9,33 @@ using UnityEngine;
  */
 public class Coin : RealtimeComponent<CoinModel>
 {
+
+    [SerializeField] GameObject trianglePrefab = null;
+    [SerializeField] GameObject spherePrefab = null;
+    [SerializeField] GameObject cubePrefab = null;
     [SerializeField] int rotationSpeed = 20;
     [SerializeField] GameObject particles = null;
     [SerializeField] GameObject nextCoin = null;
-    [SerializeField] string nextCoinColor = null;
+    // [SerializeField] string nextCoinColor = null;
     [SerializeField] Material coinHidden = null;
     [SerializeField] Material coinFound = null;
     [SerializeField] GameObject tmp = null;
     [SerializeField] private float detectionDistance = 10f;
+    [SerializeField] private string shapename = null;
+
     private GameManager gameManager;
+
+    private bool shapeHasBeenSet = false;
+    private GameObject currentShapeObject;
 
     protected void Start()
     {
         GetComponent<Renderer>().material = coinHidden;
         gameManager = FindObjectOfType<GameManager>();
+    }
+    public string ShapeName
+    {
+        get { return shapename; }
     }
 
     void Update()
@@ -46,7 +59,7 @@ public class Coin : RealtimeComponent<CoinModel>
             }
         }
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Explorer))
@@ -57,8 +70,40 @@ public class Coin : RealtimeComponent<CoinModel>
 
     public void onFound()
     {
-        model.found = true;
+        if (!shapeHasBeenSet)
+        {
+            model.found = true;
+
+            // Choose a random shape: 1 for Triangle, 2 for Sphere, 3 for Cube
+            int randomShape = Random.Range(1, 4);
+
+            // Switch the coin's shape based on the random choice
+            switch (randomShape)
+            {
+                case 1:
+                    SetShape(trianglePrefab);
+                    shapename = "Triangle";
+                    break;
+                case 2:
+                    SetShape(spherePrefab);
+                    shapename = "Sphere";
+                    break;
+                case 3:
+                    SetShape(cubePrefab);
+                    shapename = "Cube";
+                    break;
+            }
+            
+            shapeHasBeenSet = true;
+        }
         GetComponent<Renderer>().material = coinFound;
+
+    }
+
+    private void SetShape(GameObject prefab)
+    {
+            currentShapeObject = Realtime.Instantiate(prefab.name, new Vector3(0, 0, 0), Quaternion.identity, new Realtime.InstantiateOptions { });
+            currentShapeObject.transform.SetParent(transform, false);
     }
 
     public void onCollected()
@@ -66,16 +111,26 @@ public class Coin : RealtimeComponent<CoinModel>
         model.collected = true;
         gameManager.IncrementCoinsCollected();
         GetComponent<Renderer>().enabled = false;
+        // Disable rendering for the child object (if it exists)
+        if (currentShapeObject != null)
+        {
+            Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
+            if (childRenderer != null)
+            {
+                childRenderer.enabled = false;
+            }
+        }
         _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
-        StartCoroutine(SetCoinTextAfterInstantiation(nextCoinColor));
+        StartCoroutine(SetCoinTextAfterInstantiation(currentShapeObject));
     }
 
-    private IEnumerator SetCoinTextAfterInstantiation(string nextCoinColor)
+    private IEnumerator SetCoinTextAfterInstantiation(GameObject nextCoinShape)
     {
         GameObject nextCoinObject = Realtime.Instantiate(nextCoin.name, new Vector3(transform.position.x, 0, transform.position.z), Quaternion.identity, new Realtime.InstantiateOptions { });
         yield return null;
         tmp = nextCoinObject.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-        tmp.GetComponent<TextMeshProUGUI>().text = $"Next Coin:\n{nextCoinColor}";
+
+        tmp.GetComponent<TextMeshProUGUI>().text = $"Next Coin:\n{ShapeName}";
     }
 
     protected override void OnRealtimeModelReplaced(CoinModel previousModel, CoinModel currentModel)
