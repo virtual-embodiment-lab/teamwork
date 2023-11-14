@@ -171,7 +171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.2}
+  m_AnchoredPosition: {x: 0, y: 1.21}
   m_SizeDelta: {x: 2.8, y: 0.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &339271912741102849
@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 6430690260138894309}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -322,7 +322,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -577,6 +577,8 @@ MonoBehaviour:
     component: {fileID: 7678388991693808837}
   - componentID: 2
     component: {fileID: 3677271381209697300}
+  - componentID: 3
+    component: {fileID: 0}
   _childViews: []
 --- !u!114 &7678388991693808837
 MonoBehaviour:

@@ -8,4 +8,7 @@ public partial class GameModel
 
     [RealtimeProperty(2, true, true)]
     private float _gameTime;
+
+    [RealtimeProperty(3, true, true)]
+    private bool _trialOver;
 }
