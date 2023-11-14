@@ -112,6 +112,7 @@ public class GameManager : RealtimeComponent<GameModel>
     public void IncrementCoinsCollected()
     {
         model.coinsCollected++;
+        Debug.Log("Increase value of coins");
         OnCoinsCollectedChanged?.Invoke(model.coinsCollected);
     }
 
