@@ -539,6 +539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379c8ceb4626b4d2f85fa7f7dd265657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetCoin: 0
   walkingSpeed: 7.5
   gravity: 20
   playerCamera: {fileID: 1147570328660757681}
@@ -552,7 +553,7 @@ MonoBehaviour:
   minWalkingSpeed: 1
   maxEnergy: 100
   batteryRechargeTime: 2
-  targetCoin: 0
+  layerToActivate: Collector
 --- !u!114 &6979846831541935089
 MonoBehaviour:
   m_ObjectHideFlags: 0

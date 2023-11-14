@@ -79,23 +79,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xObject: {fileID: 8479775166148900950}
-  trianglePrefab: {fileID: 0}
+  trianglePrefab: {fileID: 2482590632498764779, guid: 68aaa05b216ff46f8929a68c2226838e,
+    type: 3}
   spherePrefab: {fileID: 6173095359079862286, guid: df1e34091728708448d52250a7d02188,
     type: 3}
   cubePrefab: {fileID: 6475137416332045644, guid: 87e247b054a04e04c91d0d1a0e04deb9,
     type: 3}
+  currentShapeObject: {fileID: 0}
+  isFirst: 0
   rotationSpeed: 20
+  thisShape: 0
   particles: {fileID: 2191228311670666601, guid: 907f386a7ab77da44a1690b118c3c003,
     type: 3}
   nextCoin: {fileID: 4665476206930433697, guid: 0ec2a45329a064d68927939963dd666b,
     type: 3}
-  nextCoinColor: 
-  coinHidden: {fileID: 2100000, guid: 2f12cdaa721cdc54ab8682312c470c92, type: 2}
-  coinFound: {fileID: 2100000, guid: 88a87444f53564e62862bb462df42285, type: 2}
+  nextShape: 0
   tmp: {fileID: 0}
-  isFirst: 0
-  currentShape: 0
-  detectionDistance: 10
   shapename: 
 --- !u!114 &5857332819489370807
 MonoBehaviour:
@@ -150,11 +149,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2517697078521728511}
     m_Modifications:
+    - target: {fileID: 327515853381802220, guid: 502e8358ea70449b08e3d68f8a769c2d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f12cdaa721cdc54ab8682312c470c92, type: 2}
     - target: {fileID: 2791183867555456316, guid: 502e8358ea70449b08e3d68f8a769c2d,
         type: 3}
       propertyPath: m_Name
       value: X
       objectReference: {fileID: 0}
+    - target: {fileID: 4670990047631911503, guid: 502e8358ea70449b08e3d68f8a769c2d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f12cdaa721cdc54ab8682312c470c92, type: 2}
     - target: {fileID: 7915564974251094426, guid: 502e8358ea70449b08e3d68f8a769c2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -205,6 +214,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8523843167364756760, guid: 502e8358ea70449b08e3d68f8a769c2d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f12cdaa721cdc54ab8682312c470c92, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

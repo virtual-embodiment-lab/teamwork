@@ -6,6 +6,7 @@ using TMPro;
 [RequireComponent(typeof(UIManager))]
 public class Player : RealtimeComponent<PlayerModel>
 {
+    [SerializeField] public CoinShape targetCoin = CoinShape.None;
     [SerializeField] private float walkingSpeed = 7.5f;
     [SerializeField] private float gravity = 20.0f;
     [SerializeField] private Camera playerCamera;
@@ -35,7 +36,6 @@ public class Player : RealtimeComponent<PlayerModel>
     public float MaxEnergy => maxEnergy; // Expose max energy for the UI
     public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
     public const int MaxBatteries = 10;
-    public CoinShape targetCoin = CoinShape.None;
 
     private UIManager uiManager; // Reference to the UIManager
 
@@ -108,8 +108,6 @@ public class Player : RealtimeComponent<PlayerModel>
         HandleRotation();
         uiManager.UpdateUI();
 
-        // Debug.Log(currentRole);
-
         switch (currentRole)
         {
             case Role.Collector:
@@ -119,6 +117,10 @@ public class Player : RealtimeComponent<PlayerModel>
                 break;
             case Role.Explorer:
                 HandleEnergyConsumption();
+                HideCollectorLayer();
+                break;
+            case Role.Tactical:
+                HideCollectorLayer();
                 break;
         }
         
@@ -323,32 +325,38 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void SetCollectorVisibility()
     {
-        // Check if the playerCamera is assigned, if not, use the main camera
         if (playerCamera == null)
         {
             playerCamera = Camera.main;
             if (playerCamera == null)
-            {
-                Debug.LogError("Main camera not found. Please assign a camera to playerCamera.");
                 return;
-            }
         }
-
-        // Convert layer name to layer number
         int layerNumber = LayerMask.NameToLayer(layerToActivate);
         if (layerNumber == -1)
         {
             Debug.LogError($"Layer '{layerToActivate}' not found.");
             return;
         }
-
-        // Calculate the bitmask for the layer you want to activate
         int layerMask = 1 << layerNumber;
-
-        // Set the culling mask of the camera to include the desired layer
         playerCamera.cullingMask |= layerMask;
-
     }
+
+    public void HideCollectorLayer()
+    {
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main;
+            if (playerCamera == null)
+                return;
+        }
+
+        int layerNumber = LayerMask.NameToLayer(layerToActivate);
+        if (layerNumber == -1)
+            return;
+        int layerMask = 1 << layerNumber;
+        playerCamera.cullingMask &= ~layerMask;
+    }
+
 
     private void UpdateBatteryRecharge()
     {
