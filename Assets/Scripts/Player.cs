@@ -4,7 +4,7 @@ using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(UIManager))]
-public class Player : MonoBehaviour
+public class Player : RealtimeComponent<PlayerModel>
 {
     [SerializeField] private float walkingSpeed = 7.5f;
     [SerializeField] private float gravity = 20.0f;
@@ -39,10 +39,12 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        // roleText = GetComponentInChildren<TMP_Text>(); // 11/13
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
         uiManager = GetComponent<UIManager>();
+        roleText = GetComponentInChildren<TMP_Text>();
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -53,6 +55,24 @@ public class Player : MonoBehaviour
         {
             playerCamera.gameObject.SetActive(false);
         }
+    }
+
+    protected override void OnRealtimeModelReplaced(PlayerModel previousModel, PlayerModel currentModel)
+    {
+        if (previousModel != null){
+            previousModel.roleDidChange -= RoleDidChange;
+        }
+
+        if (currentModel != null){
+            currentModel.roleDidChange += RoleDidChange;
+            if (currentModel.isFreshModel) {
+                currentModel.role = 0;
+            }
+        }
+    }
+
+    public int GetRole() {
+        return (int)model.role;
     }
 
     public void EndTrial()
@@ -86,6 +106,8 @@ public class Player : MonoBehaviour
         HandleRotation();
         uiManager.UpdateUI();
 
+        // Debug.Log(currentRole);
+
         switch (currentRole)
         {
             case Role.Collector:
@@ -96,6 +118,7 @@ public class Player : MonoBehaviour
                 HandleEnergyConsumption();
                 break;
         }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -241,6 +264,7 @@ public class Player : MonoBehaviour
     {
         if (currentRole != newRole)
         {
+            RoleDidChange(model, (int)newRole);
             currentRole = newRole;
             uiManager.UpdateRoleUI(currentRole);
             uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
@@ -249,6 +273,24 @@ public class Player : MonoBehaviour
                 currentEnergy = maxEnergy;
             }
         }
+    }
+
+    private void RoleDidChange(PlayerModel model, int value) {
+        model.role = value;
+        if (value == 0) {
+            Debug.Log("No Role");
+            roleText.text = "No Role";
+        } else if (value == 1) {
+            Debug.Log("Collector");
+            roleText.text = "Collector";
+        } else if (value == 2) {
+            Debug.Log("Tactical");
+            roleText.text = "Tactical";
+        } else {
+            Debug.Log("Explorer");
+            roleText.text = "Explorer";
+        }
+        
     }
 
     public string GetFormattedGameTime()
