@@ -552,6 +552,7 @@ MonoBehaviour:
   minWalkingSpeed: 1
   maxEnergy: 100
   batteryRechargeTime: 2
+  targetCoin: 0
 --- !u!114 &6979846831541935089
 MonoBehaviour:
   m_ObjectHideFlags: 0
