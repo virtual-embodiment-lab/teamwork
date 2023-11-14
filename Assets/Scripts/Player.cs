@@ -18,7 +18,8 @@ public class Player : RealtimeComponent<PlayerModel>
     [SerializeField] private float minWalkingSpeed = 1.0f;
     [SerializeField] private float maxEnergy = 100f;
     [SerializeField] private float batteryRechargeTime = 2.0f;
-    
+    [SerializeField] public string layerToActivate = "Collector";
+
     private float batteryTimer = 0f;
     private RealtimeView realtimeView;
     private GameManager gameManager;
@@ -320,21 +321,33 @@ public class Player : RealtimeComponent<PlayerModel>
         return 0;
     }
 
-    public string layerToActivate = "Collector";
     public void SetCollectorVisibility()
     {
-        // reference to the camera component.
+        // Check if the playerCamera is assigned, if not, use the main camera
         if (playerCamera == null)
         {
-            playerCamera = Camera.main; // You can use the main camera by default.
+            playerCamera = Camera.main;
+            if (playerCamera == null)
+            {
+                Debug.LogError("Main camera not found. Please assign a camera to playerCamera.");
+                return;
+            }
         }
 
-        // Calculate the bitmask for the layer you want to activate.
-        int layerMask = 1 << layerToActivate;
+        // Convert layer name to layer number
+        int layerNumber = LayerMask.NameToLayer(layerToActivate);
+        if (layerNumber == -1)
+        {
+            Debug.LogError($"Layer '{layerToActivate}' not found.");
+            return;
+        }
 
-        // Set the culling mask of the camera to activate the desired layer.
+        // Calculate the bitmask for the layer you want to activate
+        int layerMask = 1 << layerNumber;
+
+        // Set the culling mask of the camera to include the desired layer
         playerCamera.cullingMask |= layerMask;
-    
+
     }
 
     private void UpdateBatteryRecharge()

@@ -9,22 +9,23 @@ using UnityEngine;
  */
 public class Coin : RealtimeComponent<CoinModel>
 {
-
+    [SerializeField] GameObject xObject = null;
     [SerializeField] GameObject trianglePrefab = null;
     [SerializeField] GameObject spherePrefab = null;
     [SerializeField] GameObject cubePrefab = null;
     [SerializeField] int rotationSpeed = 20;
     [SerializeField] GameObject particles = null;
     [SerializeField] GameObject nextCoin = null;
-    // [SerializeField] string nextCoinColor = null;
+    [SerializeField] string nextCoinColor = null;
     [SerializeField] Material coinHidden = null;
     [SerializeField] Material coinFound = null;
     [SerializeField] GameObject tmp = null;
-    [SerializeField] private float detectionDistance = 10f;
     [SerializeField] bool isFirst = false;
     [SerializeField] CoinShape currentShape = CoinShape.None;
+    [SerializeField] private float detectionDistance = 10f;
+    [SerializeField] private string shapename = null;
+
     private GameManager gameManager;
-    
 
     private bool shapeHasBeenSet = false;
     private GameObject currentShapeObject;
