@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Normal.Realtime;
+using Normal.Realtime.Serialization;
 
 public class RoleSelect : MonoBehaviour
 {
@@ -17,6 +19,11 @@ public class RoleSelect : MonoBehaviour
         InitializeRoleTriggers();
     }
 
+    private void Update()
+    {
+        SyncPlayerModels();
+    }
+
     public void HandlePlayerEnterTrigger(Collider triggerCollider, GameObject player)
     {
         Player playerController = player.GetComponent<Player>();
@@ -24,6 +31,8 @@ public class RoleSelect : MonoBehaviour
         {
             if (playerRoles.TryGetValue(player, out Role currentRole))
             {
+                int currentRoleVal = (int) currentRole;
+
                 if (currentRole == roleEntered)
                 {
                     playerRoles[player] = Role.None;
@@ -44,6 +53,7 @@ public class RoleSelect : MonoBehaviour
                             playerController.SetRole(Role.None); // Change previous role to None.
                             ChangePlayerMaterial(player, Role.None);
                         }
+
                         playerRoles[player] = roleEntered;
                         takenRoles.Add(roleEntered);
                         UpdateRoleVisuals(roleEntered, true);
@@ -63,6 +73,37 @@ public class RoleSelect : MonoBehaviour
                 Debug.Log($"Player {player.name} has taken the role of {roleEntered}.");
             }
         }
+
+    }
+    
+    // Use the playermodels to sync the start room
+    private void SyncPlayerModels()
+    {
+        Player[] players = FindObjectsOfType<Player>();
+        Dictionary<GameObject, Role> updatedPlayerRoles = new Dictionary<GameObject, Role>();
+        HashSet<Role> updatedTakenRoles = new HashSet<Role>();
+
+        foreach (Player player in players) {
+            Role playerModelRole = (Role)player.GetRole();
+            Role playerCurrentRole = player.currentRole;
+
+            if (playerModelRole != playerCurrentRole)
+            {
+                Debug.Log($"Player's model role: {playerModelRole}");
+                Debug.Log($"Player's current role: {playerCurrentRole}");
+                player.SetRole(playerModelRole);
+            }
+
+            UpdateRoleVisuals(playerModelRole, true);
+            ChangePlayerMaterial(player.gameObject, playerModelRole);
+            updatedPlayerRoles[player.gameObject] = playerModelRole;
+            if ((int)playerModelRole != 0) {
+                updatedTakenRoles.Add(playerModelRole);
+            }
+        }
+
+        updatedPlayerRoles = playerRoles;
+        updatedTakenRoles = takenRoles;
     }
 
     private void InitializeRoleTriggers()

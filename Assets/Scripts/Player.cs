@@ -103,6 +103,8 @@ public class Player : RealtimeComponent<PlayerModel>
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
 
+        UpdatePlayerModels();
+
         HandleInput();
         HandleMovement();
         HandleRotation();
@@ -124,6 +126,14 @@ public class Player : RealtimeComponent<PlayerModel>
                 break;
         }
         
+    }
+
+    private void UpdatePlayerModels()
+    {
+        if (model.role != (int)currentRole)
+        {
+            SetRole((Role)model.role);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -297,16 +307,12 @@ public class Player : RealtimeComponent<PlayerModel>
     private void RoleDidChange(PlayerModel model, int value) {
         model.role = value;
         if (value == 0) {
-            Debug.Log("No Role");
             roleText.text = "No Role";
         } else if (value == 1) {
-            Debug.Log("Collector");
             roleText.text = "Collector";
         } else if (value == 2) {
-            Debug.Log("Tactical");
             roleText.text = "Tactical";
         } else {
-            Debug.Log("Explorer");
             roleText.text = "Explorer";
         }
         
