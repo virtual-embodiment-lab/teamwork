@@ -6876,7 +6876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b46eaddd5e4d44c1aa37d334ca396e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CountdownDuration: 300
+  CountdownDuration: 6
 --- !u!114 &1788756319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6906,6 +6906,8 @@ MonoBehaviour:
     component: {fileID: 632635317}
   - componentID: 2
     component: {fileID: 544275808}
+  - componentID: 3
+    component: {fileID: 0}
 --- !u!1 &1794663369
 GameObject:
   m_ObjectHideFlags: 0

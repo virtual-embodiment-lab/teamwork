@@ -43,6 +43,7 @@ public class GameManager : RealtimeComponent<GameModel>
         }
        
     }
+   
 
     protected override void OnRealtimeModelReplaced(GameModel previousModel, GameModel currentModel)
     {
