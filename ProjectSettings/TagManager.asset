@@ -7,16 +7,18 @@ TagManager:
   - TacticalControlTrigger
   - Battery
   - Coin
+  - SpawnPoint
+  - OverflowSpawnPoint
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Hidden
   - Collector
-  - 
+  - YuME_TileMap
   - 
   - 
   - 

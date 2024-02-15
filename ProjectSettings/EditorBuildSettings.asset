@@ -8,4 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Maze.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  m_configObjects: {}
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 686da33abe0a4424f8ebd98f64c6f98d,
+      type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 3827a312b91af4917ab517b146674f92,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 70317ad2909554beea54c9d2780d175a,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: be30e0cba314b42828b255df13fe2d5d,
+      type: 2}
