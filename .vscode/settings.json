@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "files.exclude": {
         "**/.DS_Store": true,
         "**/.git": true,
@@ -52,4 +53,7 @@
         "Temp/": true
     },
     "dotnet.defaultSolution": "teamwork.sln"
+=======
+    "dotnet.preferCSharpExtension": true
+>>>>>>> origin/miki_m
 }
