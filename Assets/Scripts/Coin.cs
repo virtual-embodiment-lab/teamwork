@@ -42,6 +42,7 @@ public class Coin : RealtimeComponent<CoinModel>
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other);
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Explorer))
             onFound();
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Collector) && model.found && !model.collected)
@@ -57,6 +58,7 @@ public class Coin : RealtimeComponent<CoinModel>
 
     public void onFound()
     {
+        Debug.Log("touch");
         if (currentShapeObject == null)
         {
             model.found = true;

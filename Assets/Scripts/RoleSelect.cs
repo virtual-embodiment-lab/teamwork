@@ -26,9 +26,14 @@ public class RoleSelect : MonoBehaviour
 
     public void HandlePlayerEnterTrigger(Collider triggerCollider, GameObject player)
     {
+        Debug.Log("step1");
         Player playerController = player.GetComponent<Player>();
+        Debug.Log(triggerCollider);
+
         if (triggerRoles.TryGetValue(triggerCollider, out Role roleEntered))
         {
+            Debug.Log("step3");
+
             if (playerRoles.TryGetValue(player, out Role currentRole))
             {
                 int currentRoleVal = (int) currentRole;
@@ -65,6 +70,10 @@ public class RoleSelect : MonoBehaviour
             }
             else if (!takenRoles.Contains(roleEntered))
             {
+                Debug.Log("step4");
+                Debug.Log(player.name);
+                Debug.Log(roleEntered);
+
                 playerRoles.Add(player, roleEntered);
                 takenRoles.Add(roleEntered);
                 UpdateRoleVisuals(roleEntered, true);
@@ -112,6 +121,7 @@ public class RoleSelect : MonoBehaviour
         {
             if (role == Role.None) continue;
             Collider triggerCollider = GameObject.Find(role + "Trigger").GetComponent<Collider>();
+            Debug.Log(triggerCollider);
             if (triggerCollider)
             {
                 triggerRoles.Add(triggerCollider, role);

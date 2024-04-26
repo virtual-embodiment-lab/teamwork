@@ -9,7 +9,7 @@ public class Player : RealtimeComponent<PlayerModel>
     [SerializeField] public CoinShape targetCoin = CoinShape.None;
     [SerializeField] private float walkingSpeed = 7.5f;
     [SerializeField] private float gravity = 20.0f;
-    [SerializeField] private Camera playerCamera;
+    //[SerializeField] private Camera playerCamera;
     [SerializeField] private float lookSpeed = 2.0f;
     [SerializeField] private float lookXLimit = 45.0f;
     [SerializeField] public Role currentRole = Role.None;
@@ -37,7 +37,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
     public const int MaxBatteries = 10;
 
-    private UIManager uiManager; // Reference to the UIManager
+    //private UIManager uiManager; // Reference to the UIManager
 
     private void Start()
     {
@@ -45,17 +45,18 @@ public class Player : RealtimeComponent<PlayerModel>
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
-        uiManager = GetComponent<UIManager>();
+        //uiManager = GetComponent<UIManager>();
         roleText = GetComponentInChildren<TMP_Text>();
+        Debug.Log(roleText);
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
             InitializePlayer();
-            uiManager.Initialize(this, crosshairSprite, gameManager);
+            //uiManager.Initialize(this, crosshairSprite, gameManager);
         }
         else
         {
-            playerCamera.gameObject.SetActive(false);
+            //playerCamera.gameObject.SetActive(false);
         }
     }
 
@@ -76,9 +77,10 @@ public class Player : RealtimeComponent<PlayerModel>
     public int GetRole() {
         return (int)model.role;
     }
-
+    
     public void EndTrial()
     {
+        /*
         if (uiManager == null)
         {
             Debug.LogError("UIManager is null in EndTrial");
@@ -88,7 +90,9 @@ public class Player : RealtimeComponent<PlayerModel>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         uiManager.DisplayTrialOverScreen();
+*/
     }
+
 
     private void InitializePlayer()
     {
@@ -108,7 +112,7 @@ public class Player : RealtimeComponent<PlayerModel>
         HandleInput();
         HandleMovement();
         HandleRotation();
-        uiManager.UpdateUI();
+       // uiManager.UpdateUI();
 
         switch (currentRole)
         {
@@ -148,6 +152,9 @@ public class Player : RealtimeComponent<PlayerModel>
             case Role.Explorer:
                 PickUpBattery(other);
                 break;
+            default:
+                Debug.Log("collide player");
+                break;
         }
     }
 
@@ -167,7 +174,7 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
-            uiManager.SetCrosshairVisibility(Cursor.lockState == CursorLockMode.Locked);
+            //uiManager.SetCrosshairVisibility(Cursor.lockState == CursorLockMode.Locked);
         }
     }
 
@@ -217,7 +224,7 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+           //playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
@@ -227,10 +234,10 @@ public class Player : RealtimeComponent<PlayerModel>
     {
         if (other.CompareTag("TacticalControlTrigger") && currentRole.Equals(Role.Tactical))
         {
-            other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
+            //other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
             other.GetComponent<TacticalControlTrigger>().tacticalControl.IsTacticalModeActive = true;
             isTacticalModeActive = true;
-            uiManager.UpdateRoleDependentUI();
+            //uiManager.UpdateRoleDependentUI();
         }
     }
 
@@ -285,7 +292,7 @@ public class Player : RealtimeComponent<PlayerModel>
             Vector3 spawnPosition = transform.position + transform.forward * 1.5f;
             Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
 
-            uiManager.UpdateBatteryRecharge();
+           // uiManager.UpdateBatteryRecharge();
         }
     }
 
@@ -295,8 +302,8 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             RoleDidChange(model, (int)newRole);
             currentRole = newRole;
-            uiManager.UpdateRoleUI(currentRole);
-            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
+            //uiManager.UpdateRoleUI(currentRole);
+            //uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
             if (newRole == Role.Explorer)
             {
                 currentEnergy = maxEnergy;
@@ -331,6 +338,7 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void SetCollectorVisibility()
     {
+        /*
         if (playerCamera == null)
         {
             playerCamera = Camera.main;
@@ -345,10 +353,12 @@ public class Player : RealtimeComponent<PlayerModel>
         }
         int layerMask = 1 << layerNumber;
         playerCamera.cullingMask |= layerMask;
+        */
     }
 
     public void HideCollectorLayer()
     {
+        /*
         if (playerCamera == null)
         {
             playerCamera = Camera.main;
@@ -361,6 +371,7 @@ public class Player : RealtimeComponent<PlayerModel>
             return;
         int layerMask = 1 << layerNumber;
         playerCamera.cullingMask &= ~layerMask;
+        */
     }
 
 
@@ -373,7 +384,7 @@ public class Player : RealtimeComponent<PlayerModel>
             {
                 Batteries++;
                 batteryTimer = 0;
-                uiManager.UpdateBatteryRecharge();
+                //uiManager.UpdateBatteryRecharge();
             }
         }
     }
