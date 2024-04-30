@@ -37,8 +37,8 @@ public class CameraController : MonoBehaviour
                 dir_h = -1;
 */
             //move camera positoin
-            transform.position += transform.right * horizontalL * speed * Time.deltaTime;
-            transform.position += transform.up * verticalL * speed * Time.deltaTime;
+            transform.position += transform.right * -horizontalL * speed * Time.deltaTime;
+            transform.position += transform.up * -verticalL * speed * Time.deltaTime;
 
             //move camera height
             transform.position += transform.forward * verticalR * speed * Time.deltaTime;
