@@ -183,7 +183,7 @@ public class Logger : Utility
         while (runLogging)
         {
             tempLoggedString = "TimeStamp:" + Time.realtimeSinceStartup.ToString("0.00000") + "\t";
-            timeStampLive.text = Time.realtimeSinceStartup.ToString("00.00");
+            //timeStampLive.text = Time.realtimeSinceStartup.ToString("00.00");
 
             for (int i = 0; i < LoggedObjects.Count(); i++)
             {

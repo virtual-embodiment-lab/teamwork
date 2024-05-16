@@ -25,6 +25,15 @@ public class contorllerSwitcher : MonoBehaviour
         
     }
     
+    public void switchMode(bool controllerMode)
+    {
+        if (!controllerMode)
+        {
+            avatarController.EnableLinearMovement = true;
+            avatarController.EnableRotation = true;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

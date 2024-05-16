@@ -6,7 +6,6 @@ public class RoleTrigger : MonoBehaviour
     //private void OnTriggerEnter()
     {
         Debug.Log("role");
-        Debug.Log("other");
         
         if (other.CompareTag("Player"))
         {

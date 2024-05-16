@@ -18,6 +18,13 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         if (enableControl == true){
+            if (OVRInput.GetUp(OVRInput.RawButton.Y))
+            {
+                GameObject switcher = GameObject.Find("switcher");
+                switcher.GetComponent<contorllerSwitcher>().switchMode(false); 
+                enableControl = false;               
+            }
+
             // get left joystick angle
             float horizontalL = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
             float verticalL = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).y;

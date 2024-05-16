@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class UIManager: MonoBehaviour
 {
     private Player _player;
-    private Sprite _crosshairSprite;
+    //private Sprite _crosshairSprite;
 
-    private TacticalControl _tacticalControl;
+    //private TacticalControl _tacticalControl;
     private GameManager _gameManager;
     private Image _roleColorIndicator;
     private Image _uiPanelBackground;
@@ -17,19 +17,21 @@ public class UIManager: MonoBehaviour
     private TextMeshProUGUI _roleUIText;
     private TextMeshProUGUI _coinsCollectedText;
     private TextMeshProUGUI _batteryCountText;
-    private Button _exitTacticalButton;
+    //private Button _exitTacticalButton;
     private RectTransform _uiPanel;
     private Canvas _mainCanvas;
+    private GameObject CanvasObj;
+    private bool panelShow = true;
 
     public void Initialize(Player player, Sprite crosshairSprite, GameManager gameManager)
     {
         _player = player;
-        _crosshairSprite = crosshairSprite;
+        //_crosshairSprite = crosshairSprite;
         _gameManager = gameManager;
-        _tacticalControl = FindObjectOfType<TacticalControl>();
+        //_tacticalControl = FindObjectOfType<TacticalControl>();
 
         InitializeMainCanvas();
-        CreateCrosshairUI();
+        //CreateCrosshairUI();
         CreateMainUIPanel();
         CreateGameTimeUI();
         CreateRoleUI();
@@ -37,8 +39,9 @@ public class UIManager: MonoBehaviour
         CreateCoinsCollectedUI();
         CreateBatteryCountUI();
         CreateEnergyBarUI();
-        CreateExitTacticalButton();
+        //CreateExitTacticalButton();
         UpdateEnergyUI();
+        panelActive(panelShow);
     }
 
     public void UpdateUI()
@@ -48,18 +51,44 @@ public class UIManager: MonoBehaviour
         UpdateBatteryRecharge();
         UpdateEnergyUI();
         UpdateRoleDependentUI();
+
+        // get controller button
+        if(OVRInput.GetUp(OVRInput.Button.One) || Input.GetKey(KeyCode.UpArrow))
+        {
+            panelShow = !panelShow;
+            panelActive(panelShow);
+        }
     }
 
     private void InitializeMainCanvas()
     {
         GameObject canvasObject = new GameObject("Canvas");
+        CanvasObj = canvasObject;
         _mainCanvas = canvasObject.AddComponent<Canvas>();
-        _mainCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvasObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        canvasObject.AddComponent<GraphicRaycaster>();
+        _mainCanvas.renderMode = RenderMode.WorldSpace;
+        //canvasObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        //canvasObject.AddComponent<GraphicRaycaster>();
+        //canvasObject.rectTransform.width = 100;
+        //canvasObject.rectTransform.height = 100;
         canvasObject.transform.SetParent(transform, false);
+        RectTransform rectT = canvasObject.GetComponent<RectTransform>();
+        rectT.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        rectT.localRotation = Quaternion.Euler(0, 0, 0);
+        rectT.anchorMin = new Vector2(0, 0);
+        rectT.anchorMax = new Vector2(0, 0);
+        rectT.pivot = new Vector2(0.5f, 0.5f);
+        rectT.position = new Vector3(0f, 0f, 5f);
+
+        int UIlayer = LayerMask.NameToLayer("UI");
+        canvasObject.layer = UIlayer;
+
+        //canvasObject.AddComponent<CanvasScaler>();
+        //canvasObject.AddComponent<GraphicRaycaster>();
+
     }
 
+
+/*
     private void CreateCrosshairUI()
     {
         GameObject crosshairObject = new GameObject("Crosshair");
@@ -74,6 +103,7 @@ public class UIManager: MonoBehaviour
         // Enable the crosshair by default
         _crosshairImage.enabled = true;
     }
+*/
 
     private void CreateMainUIPanel()
     {
@@ -81,11 +111,12 @@ public class UIManager: MonoBehaviour
         _uiPanel = panelObject.AddComponent<RectTransform>();
 
         // Set the panel to be at the top-left with a specific width and height
-        _uiPanel.anchorMin = new Vector2(0, 1);
-        _uiPanel.anchorMax = new Vector2(0, 1);
-        _uiPanel.pivot = new Vector2(0, 1);
-        _uiPanel.sizeDelta = new Vector2(120, 80);
-        _uiPanel.anchoredPosition = new Vector2(10, -10);
+        _uiPanel.anchorMin = new Vector2(0, 0);
+        _uiPanel.anchorMin = new Vector2(0, 0);
+        _uiPanel.position = new Vector3(50, 50, 0);
+        _uiPanel.pivot = new Vector2(0.5f, 0.5f);
+        _uiPanel.sizeDelta = new Vector2(100, 100);
+        _uiPanel.anchoredPosition = new Vector2(0, 0);
 
         // Add a background image to the UI Panel
         _uiPanelBackground = panelObject.AddComponent<Image>();
@@ -114,7 +145,7 @@ public class UIManager: MonoBehaviour
         // Create the UI element with the specified values
         _roleUIText = CreateUIElement<TextMeshProUGUI>("RoleText", anchorMin, anchorMax, offsetMin, offsetMax, 20);
         _roleUIText.alignment = TextAlignmentOptions.Left;
-        _roleUIText.text = _player.currentRole.ToString();
+        _roleUIText.text = "role_here"; //_player.currentRole.ToString();
     }
 
     private void CreateCoinsCollectedUI()
@@ -129,6 +160,7 @@ public class UIManager: MonoBehaviour
         _batteryCountText.text = $"Batteries: {_player.Batteries}";
     }
 
+/*
     private void CreateExitTacticalButton()
     {
         // Define button size and position similar to the battery counter and energy bar
@@ -150,6 +182,7 @@ public class UIManager: MonoBehaviour
         // Optionally, you can add an event listener to the button to define what happens when it is clicked
         _exitTacticalButton.onClick.AddListener(OnExitTacticalButtonClicked);
     }
+*/
 
     private void CreateEnergyBarUI()
     {
@@ -158,18 +191,19 @@ public class UIManager: MonoBehaviour
         _energyBar.color = Color.green;
 
         RectTransform rt = _energyBar.rectTransform;
-        rt.pivot = new Vector2(0, 0.5f); // Pivot set to the left-middle
+        rt.pivot = new Vector2(0.0f, 0.5f); // Pivot set to the left-middle
 
         float energyBarTop = -55; // Top position below the role text with a gap
 
         // Assuming the UIPanel is 100 units wide, and we want the energy bar to start 60 units from the left
-        float energyBarHorizontalStart = 60; // Start 60 units from the left
+        float energyBarHorizontalStart = 5; // Start 60 units from the left
 
         // Set up the RectTransform to start 60 units from the left and be 110 units wide
         SetupUIElement(rt, new Vector2(0, 1), new Vector2(0, 1),
                        new Vector2(energyBarHorizontalStart, energyBarTop),
                        new Vector2(energyBarHorizontalStart, energyBarTop - 20));
 
+        rt.pivot = new Vector2(0.0f, 0.5f); // Pivot set to the left-middle
         _energyBar.enabled = false; // Initially disabled, can be enabled when needed
         energyBarObject.transform.SetParent(_uiPanel, false); // Set the parent of the energy bar to the UIPanel
     }
@@ -284,6 +318,21 @@ public class UIManager: MonoBehaviour
         rt.localScale = Vector3.one;
     }
 
+    private void panelActive(bool panelState)
+    {
+        CanvasObj.SetActive(panelState);
+        if(panelState){
+            CanvasObj.transform.SetParent(transform, false);
+            RectTransform rectT = CanvasObj.GetComponent<RectTransform>();
+            rectT.localScale = new Vector3(0.01f, 0.01f, 0.01f); 
+            rectT.localRotation = Quaternion.Euler(0, 0, 0);
+            rectT.anchorMin = new Vector2(0, 0);
+            rectT.anchorMax = new Vector2(0, 0);
+            rectT.pivot = new Vector2(0.5f, 0.5f);
+            rectT.anchoredPosition = new Vector3(0f, 0f, 5f);
+        }
+    }
+
     private void UpdateRoleColorIndicator(Role role)
     {
         switch (role)
@@ -307,13 +356,16 @@ public class UIManager: MonoBehaviour
     {
         _batteryCountText.gameObject.SetActive(_player.currentRole == Role.Collector);
         _energyBar.gameObject.SetActive(_player.currentRole == Role.Explorer);
+        /*
         if (_player.currentRole == Role.Tactical)
         {
             SetCrosshairVisibility(!_tacticalControl.IsTacticalModeActive);
             _exitTacticalButton.gameObject.SetActive(_tacticalControl.IsTacticalModeActive);
         }
+        */
     }
 
+/*
     public void SetCrosshairVisibility(bool isVisible)
     {
         if (_crosshairImage != null)
@@ -321,6 +373,7 @@ public class UIManager: MonoBehaviour
             _crosshairImage.enabled = isVisible;
         }
     }
+*/
 
     private void UpdateEnergyUI()
     {
@@ -350,8 +403,10 @@ public class UIManager: MonoBehaviour
     {
         if (_roleUIText != null)
         {
+            Debug.Log("show role: " + newRole.ToString());
             _roleUIText.text = newRole.ToString();
         }
+
         if (_roleColorIndicator != null)
         {
             UpdateRoleColorIndicator(newRole);
@@ -368,11 +423,13 @@ public class UIManager: MonoBehaviour
 
     private void OnExitTacticalButtonClicked()
     {
+        /*
         if (_tacticalControl != null)
         {
             _tacticalControl.IsTacticalModeActive = false;
         }
         _exitTacticalButton.gameObject.SetActive(false);
+        */
     }
 
     public void DisplayTrialOverScreen()

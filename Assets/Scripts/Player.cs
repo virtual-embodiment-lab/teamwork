@@ -37,7 +37,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
     public const int MaxBatteries = 10;
 
-    //private UIManager uiManager; // Reference to the UIManager
+    private UIManager uiManager; // Reference to the UIManager
 
     private void Start()
     {
@@ -45,14 +45,14 @@ public class Player : RealtimeComponent<PlayerModel>
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
-        //uiManager = GetComponent<UIManager>();
+        uiManager = GetComponent<UIManager>();
         roleText = GetComponentInChildren<TMP_Text>();
         Debug.Log(roleText);
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
             InitializePlayer();
-            //uiManager.Initialize(this, crosshairSprite, gameManager);
+            uiManager.Initialize(this, crosshairSprite, gameManager);
         }
         else
         {
@@ -80,7 +80,6 @@ public class Player : RealtimeComponent<PlayerModel>
     
     public void EndTrial()
     {
-        /*
         if (uiManager == null)
         {
             Debug.LogError("UIManager is null in EndTrial");
@@ -90,7 +89,6 @@ public class Player : RealtimeComponent<PlayerModel>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         uiManager.DisplayTrialOverScreen();
-*/
     }
 
 
@@ -110,9 +108,9 @@ public class Player : RealtimeComponent<PlayerModel>
         UpdatePlayerModels();
 
         HandleInput();
-        HandleMovement();
-        HandleRotation();
-       // uiManager.UpdateUI();
+        //HandleMovement();
+        //HandleRotation();
+        uiManager.UpdateUI();
 
         switch (currentRole)
         {
@@ -237,7 +235,7 @@ public class Player : RealtimeComponent<PlayerModel>
             //other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
             other.GetComponent<TacticalControlTrigger>().tacticalControl.IsTacticalModeActive = true;
             isTacticalModeActive = true;
-            //uiManager.UpdateRoleDependentUI();
+            uiManager.UpdateRoleDependentUI();
         }
     }
 
@@ -262,7 +260,7 @@ public class Player : RealtimeComponent<PlayerModel>
         isMoving = characterController.velocity.magnitude > 0;
 
         // energy change based on time instead of movement
-        currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/20.0f, 1);
+        currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/45.0f, 1);
         
         /*
         // If moving, deplete energy
@@ -277,22 +275,29 @@ public class Player : RealtimeComponent<PlayerModel>
         // Handle energy reaching zero if needed
         */
 
-        if (currentEnergy <= 1)
+        if (currentEnergy <= 5)
         {
             // Perform any logic for when energy depletes (like disabling movement)
+            GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>().Acceleration = 0.01f;
+        }
+        else if (currentEnergy <= 50)
+        {
+            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+            float currentAcceleration = playerCon.Acceleration;
+            playerCon.Acceleration = currentEnergy/500f;
         }
     }
 
     private void HandleBatteryDrop()
     {
-        if (currentRole == Role.Collector && Input.GetKeyDown(KeyCode.B) && Batteries > 1)
+        if (currentRole == Role.Collector && (Input.GetKey(KeyCode.B) || OVRInput.GetUp(OVRInput.RawButton.X)) && Batteries > 1)
         {
             Batteries--;
 
             Vector3 spawnPosition = transform.position + transform.forward * 1.5f;
             Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
 
-           // uiManager.UpdateBatteryRecharge();
+           uiManager.UpdateBatteryRecharge();
         }
     }
 
@@ -302,8 +307,8 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             RoleDidChange(model, (int)newRole);
             currentRole = newRole;
-            //uiManager.UpdateRoleUI(currentRole);
-            //uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
+            uiManager.UpdateRoleUI(currentRole);
+            uiManager.SetEnergyBarVisibility(newRole == Role.Explorer);
             if (newRole == Role.Explorer)
             {
                 currentEnergy = maxEnergy;
@@ -384,7 +389,7 @@ public class Player : RealtimeComponent<PlayerModel>
             {
                 Batteries++;
                 batteryTimer = 0;
-                //uiManager.UpdateBatteryRecharge();
+                uiManager.UpdateBatteryRecharge();
             }
         }
     }
