@@ -84,8 +84,7 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
 
 ## How to Play
-![image](./Assets/Images/controller.png)
-<img src="./Assets/Images/controller.png" width="300">
+<img src="./Assets/Images/controller.png" width="500">
 
 ## Script Overview
 
