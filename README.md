@@ -1,6 +1,6 @@
 # Mazeworld
 
-![image](./Assets/Images/readmeimage.png)
+![image](./Assets/Images/readmeimage_2024spring.png)
 
 Welcome to MazeWorld, this project has evolved over time but the goal is still the exploration of how to evaluate team preformance. The idea is to have participants solve a maze where they are given different roles and tasks to complete. The roles consist of an explorer, collector, and tactical which have different interdependant roles. The explorer is responsible for navigating the maze, the collector is responsible for collecting coins, and the tactical is responsible for directing the explorer and collector. There is still quite a bit to be done on the project so hopefully this document will help explain the current state of the project as well as future goals.
 
@@ -84,7 +84,7 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
 
 ## How to Play
-![image](./Assets/Images/readmeimage.png)
+![image](./Assets/Images/controller.png)
 
 ## Script Overview
 
