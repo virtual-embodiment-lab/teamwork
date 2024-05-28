@@ -33,9 +33,15 @@ Here is the current publication from the initial work on this project: [View Pub
 ## Task List
 
 - [ ] Place coins within the current maze and configure them correctly.
-- [ ] Setup the new start area and import the scripts from the old one.
+- [x] Setup the new start area and import the scripts from the old one. [Spring, 2024]
 - [ ] Allow players to change between the two robot avatars and change color.
-- [ ] Add in logging functionality from the VELLib.
+- [ ] Fix head and hands (OVRPlayerController) go through the walls.
+- [ ] Add in logging functionality from the [VELLib](https://github.com/virtual-embodiment-lab/vellib).
+
+[VELLib](https://github.com/virtual-embodiment-lab/vellib) is a collection of scripts that were made to support development of project in the Virtual Emobodiment Lab.
+
+For more informaiton on how to work with VEL resources please visit the [onboarding](https://github.com/virtual-embodiment-lab/Onboarding) and [tutorial](https://github.com/virtual-embodiment-lab/unity-tutorial) documentation. If you do not have access to these respositories contact the lab manager for access.
+
 
 ## Installation Guide
 
@@ -76,6 +82,9 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Real-time Data Synchronization:** Normcore's real-time data synchronization is used to ensure that all interactive elements within the maze, including puzzles, obstacles, and collectibles, are consistently updated across all connected clients.
 - **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
+
+## How to Play
+![image](./Assets/Images/readmeimage.png)
 
 ## Script Overview
 
@@ -151,4 +160,73 @@ To enhance the stability and performance of MazeWorld, we have integrated [Ultim
 - **Increased Maze Complexity:** Enlarged the maze size to offer a greater challenge and encourage more strategic navigation.
 - **Enhanced Coin Diversity:** Introduced a wider variety of coin colors and shapes, along with increased randomness in their sequence, to avoid predictable patterns and promote exploration.
 - **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication.
-- **Optimized Coin Collection Display:** Improved the next coin target display to enhance visibility and reduce navigation confusion, moving from physical signs to a more prominent banner display at the screen's top.
+- **Opt
+
+## Dependencies
+
+Ultimate XR: v0.9.7
+
+Unity: 2020.3.15f1
+
+```shell
+{
+  "dependencies": {
+    "com.meta.xr.sdk.all": "60.0.0",
+    "com.meta.xr.sdk.interaction.ovr.samples": "60.0.0",
+    "com.normalvr.normcore": "2.6.3",
+    "com.unity.ide.visualstudio": "2.0.22",
+    "com.unity.ide.vscode": "1.2.5",
+    "com.unity.inputsystem": "1.7.0",
+    "com.unity.probuilder": "5.2.2",
+    "com.unity.render-pipelines.universal": "14.0.9",
+    "com.unity.test-framework": "1.3.9",
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.timeline": "1.8.2",
+    "com.unity.ugui": "1.0.0",
+    "com.unity.visualscripting": "1.9.1",
+    "com.unity.xr.interaction.toolkit": "2.5.2",
+    "com.unity.xr.oculus": "4.1.2",
+    "com.unity.modules.ai": "1.0.0",
+    "com.unity.modules.androidjni": "1.0.0",
+    "com.unity.modules.animation": "1.0.0",
+    "com.unity.modules.assetbundle": "1.0.0",
+    "com.unity.modules.audio": "1.0.0",
+    "com.unity.modules.cloth": "1.0.0",
+    "com.unity.modules.director": "1.0.0",
+    "com.unity.modules.imageconversion": "1.0.0",
+    "com.unity.modules.imgui": "1.0.0",
+    "com.unity.modules.jsonserialize": "1.0.0",
+    "com.unity.modules.particlesystem": "1.0.0",
+    "com.unity.modules.physics": "1.0.0",
+    "com.unity.modules.physics2d": "1.0.0",
+    "com.unity.modules.screencapture": "1.0.0",
+    "com.unity.modules.terrain": "1.0.0",
+    "com.unity.modules.terrainphysics": "1.0.0",
+    "com.unity.modules.tilemap": "1.0.0",
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.modules.uielements": "1.0.0",
+    "com.unity.modules.umbra": "1.0.0",
+    "com.unity.modules.unityanalytics": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.unitywebrequestassetbundle": "1.0.0",
+    "com.unity.modules.unitywebrequestaudio": "1.0.0",
+    "com.unity.modules.unitywebrequesttexture": "1.0.0",
+    "com.unity.modules.unitywebrequestwww": "1.0.0",
+    "com.unity.modules.vehicles": "1.0.0",
+    "com.unity.modules.video": "1.0.0",
+    "com.unity.modules.vr": "1.0.0",
+    "com.unity.modules.wind": "1.0.0",
+    "com.unity.modules.xr": "1.0.0"
+  },
+  "scopedRegistries": [
+    {
+      "name": "Normal",
+      "url": "https://normcore-registry.normcore.io",
+      "scopes": [
+        "com.normalvr",
+        "io.normcore"
+      ]
+    }
+  ]
+}
+```
