@@ -83,6 +83,9 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
 
+## How to Play
+![image](./Assets/Images/readmeimage.png)
+
 ## Script Overview
 
 MazeWorld includes a set of scripts that controll the game's mechanics, player interactions, environment behaviors, and networking aspects. Below is a summary of key scripts and their roles within the system:
