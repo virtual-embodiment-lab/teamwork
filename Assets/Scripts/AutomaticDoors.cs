@@ -120,4 +120,9 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
     private float _openDelayTimer;
     private Vector3 _leftStartLocalPosition;
     private Vector3 _rightStartLocalPosition;
+
+    public void adjustOpeningDistance (float value)
+    {
+        _openDistance = value;
+    }
 }

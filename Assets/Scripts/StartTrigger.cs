@@ -41,7 +41,10 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     {
         // Update the door based on the started value
         if (door != null)
-            door.SetActive(!started);
+        {
+            //door.SetActive(!started);
+            door.GetComponent<AutomaticDoor>().adjustOpeningDistance(1.85f);
+        }
         started = true;
     }
 
@@ -75,8 +78,8 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     private bool IsEveryoneReady()
     {
         // Check if a maze has been selected
-        if (!mazeStateSync.IsMazeSelected())
-            return false;
+        //if (!mazeStateSync.IsMazeSelected())
+        //    return false;
 
         // Check if all players have roles
         if (!roleSelect.AreAllRolesAssigned())

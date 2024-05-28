@@ -29,7 +29,6 @@ Here is the current publication from the initial work on this project: [View Pub
     - [UltimateXR Integration Highlights](#ultimatexr-integration-highlights)
     - [Bug Fixes](#bug-fixes)
     - [Improvements](#improvements)
-- [Dependencies](#dependencies)
 
 ## Task List
 
@@ -42,6 +41,7 @@ Here is the current publication from the initial work on this project: [View Pub
 [VELLib](https://github.com/virtual-embodiment-lab/vellib) is a collection of scripts that were made to support development of project in the Virtual Emobodiment Lab.
 
 For more informaiton on how to work with VEL resources please visit the [onboarding](https://github.com/virtual-embodiment-lab/Onboarding) and [tutorial](https://github.com/virtual-embodiment-lab/unity-tutorial) documentation. If you do not have access to these respositories contact the lab manager for access.
+
 
 ## Installation Guide
 
@@ -160,7 +160,7 @@ To enhance the stability and performance of MazeWorld, we have integrated [Ultim
 - **Increased Maze Complexity:** Enlarged the maze size to offer a greater challenge and encourage more strategic navigation.
 - **Enhanced Coin Diversity:** Introduced a wider variety of coin colors and shapes, along with increased randomness in their sequence, to avoid predictable patterns and promote exploration.
 - **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication.
-- **Optimized Coin Collection Display:** Improved the next coin target display to enhance visibility and reduce navigation confusion, moving from physical signs to a more prominent banner display at the screen's top.
+- **Opt
 
 ## Dependencies
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Normal.Realtime;
 using Normal.Realtime.Serialization;
+using UnityEngine.UI;
 
 public class RoleSelect : MonoBehaviour
 {
@@ -26,9 +27,15 @@ public class RoleSelect : MonoBehaviour
 
     public void HandlePlayerEnterTrigger(Collider triggerCollider, GameObject player)
     {
+        Debug.Log("step1");
         Player playerController = player.GetComponent<Player>();
+        Debug.Log(triggerCollider);
+
         if (triggerRoles.TryGetValue(triggerCollider, out Role roleEntered))
         {
+            Debug.Log("step3");
+            GameObject roleText = GameObject.Find("RoleLabel");
+ 
             if (playerRoles.TryGetValue(player, out Role currentRole))
             {
                 int currentRoleVal = (int) currentRole;
@@ -65,6 +72,10 @@ public class RoleSelect : MonoBehaviour
             }
             else if (!takenRoles.Contains(roleEntered))
             {
+                Debug.Log("step4");
+                Debug.Log(player.name);
+                Debug.Log(roleEntered);
+
                 playerRoles.Add(player, roleEntered);
                 takenRoles.Add(roleEntered);
                 UpdateRoleVisuals(roleEntered, true);
@@ -72,6 +83,7 @@ public class RoleSelect : MonoBehaviour
                 ChangePlayerMaterial(player, roleEntered);
                 Debug.Log($"Player {player.name} has taken the role of {roleEntered}.");
             }
+
         }
 
     }

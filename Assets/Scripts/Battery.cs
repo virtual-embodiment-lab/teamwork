@@ -22,7 +22,10 @@ public class Battery : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other);
+        Debug.Log(other.gameObject.GetComponent<Player>().currentRole);
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Explorer))
+   
         {
             onCollected();
         }
