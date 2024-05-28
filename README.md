@@ -85,7 +85,7 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 
 ## How to Play
 ![image](./Assets/Images/controller.png)
-<img src="./Assets/Images/controller.png" width="100" height="100">
+<img src="./Assets/Images/controller.png" width="300">
 
 ## Script Overview
 
