@@ -36,6 +36,7 @@ Here is the current publication from the initial work on this project: [View Pub
 - [ ] Place coins within the current maze and configure them correctly.
 - [x] Setup the new start area and import the scripts from the old one. [Spring, 2024]
 - [ ] Allow players to change between the two robot avatars and change color.
+- [ ] Fix head and hands (OVRPlayerController) go through the walls.
 - [ ] Add in logging functionality from the [VELLib](https://github.com/virtual-embodiment-lab/vellib).
 
 [VELLib](https://github.com/virtual-embodiment-lab/vellib) is a collection of scripts that were made to support development of project in the Virtual Emobodiment Lab.
