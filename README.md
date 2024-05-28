@@ -34,7 +34,7 @@ Here is the current publication from the initial work on this project: [View Pub
 ## Task List
 
 - [ ] Place coins within the current maze and configure them correctly.
-- [ ] Setup the new start area and import the scripts from the old one.
+- [x] Setup the new start area and import the scripts from the old one.
 - [ ] Allow players to change between the two robot avatars and change color.
 - [ ] Add in logging functionality from the [VELLib](https://github.com/virtual-embodiment-lab/vellib).
 
