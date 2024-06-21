@@ -1,14 +1,18 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Oculus.Interaction;
+using System;
+// using UnityEditor.Rendering.Universal.ShaderGUI;
 
 public class UIManager: MonoBehaviour
 {
     private Player _player;
-    //private Sprite _crosshairSprite;
+    private Sprite _crosshairSprite;
 
     //private TacticalControl _tacticalControl;
     private GameManager _gameManager;
+    private Image _collisionOverlay;
     private Image _roleColorIndicator;
     private Image _uiPanelBackground;
     private Image _crosshairImage;
@@ -17,6 +21,9 @@ public class UIManager: MonoBehaviour
     private TextMeshProUGUI _roleUIText;
     private TextMeshProUGUI _coinsCollectedText;
     private TextMeshProUGUI _batteryCountText;
+    private TextMeshProUGUI _messages;
+    private TextMeshProUGUI _carryingCoinText;
+
     //private Button _exitTacticalButton;
     private RectTransform _uiPanel;
     private Canvas _mainCanvas;
@@ -38,7 +45,9 @@ public class UIManager: MonoBehaviour
         CreateRoleColorIndicator();
         CreateCoinsCollectedUI();
         CreateBatteryCountUI();
+        CreateCarryingCoinUI();
         CreateEnergyBarUI();
+        CreateCollisionOverLay();
         //CreateExitTacticalButton();
         UpdateEnergyUI();
         panelActive(panelShow);
@@ -48,7 +57,8 @@ public class UIManager: MonoBehaviour
     {
         UpdateGameTimeUI();
         UpdateCoinsCollectedUI();
-        UpdateBatteryRecharge();
+        UpdateBatteryNumber();
+        UpdateCoinNumber();
         UpdateEnergyUI();
         UpdateRoleDependentUI();
 
@@ -56,6 +66,12 @@ public class UIManager: MonoBehaviour
         if(OVRInput.GetUp(OVRInput.Button.One) || Input.GetKey(KeyCode.UpArrow))
         {
             panelShow = !panelShow;
+            Logger_new lg = _player.GetComponent<Logger_new>();
+            if(panelShow){
+                lg.AddLine("UIPanel:show");
+            }else{
+                lg.AddLine("UIPanel:hide");
+            }
             panelActive(panelShow);
         }
     }
@@ -65,19 +81,26 @@ public class UIManager: MonoBehaviour
         GameObject canvasObject = new GameObject("Canvas");
         CanvasObj = canvasObject;
         _mainCanvas = canvasObject.AddComponent<Canvas>();
-        _mainCanvas.renderMode = RenderMode.WorldSpace;
-        //canvasObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        //canvasObject.AddComponent<GraphicRaycaster>();
+        _mainCanvas.renderMode = RenderMode.ScreenSpaceCamera; // Overlay; //WorldSpace;
+        Camera centerEye = GameObject.Find("UICamera").GetComponent<Camera>();
+        _mainCanvas.worldCamera = centerEye; 
+        _mainCanvas.planeDistance = 1;
+        canvasObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasObject.AddComponent<GraphicRaycaster>();
+        _mainCanvas.vertexColorAlwaysGammaSpace = true;
+        _mainCanvas.additionalShaderChannels = AdditionalCanvasShaderChannels.None;
         //canvasObject.rectTransform.width = 100;
         //canvasObject.rectTransform.height = 100;
-        canvasObject.transform.SetParent(transform, false);
+        canvasObject.transform.SetParent(null, false); //canvasObject.transform.SetParent(transform, false);
         RectTransform rectT = canvasObject.GetComponent<RectTransform>();
+        /*
         rectT.localScale = new Vector3(0.01f, 0.01f, 0.01f);
         rectT.localRotation = Quaternion.Euler(0, 0, 0);
         rectT.anchorMin = new Vector2(0, 0);
-        rectT.anchorMax = new Vector2(0, 0);
-        rectT.pivot = new Vector2(0.5f, 0.5f);
+        rectT.anchorMax = new Vector2(1, 1);
+        rectT.pivot = new Vector2(1.0f, 1.0f);
         rectT.position = new Vector3(0f, 0f, 5f);
+        */
 
         int UIlayer = LayerMask.NameToLayer("UI");
         canvasObject.layer = UIlayer;
@@ -87,8 +110,6 @@ public class UIManager: MonoBehaviour
 
     }
 
-
-/*
     private void CreateCrosshairUI()
     {
         GameObject crosshairObject = new GameObject("Crosshair");
@@ -103,7 +124,6 @@ public class UIManager: MonoBehaviour
         // Enable the crosshair by default
         _crosshairImage.enabled = true;
     }
-*/
 
     private void CreateMainUIPanel()
     {
@@ -111,12 +131,12 @@ public class UIManager: MonoBehaviour
         _uiPanel = panelObject.AddComponent<RectTransform>();
 
         // Set the panel to be at the top-left with a specific width and height
-        _uiPanel.anchorMin = new Vector2(0, 0);
-        _uiPanel.anchorMin = new Vector2(0, 0);
-        _uiPanel.position = new Vector3(50, 50, 0);
-        _uiPanel.pivot = new Vector2(0.5f, 0.5f);
-        _uiPanel.sizeDelta = new Vector2(100, 100);
-        _uiPanel.anchoredPosition = new Vector2(0, 0);
+        _uiPanel.anchorMin = new Vector2(1, 1);
+        _uiPanel.anchorMax = new Vector2(1, 1);
+        _uiPanel.pivot = new Vector2(1.0f, 1.0f);
+        _uiPanel.position = new Vector3(-300, -200, 0);
+        _uiPanel.sizeDelta = new Vector2(150, 150);
+        //_uiPanel.anchoredPosition = new Vector2(0, 0);
 
         // Add a background image to the UI Panel
         _uiPanelBackground = panelObject.AddComponent<Image>();
@@ -126,6 +146,9 @@ public class UIManager: MonoBehaviour
         _uiPanelBackground.type = Image.Type.Sliced;
 
         _uiPanel.SetParent(_mainCanvas.transform, false);
+        int UIlayer = LayerMask.NameToLayer("UI");
+        panelObject.layer = UIlayer;
+
     }
 
     private void CreateGameTimeUI()
@@ -157,7 +180,13 @@ public class UIManager: MonoBehaviour
     private void CreateBatteryCountUI()
     {
         _batteryCountText = CreateUIElement<TextMeshProUGUI>("BatteryCountText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(-55, -65), new Vector2(-5, -65), 20);
-        _batteryCountText.text = $"Batteries: {_player.Batteries}";
+        _batteryCountText.text = $"Batteries: {_player.carryingBatteries}";
+    }
+
+    private void CreateCarryingCoinUI()
+    {
+        _carryingCoinText = CreateUIElement<TextMeshProUGUI>("CarryingCoinText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(-55, -95), new Vector2(-5, -95), 20);
+        _carryingCoinText.text = $"Carrying Coins: {_player.carryingCoins}";
     }
 
 /*
@@ -206,6 +235,8 @@ public class UIManager: MonoBehaviour
         rt.pivot = new Vector2(0.0f, 0.5f); // Pivot set to the left-middle
         _energyBar.enabled = false; // Initially disabled, can be enabled when needed
         energyBarObject.transform.SetParent(_uiPanel, false); // Set the parent of the energy bar to the UIPanel
+        int UIlayer = LayerMask.NameToLayer("UI");
+        energyBarObject.layer = UIlayer;
     }
 
     private void CreateRoleColorIndicator()
@@ -306,6 +337,17 @@ public class UIManager: MonoBehaviour
         return button;
     }
 
+    private void CreateCollisionOverLay()
+    {
+        GameObject overlay = new GameObject("collisonOverLay");
+        _collisionOverlay = overlay.AddComponent<Image>();
+        _collisionOverlay.color = new Color(0,0,0,0);
+        
+        RectTransform col = _collisionOverlay.rectTransform;
+        Vector2 ImageSize = _mainCanvas.GetComponent<RectTransform>().sizeDelta;
+        col.sizeDelta = new Vector2 (ImageSize.x, ImageSize.y);
+        col.SetParent(_mainCanvas.transform, false);
+    }
 
     private void SetupUIElement(RectTransform rt, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax)
     {
@@ -321,15 +363,15 @@ public class UIManager: MonoBehaviour
     private void panelActive(bool panelState)
     {
         CanvasObj.SetActive(panelState);
-        if(panelState){
-            CanvasObj.transform.SetParent(transform, false);
-            RectTransform rectT = CanvasObj.GetComponent<RectTransform>();
-            rectT.localScale = new Vector3(0.01f, 0.01f, 0.01f); 
-            rectT.localRotation = Quaternion.Euler(0, 0, 0);
-            rectT.anchorMin = new Vector2(0, 0);
-            rectT.anchorMax = new Vector2(0, 0);
-            rectT.pivot = new Vector2(0.5f, 0.5f);
-            rectT.anchoredPosition = new Vector3(0f, 0f, 5f);
+    }
+
+    public void collideWall(bool hit)
+    {
+        if(hit)
+        {
+            _collisionOverlay.color = new Color(0,0,0,1);
+        }else{
+            _collisionOverlay.color = new Color(0,0,0,0);
         }
     }
 
@@ -355,6 +397,7 @@ public class UIManager: MonoBehaviour
     public void UpdateRoleDependentUI()
     {
         _batteryCountText.gameObject.SetActive(_player.currentRole == Role.Collector);
+        _carryingCoinText.gameObject.SetActive(_player.currentRole == Role.Collector);
         _energyBar.gameObject.SetActive(_player.currentRole == Role.Explorer);
         /*
         if (_player.currentRole == Role.Tactical)
@@ -394,9 +437,14 @@ public class UIManager: MonoBehaviour
         _coinsCollectedText.text = $"Coins: {_gameManager.CoinsCollected}";
     }
 
-    public void UpdateBatteryRecharge()
+    public void UpdateBatteryNumber()
     {
-        _batteryCountText.text = $"Batteries: {_player.Batteries}";
+        _batteryCountText.text = $"Batteries: {_player.carryingBatteries}";
+    }
+
+    public void UpdateCoinNumber()
+    {
+        _carryingCoinText.text = $"Carrying Coins: {_player.carryingCoins}";
     }
 
     public void UpdateRoleUI(Role newRole)
@@ -439,6 +487,31 @@ public class UIManager: MonoBehaviour
             // Debug.LogError("MainCanvas is null");
             InitializeMainCanvas();
         }
+
+        Logger_new lg = _player.GetComponent<Logger_new>();
+        lg.AddLine("TimeOver");
+        collideWall(true);
+        Vector2 anchorMin = new Vector2(0, 0);
+        Vector2 anchorMax = new Vector2(0, 0);
+        Vector2 offsetMin = new Vector2(0, 0);
+        Vector2 offsetMax = new Vector2(0, 0);
+
+        // Create the UI element with the specified values
+        _messages = CreateUIElement<TextMeshProUGUI>("Message", anchorMin, anchorMax, offsetMin, offsetMax, 36);
+        _messages.alignment = TextAlignmentOptions.Center;
+        _messages.text = $"Time Over!\nCollected coin: {_gameManager.CoinsCollected}";
+
+        // Set RectTransform properties
+        RectTransform rectTransform = _messages.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(600, 200);  // Adjust size as necessary
+        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.anchoredPosition = Vector2.zero;
+        RectTransform parentImage = GameObject.Find("collisonOverLay").GetComponent<RectTransform>();
+        rectTransform.SetParent(parentImage, false);
+
+        /*
        // Now create the "Trial Over" screen
         GameObject trialOverPanelObject = new GameObject("TrialOverPanel");
         Image trialOverPanel = trialOverPanelObject.AddComponent<Image>();
@@ -466,6 +539,7 @@ public class UIManager: MonoBehaviour
         trialOverText.alignment = TextAlignmentOptions.Center;
         trialOverText.enableAutoSizing = true; // Optional: Enable auto-sizing for the font
         trialOverText.rectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
+        */
     }
 
 }

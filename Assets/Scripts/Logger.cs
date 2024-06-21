@@ -89,7 +89,7 @@ public class Logger : Utility
 
             foreach (var item in FindObjectsOfType<Tracker>())
             {
-                LoggedObjects.Add(item);
+                 LoggedObjects.Add(item);
             }
 
             // Logger

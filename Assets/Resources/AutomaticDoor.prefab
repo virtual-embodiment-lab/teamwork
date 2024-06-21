@@ -68,6 +68,7 @@ MonoBehaviour:
   _audioClose:
     _clip: {fileID: 8300000, guid: da4908017771225449c1c70547a85530, type: 3}
     _volume: 0.7
+  OpenPlayer: 
 --- !u!114 &1329598324424374212
 MonoBehaviour:
   m_ObjectHideFlags: 0

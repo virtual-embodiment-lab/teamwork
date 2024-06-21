@@ -76,10 +76,11 @@ public class TrackedDataSource : Tracker
                     {
                         ovrRigRef = FindObjectOfType<OVRCameraRigRef>(true);
 
-                        Hand leftHandScript = ovrRigRef.gameObject.transform.Find("Hands/LeftHand").GetComponent<Hand>();
+                        // Hand leftHandScript = ovrRigRef.gameObject.transform.Find("Hands/LeftHand").GetComponent<Hand>();
+                        Hand leftHandScript = ovrRigRef.gameObject.transform.Find("OVRControllerHands/LeftControllerHand").GetComponent<Hand>();
                         //handVisualLeft.Hand = leftHandScript;
 
-                        Hand rightHandScript = ovrRigRef.gameObject.transform.Find("Hands/RightHand").GetComponent<Hand>();
+                        Hand rightHandScript = ovrRigRef.gameObject.transform.Find("OVRControllerHands/RightControllerHand").GetComponent<Hand>();
                         //handVisualRight.Hand = rightHandScript;
 
                         handVisualLeft.enabled = true;

@@ -34,10 +34,14 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public float CurrentEnergy => currentEnergy; // Expose current energy for the UI
     public float MaxEnergy => maxEnergy; // Expose max energy for the UI
-    public int Batteries { get; private set; } = MaxBatteries; // Expose batteries for the UI
-    public const int MaxBatteries = 10;
+    public int carryingBatteries { get; private set; } = 0; // Expose batteries for the UI
+    public int carryingCoins { get; private set; } = 0;
+    //[SerializeField] private int carryingBatteries = 3;
+    public const int MaxBatteries = 3;
 
     private UIManager uiManager; // Reference to the UIManager
+    private Logger_new lg;
+
 
     private void Start()
     {
@@ -47,7 +51,7 @@ public class Player : RealtimeComponent<PlayerModel>
         gameManager = FindObjectOfType<GameManager>();
         uiManager = GetComponent<UIManager>();
         roleText = GetComponentInChildren<TMP_Text>();
-        Debug.Log(roleText);
+        lg = GetComponent<Logger_new>();
 
         if (realtimeView.isOwnedLocallyInHierarchy)
         {
@@ -115,12 +119,12 @@ public class Player : RealtimeComponent<PlayerModel>
         switch (currentRole)
         {
             case Role.Collector:
-                UpdateBatteryRecharge();
+                //UpdateBatteryRecharge();
                 SetCollectorVisibility();
                 HandleBatteryDrop();
                 break;
             case Role.Explorer:
-                HandleEnergyConsumption();
+                //HandleEnergyConsumption();
                 HideCollectorLayer();
                 break;
             case Role.Tactical:
@@ -150,12 +154,14 @@ public class Player : RealtimeComponent<PlayerModel>
             case Role.Explorer:
                 PickUpBattery(other);
                 break;
+            case Role.Collector:
+                boxEvents(other);
+                break;
             default:
                 Debug.Log("collide player");
                 break;
         }
     }
-
 
     private void OnTriggerExit(Collider other)
     {
@@ -175,7 +181,6 @@ public class Player : RealtimeComponent<PlayerModel>
             //uiManager.SetCrosshairVisibility(Cursor.lockState == CursorLockMode.Locked);
         }
     }
-
 
     private void HandleMovement()
     {
@@ -222,7 +227,7 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-           //playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+            //playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
@@ -241,39 +246,42 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void PickUpBattery(Collider other)
     {
-        if (other.CompareTag("Battery"))
+        if (other.CompareTag("Battery") || (other.gameObject.name == "batteryBox"))
         {
             // Assuming batteries restore a fixed amount of energy
             float energyRestored = 10f*maxEnergy/20f; // Adds 10 secs. Adjust this value as needed
             currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
-
-            // Assuming the battery should be destroyed after being picked up
-            Destroy(other.gameObject);
+            lg.AddLine("Battery:pickUp");
+            
+            if (other.CompareTag("Battery"))
+            {
+                // Assuming the battery should be destroyed after being picked up
+                Destroy(other.gameObject);
+            }
 
             Debug.Log("Picked up a battery. Energy restored.");
         }
     }
 
-    private void HandleEnergyConsumption()
+    public void HandleEnergyConsumption(Player player)
     {
+        /*
         // Determine if the player is moving
         isMoving = characterController.velocity.magnitude > 0;
-
-        // energy change based on time instead of movement
-        currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/45.0f, 1);
         
-        /*
         // If moving, deplete energy
         if (isMoving)
         {
-            float energyRatio = currentEnergy / maxEnergy;
-            float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
+            // energy change based on time instead of movement
+            currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/45.0f, 1);
+        
+            //float energyRatio = currentEnergy / maxEnergy;
+            //float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
 
-            currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime * scaledSpeed, 1); // Keep energy above 0 to avoid division by zero
+            //currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime * scaledSpeed, 1); // Keep energy above 0 to avoid division by zero
         }
 
         // Handle energy reaching zero if needed
-        */
 
         if (currentEnergy <= 5)
         {
@@ -286,18 +294,55 @@ public class Player : RealtimeComponent<PlayerModel>
             float currentAcceleration = playerCon.Acceleration;
             playerCon.Acceleration = currentEnergy/500f;
         }
+        */
+        player.currentEnergy -= 33;
+
+    }
+
+    private void boxEvents(Collider other)
+    {
+        if (other.gameObject.name == "coinBox")
+        {
+            carryingCoins = 0;
+
+            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+            float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
+            playerCon.Acceleration = 0.1f - carryingLoad;
+
+            lg.AddLine("dropCoins");
+            lg.AddLine("carryingCoins:0");
+        }
+        else if (other.gameObject.name == "batteryBox")
+        {
+            if (carryingBatteries < MaxBatteries)
+            {
+                carryingBatteries ++;
+
+                OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+                float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
+                playerCon.Acceleration = 0.1f - carryingLoad;
+
+                lg.AddLine("pickUpBattery");
+                string line = $"carryingBatteries:{carryingBatteries}";
+                lg.AddLine(line);
+            }
+        }
     }
 
     private void HandleBatteryDrop()
     {
-        if (currentRole == Role.Collector && (Input.GetKey(KeyCode.B) || OVRInput.GetUp(OVRInput.RawButton.X)) && Batteries > 1)
+        if (currentRole == Role.Collector && (Input.GetKey(KeyCode.B) || OVRInput.GetUp(OVRInput.RawButton.X)) && carryingBatteries >= 1)
         {
-            Batteries--;
-
+            carryingBatteries--;
+            lg.AddLine("Battery:drop");
             Vector3 spawnPosition = transform.position + transform.forward * 1.5f;
             Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
 
-           uiManager.UpdateBatteryRecharge();
+            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+            float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
+            playerCon.Acceleration = 0.1f - carryingLoad;
+
+           //uiManager.UpdateBatteryRecharge();
         }
     }
 
@@ -330,6 +375,14 @@ public class Player : RealtimeComponent<PlayerModel>
         
     }
 
+    public void collectCoin()
+    {
+        carryingCoins ++;
+        OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
+        float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
+        playerCon.Acceleration = 0.1f - carryingLoad;
+    }
+    
     public string GetFormattedGameTime()
     {
         return gameManager != null ? gameManager.GetFormattedGameTime() : "00:00";
@@ -382,14 +435,14 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void UpdateBatteryRecharge()
     {
-        if (Batteries < MaxBatteries)
+        if (carryingBatteries < MaxBatteries)
         {
             batteryTimer += Time.deltaTime;
             if (batteryTimer >= batteryRechargeTime)
             {
-                Batteries++;
+                carryingBatteries++;
                 batteryTimer = 0;
-                uiManager.UpdateBatteryRecharge();
+                uiManager.UpdateBatteryNumber();
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using Normal.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.XR.Haptics;
 
 /*
  * Coin instance manager
@@ -24,6 +25,8 @@ public class Coin : RealtimeComponent<CoinModel>
     [SerializeField] GameObject tmp = null;
     [SerializeField] private string shapename = null;
     private GameManager gameManager;
+    private Logger_new gl;
+    private Transform thisTransform;
 
     public string ShapeName
     {
@@ -33,6 +36,7 @@ public class Coin : RealtimeComponent<CoinModel>
     protected void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        thisTransform = transform;
     }
 
     void Update()
@@ -42,9 +46,16 @@ public class Coin : RealtimeComponent<CoinModel>
 
     private void OnTriggerEnter(Collider other)
     {
+        //if (!realtimeView.isOwnedLocallyInHierarchy) return;
+        RealtimeView realtimeView = other.GetComponent<RealtimeView>();
+        if (!realtimeView.isOwnedLocallySelf) return;
+
+        gl = other.GetComponent<Logger_new>();
         Debug.Log(other);
-        if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Explorer))
-            onFound();
+        if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Explorer)){
+            if (other.GetComponent<Player>().CurrentEnergy >= 33)
+                onFound(other.GetComponent<Player>());
+        }
         if (other.gameObject.GetComponent<Player>().currentRole.Equals(Role.Collector) && model.found && !model.collected)
         {
             Debug.Log(thisShape);
@@ -56,15 +67,21 @@ public class Coin : RealtimeComponent<CoinModel>
         }
     }
 
-    public void onFound()
+    public void onFound(Player player)
     {
-        Debug.Log("touch");
         if (currentShapeObject == null)
         {
-            model.found = true;
+            if(player != null)
+            {
+                gl.AddLine("coin:activated");
+                model.found = true;
+                player.HandleEnergyConsumption(player);
+            }
+
             xObject.transform.GetChild(0).GetComponent<Renderer>().enabled = false;
             xObject.transform.GetChild(1).GetComponent<Renderer>().enabled = false;
             xObject.transform.GetChild(2).GetComponent<Renderer>().enabled = false;
+
             switch (thisShape)
             {
                 case CoinShape.Triangle:
@@ -85,23 +102,48 @@ public class Coin : RealtimeComponent<CoinModel>
 
     private void SetShape(GameObject prefab)
     {
-        currentShapeObject = Realtime.Instantiate(prefab.name, new Vector3(0, 0, 0), Quaternion.identity, new Realtime.InstantiateOptions { });
-        currentShapeObject.transform.SetParent(transform, false);
+        //currentShapeObject = Realtime.Instantiate(prefab.name, new Vector3(0, 0, 0), Quaternion.identity, new Realtime.InstantiateOptions {});
+        currentShapeObject = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
+        currentShapeObject.transform.SetParent(thisTransform, false);
     }
 
-    public void onCollected(Player player)
+    public void onCollected(Player player, bool me = true)
     {
-        model.collected = true;
-        player.targetCoin = nextShape;
-        gameManager.IncrementCoinsCollected();
+        if(me)
+        {
+            model.collected = true;
+            gameManager.IncrementCoinsCollected();
+            player.collectCoin();
+            gl.AddLine("coin:collected");
+            player.targetCoin = nextShape;
+        }
+
+        GameObject ShapeObject;
+        foreach (Transform child in transform)
+        {
+            // Exclude the child with the constant name "x"
+            if (child.name != "X") {
+                ShapeObject = child.gameObject;
+                Renderer childRenderer = ShapeObject.GetComponent<Renderer>();
+                if (childRenderer != null)
+                    childRenderer.enabled = false;
+            }
+        }
+
+        /*
         if (currentShapeObject != null)
         {
             Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
             if (childRenderer != null)
                 childRenderer.enabled = false;
         }
-        _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
-        StartCoroutine(SetCoinTextAfterInstantiation(nextShape));
+        */
+
+        if(me)
+        {
+            _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
+            StartCoroutine(SetCoinTextAfterInstantiation(nextShape));
+        }
     }
 
     private IEnumerator SetCoinTextAfterInstantiation(CoinShape shape)
@@ -118,13 +160,15 @@ public class Coin : RealtimeComponent<CoinModel>
         {
             previousModel.foundDidChange -= FoundDidChange;
             previousModel.collectedDidChange -= CollectedDidChange;
+            previousModel.parentIDDidChange -= parentIDDidChange;
         }
 
         if (currentModel != null)
         {
             currentModel.foundDidChange += FoundDidChange;
             currentModel.collectedDidChange += CollectedDidChange;
-            UpdateVisualState();
+            //UpdateVisualState();
+            currentModel.parentIDDidChange += parentIDDidChange;
         }
     }
 
@@ -133,10 +177,25 @@ public class Coin : RealtimeComponent<CoinModel>
         UpdateVisualState();
     }
 
+    private void parentIDDidChange(CoinModel model, int value)
+    {
+        if (model.parentID == -1) {
+            transform.SetParent(null);
+        } else {
+            transform.SetParent(this.transform);
+            GameObject test = GameObject.Find(model.parentID.ToString());
+            Transform newParent = GameObject.Find(model.parentID.ToString()).transform;
+            if (newParent != null) {
+                transform.SetParent(newParent);
+            }
+        }    
+    }
+
     private void CollectedDidChange(CoinModel model, bool collected)
     {
         if (collected)
         {
+            onCollected(null, false);
             //Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
             //if (childRenderer != null)
             //    childRenderer.enabled = false;
@@ -147,8 +206,9 @@ public class Coin : RealtimeComponent<CoinModel>
     {
         if (model != null)
         {
-            if (model.collected)
+            if (model.found)
             {
+                onFound(null);
                 //Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
                 //if (childRenderer != null)
                 //    childRenderer.enabled = false;
