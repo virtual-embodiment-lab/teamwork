@@ -2,7 +2,9 @@ using Normal.Realtime;
 using UltimateXR.Animation.Interpolation;
 using UltimateXR.Audio;
 using UnityEngine;
-
+using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 
 public class AutomaticDoor : RealtimeComponent<DoorModel>
 {
@@ -25,6 +27,7 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
 
     public float OpenValue { get; private set; }
     public bool IsOpen { get; private set; }
+    public List<int> OpenPlayer = new List<int>();
 
     public void OpenDoor()
     {
@@ -37,23 +40,42 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
         {
             // Unregister from events on the previous model
             previousModel.isOpenDidChange -= IsOpenDidChange;
+            previousModel.openerDidChange -= OpenerDidChange;
         }
 
         if (currentModel != null)
         {
-            IsOpen = currentModel.isOpen;
-            OpenValue = currentModel.isOpen ? 1.0f : 0.0f;
+            //IsOpen = currentModel.isOpen;
+            //OpenValue = currentModel.isOpen ? 1.0f : 0.0f;
 
             // Register for events so we'll know if the isOpen property changes later
             currentModel.isOpenDidChange += IsOpenDidChange;
+            previousModel.openerDidChange += OpenerDidChange;
         }
     }
 
     private void IsOpenDidChange(DoorModel model, bool value)
     {
         // Update the door's state when the model changes
+        Debug.Log("isOpen is changed");
         IsOpen = value;
         OpenValue = value ? 1.0f : 0.0f;
+    }
+
+   private void OpenerDidChange(DoorModel model, int value)
+    {
+        if (value < 0)
+        {
+            if (OpenPlayer.Contains(math.abs(value)))
+            {
+                OpenPlayer.Remove(math.abs(value));
+            }
+        }else{
+            if (!OpenPlayer.Contains(value))
+            {
+                OpenPlayer.Add(value);
+            }
+        }
     }
 
     protected void Awake()
@@ -83,6 +105,7 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
             // Check distance to door
             float distance = Vector3.Distance(playerPosition, FloorCenter.position);
 
+            // Door is closed 
             if (distance < _openDistance && Mathf.Approximately(OpenValue, 0.0f))
             {
                 _openDelayTimer += Time.deltaTime;
@@ -92,16 +115,29 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
                     // Within opening distance, door completely closed and opening allowed: open door
                     IsOpen = true;
                     model.isOpen = true;  // Make sure to update the model for Normcore synchronization
+                    OpenPlayer.Add(localAvatarClientID);
+                    model.opener = localAvatarClientID;
                     _audioOpen.Play(FloorCenter.position);
                 }
             }
             else if (distance > _closeDistance && Mathf.Approximately(OpenValue, 1.0f))
             {
-                // Over closing distance and door completely open: close door
-                IsOpen = false;
-                model.isOpen = false; // Make sure to update the model for Normcore synchronization
-                _openDelayTimer = 0.0f;
-                _audioClose.Play(FloorCenter.position);
+                if (OpenPlayer.Contains(localAvatarClientID))
+                {
+                    OpenPlayer.Remove(localAvatarClientID);
+                    model.opener = -localAvatarClientID;
+
+                    // If there are other door open plyers
+                    if(OpenPlayer.Count == 0)
+                    {
+                        // Over closing distance and door completely open: close door
+                        IsOpen = false;
+                        model.isOpen = false; // Make sure to update the model for Normcore synchronization
+                        _openDelayTimer = 0.0f;
+                        _audioClose.Play(FloorCenter.position);
+                        Debug.Log("close");
+                    }
+                }
             }
 
             // Update timer and perform interpolation

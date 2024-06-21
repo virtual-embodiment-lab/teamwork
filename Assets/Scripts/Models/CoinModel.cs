@@ -8,4 +8,7 @@ public partial class CoinModel
 
     [RealtimeProperty(2, true, true)]
     private bool _collected;
+
+    [RealtimeProperty(3, true, true)]
+    private int _parentID;
 }
