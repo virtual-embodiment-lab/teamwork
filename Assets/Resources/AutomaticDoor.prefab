@@ -60,6 +60,7 @@ MonoBehaviour:
   _openDurationSeconds: 0.8
   _openDistance: 1.85
   _closeDistance: 2
+  _playerFlag: 0
   _openEasing: 10
   _closeEasing: 9
   _audioOpen:

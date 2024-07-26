@@ -22,7 +22,9 @@ public class contorllerSwitcher : MonoBehaviour
             if (realtimeView.isOwnedLocallySelf)
             {
                 _player = other.GetComponent<Player>();
-                switchMode(true);        
+                if (_player.currentRole == Role.Tactical){
+                   switchMode(true);
+                }
             }
         }        
     }
