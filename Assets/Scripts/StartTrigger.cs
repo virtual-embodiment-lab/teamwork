@@ -18,6 +18,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
 
     private void Start()
     {
+        door = transform.parent.gameObject;
         started = false;
     }
 
@@ -46,7 +47,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
         if (door != null)
         {
             //door.SetActive(!started);
-            door.GetComponent<AutomaticDoor>().adjustOpeningDistance(1.85f);
+            door.GetComponent<AutomaticDoor>().distanceChange(1.85f);
         }
         started = true;
     }
@@ -104,6 +105,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     {
         model.started = true;
         started = true;
+        door.GetComponent<AutomaticDoor>().distanceChange(1.85f);
         OnGameStarted?.Invoke();
     }
 

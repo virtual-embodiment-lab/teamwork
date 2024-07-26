@@ -20,6 +20,7 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
     [SerializeField] private float _openDurationSeconds = 0.8f;
     [SerializeField] private float _openDistance = 1.5f;
     [SerializeField] private float _closeDistance = 2.0f;
+    [SerializeField] private Role _playerFlag;
     [SerializeField] private UxrEasing _openEasing = UxrEasing.EaseOutCubic;
     [SerializeField] private UxrEasing _closeEasing = UxrEasing.EaseInCubic;
     [SerializeField] private UxrAudioSample _audioOpen;
@@ -78,6 +79,8 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
         }
     }
 
+    public void distanceChange(float value) => _openDistance = value;
+
     protected void Awake()
     {
         _leftStartLocalPosition = _leftDoor.localPosition;
@@ -102,22 +105,36 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
             // Use the position of the OVRPlayerController instead of UxrAvatar
             Vector3 playerPosition = _ovrPlayerController.transform.position;
 
+
             // Check distance to door
             float distance = Vector3.Distance(playerPosition, FloorCenter.position);
 
             // Door is closed 
             if (distance < _openDistance && Mathf.Approximately(OpenValue, 0.0f))
             {
-                _openDelayTimer += Time.deltaTime;
 
-                if (_openDelayTimer > _openDelaySeconds && IsOpeningAllowed)
+                GameObject[] avatars = GameObject.FindGameObjectsWithTag("Player");
+                foreach (GameObject avatar in avatars)
                 {
-                    // Within opening distance, door completely closed and opening allowed: open door
-                    IsOpen = true;
-                    model.isOpen = true;  // Make sure to update the model for Normcore synchronization
-                    OpenPlayer.Add(localAvatarClientID);
-                    model.opener = localAvatarClientID;
-                    _audioOpen.Play(FloorCenter.position);
+                    RealtimeView realtimeView = avatar.GetComponent<RealtimeView>();
+
+                    if (realtimeView != null && realtimeView.isOwnedLocallySelf)
+                    {
+                        if (_playerFlag == Role.None || avatar.GetComponent<Player>().currentRole == _playerFlag)
+                        {
+                            _openDelayTimer += Time.deltaTime;
+
+                            if (_openDelayTimer > _openDelaySeconds && IsOpeningAllowed)
+                            {
+                                // Within opening distance, door completely closed and opening allowed: open door
+                                IsOpen = true;
+                                model.isOpen = true;  // Make sure to update the model for Normcore synchronization
+                                OpenPlayer.Add(localAvatarClientID);
+                                model.opener = localAvatarClientID;
+                                _audioOpen.Play(FloorCenter.position);
+                            }
+                        }
+                    }
                 }
             }
             else if (distance > _closeDistance && Mathf.Approximately(OpenValue, 1.0f))
@@ -156,9 +173,4 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
     private float _openDelayTimer;
     private Vector3 _leftStartLocalPosition;
     private Vector3 _rightStartLocalPosition;
-
-    public void adjustOpeningDistance (float value)
-    {
-        _openDistance = value;
-    }
 }
