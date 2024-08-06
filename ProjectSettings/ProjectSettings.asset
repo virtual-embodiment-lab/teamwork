@@ -140,6 +140,9 @@ PlayerSettings:
   preloadedAssets:
   - {fileID: 11400000, guid: eb662e683dacd42c0bec3e6eea33344e, type: 2}
   - {fileID: 0}
+  - {fileID: -1020460590828423152, guid: 70317ad2909554beea54c9d2780d175a, type: 2}
+  - {fileID: 11400000, guid: 686da33abe0a4424f8ebd98f64c6f98d, type: 2}
+  - {fileID: 11400000, guid: 3827a312b91af4917ab517b146674f92, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -933,11 +936,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: ef427ef6-3aef-4971-a352-4451dc2999ce
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: teamwork
+  organizationId: suryasharma04
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}

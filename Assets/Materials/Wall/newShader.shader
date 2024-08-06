@@ -1,15 +1,9 @@
-Shader "Unlit/stripe"
+Shader "Unlit/newShader"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Tiling ("Tiling", Range(1, 500)) = 10
-        _Direction ("Direction", Range(0, 1)) = 0
-
-        _Brightness ("Brightness", Range(0, 2)) = 1 //*The intensity of the brightness*//
-        _BlendFactor ("Blend Factor", Range(0, 1)) = 0.5  //**//
-
-        } 
+    }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
@@ -50,30 +44,13 @@ Shader "Unlit/stripe"
                 return o;
             }
 
-            int _Tiling;
-
-            float _Brightness; //* Added brightness variable *//
-            float _BlendFactor; //* Added blend factor variable*//
-
-
-            float _Direction;
             fixed4 frag (v2f i) : SV_Target
             {
-                float pos = lerp(i.uv.x, i.uv.y, _Direction) * _Tiling;
-                fixed value = floor(frac(pos) + 0.5);
-
-                //* Get the texture color*//
-                fixed4 texColor = tex2D(_MainTex, i.uv);
-
-                //*Blend the texture color and the stripe color*//
-                fixed4 stripeColor = value;
-                fixed4 blendedColor = lerp(texColor, stripeColor, _BlendFactor);
-
-                // Apply brightness
-                blendedColor *= _Brightness;
-
-
-                return blendedColor;
+                // sample the texture
+                fixed4 col = tex2D(_MainTex, i.uv);
+                // apply fog
+                UNITY_APPLY_FOG(i.fogCoord, col);
+                return col;
             }
             ENDCG
         }
