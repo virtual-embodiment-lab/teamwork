@@ -51,6 +51,7 @@ MonoBehaviour:
   assignedSpawnPoint: {fileID: 0}
   _realtime: {fileID: 0}
   _ovrPlayerController: {fileID: 0}
+  _xrOrigin: {fileID: 0}
   _floorCenter: {fileID: 4208395753457390584}
   _leftDoor: {fileID: 5915442689316446048}
   _rightDoor: {fileID: 1299376020345378466}

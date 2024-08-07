@@ -11,6 +11,7 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
     [SerializeField] private SpawnPoint assignedSpawnPoint;
     [SerializeField] private Realtime _realtime;
     [SerializeField] private OVRPlayerController _ovrPlayerController;
+    [SerializeField] private Unity.XR.CoreUtils.XROrigin _xrOrigin;
     [SerializeField] private Transform _floorCenter;
     [SerializeField] private Transform _leftDoor;
     [SerializeField] private Transform _rightDoor;
@@ -89,7 +90,7 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
 
     private void Update()
     {
-        if (_realtime == null || _ovrPlayerController == null)
+        if (_realtime == null || _xrOrigin == null)
         {
             Debug.LogWarning("Realtime or OVRPlayerController component is not assigned to the AutomaticDoor");
             return;
@@ -103,7 +104,7 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
         if (isAvatarAllowedThroughDoor)
         {
             // Use the position of the OVRPlayerController instead of UxrAvatar
-            Vector3 playerPosition = _ovrPlayerController.transform.position;
+            Vector3 playerPosition = _xrOrigin.transform.position;
 
 
             // Check distance to door
