@@ -13,6 +13,9 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
     [SerializeField] private int totalPlayers = 0;
     [SerializeField] private int playersInTrigger = 0;
 
+    //*total players to start the game:*//
+    [SerializeField] private int requiredPlayers = 3; 
+
     private void Start()
     {
         door = transform.parent.gameObject;
@@ -88,6 +91,10 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
 
         // Check if all players are within the trigger
         if (playersInTrigger < totalPlayers)
+            return false;
+
+        //*The number of players should be equal to the 3*//
+        if (playersInTrigger != requiredPlayers)
             return false;
 
         // All conditions are met
