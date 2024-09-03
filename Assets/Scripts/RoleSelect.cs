@@ -12,6 +12,12 @@ public class RoleSelect : MonoBehaviour
     [SerializeField] private Material tacticalMaterial;
     [SerializeField] private Material explorerMaterial;
 
+    [Header("Instruction")]
+    [SerializeField] private Texture NoneT;
+    [SerializeField] private Texture ExplorerT;
+    [SerializeField] private Texture CollectorT;
+    [SerializeField] private Texture TacticalT;
+
     private Dictionary<Collider, Role> triggerRoles = new Dictionary<Collider, Role>();
     private Dictionary<GameObject, Role> playerRoles = new Dictionary<GameObject, Role>();
     private HashSet<Role> takenRoles = new HashSet<Role>();
@@ -81,6 +87,39 @@ public class RoleSelect : MonoBehaviour
 
             Player pl = player.GetComponent<Player>();
             player.GetComponent<Logger_new>().AddLine("SwitchRole:"+ pl.currentRole.ToString());
+
+            RealtimeView realtimeView = player.GetComponent<RealtimeView>();
+
+            if (realtimeView != null && realtimeView.isOwnedLocallySelf)
+            {
+                Renderer objRenderer = GameObject.Find("Instruction").GetComponent<Renderer>();
+                Texture newTexture;
+                switch (pl.currentRole)
+                {
+                    case Role.None:
+                        newTexture = NoneT;
+                        break;
+                    case Role.Explorer:
+                        newTexture = ExplorerT;
+                        break;
+                    case Role.Collector:
+                        newTexture = CollectorT;
+                        break;
+                    case Role.Tactical:
+                        newTexture = TacticalT;
+                        break;
+                    default:
+                        newTexture = NoneT;
+                        Debug.Log("Invalid option selected.");
+                        break;
+                }
+
+                if (objRenderer != null && newTexture != null)
+                {
+                    // Change the main texture of the material
+                    objRenderer.material.mainTexture = newTexture;
+                }
+            }
         }
 
     }

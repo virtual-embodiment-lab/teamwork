@@ -28,7 +28,7 @@ public class UIManager: MonoBehaviour
     private RectTransform _uiPanel;
     private Canvas _mainCanvas;
     private GameObject CanvasObj;
-    private bool panelShow = true;
+    private bool panelShow = false;
 
     public void Initialize(Player player, Sprite crosshairSprite, GameManager gameManager)
     {
