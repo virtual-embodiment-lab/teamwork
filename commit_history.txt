@@ -1,0 +1,95 @@
+ea9f7ddb - m-muro610, 69 minutes ago : instruction panel 0903
+3b1b77f7 - m-muro610, 6 hours ago : minor bug fix 0903
+8b05916f - m-muro610, 6 hours ago : minor bug fix 0903
+9947708e - m-muro610, 6 hours ago : minor bug fix 0903
+5c3b3d1a - m-muro610, 4 weeks ago : Merge branch 'main' into miki_m
+bbd59be7 - m-muro610, 4 weeks ago : wall fix
+9d55ae52 - m-muro610, 4 weeks ago : wall fix
+2eb0f208 - m-muro610, 6 weeks ago : Merge pull request #20 from virtual-embodiment-lab/motion-branch
+79bcdfda - Surya Sharma, 6 weeks ago : currentMaximizeLayout.dwlt
+c41f8ae3 - Surya Sharma, 6 weeks ago : Merge remote-tracking branch 'origin/main' into motion-branch
+79345120 - m-muro610, 6 weeks ago : Merge pull request #19 from virtual-embodiment-lab/miki_m
+999421c2 - m-muro610, 6 weeks ago : Autodoors fix
+f080cb81 - m-muro610, 6 weeks ago : Autodoors fix
+6ed532e9 - Surya Sharma, 6 weeks ago : Merge remote-tracking branch 'origin/main' into motion-branch
+695e895a - Surya Sharma, 7 weeks ago : module files
+db3d6c9f - m-muro610, 8 weeks ago : Merge pull request #18 from virtual-embodiment-lab/miki_m
+38faa24b - m-muro610, 8 weeks ago : Merge branch 'main' into miki_m
+5bb7638a - m-muro610, 8 weeks ago : stripe wall and drone
+8356191a - m-muro610, 8 weeks ago : Merge pull request #17 from virtual-embodiment-lab/motion-branch
+57af9d49 - Surya Sharma, 8 weeks ago : motion-branch
+d6addc5c - m-muro610, 2 months ago : Merge pull request #16 from virtual-embodiment-lab/miki_m
+2c04104a - m-muro610, 2 months ago : 0621
+274b23a4 - m-muro610, 3 months ago : Update README.md
+e06f55be - m-muro610, 3 months ago : Update README.md
+e0c188b4 - m-muro610, 3 months ago : Update README.md
+1679938b - m-muro610, 3 months ago : Update README.md
+e6021a46 - m-muro610, 3 months ago : Merge pull request #15 from virtual-embodiment-lab/miki_m
+164ea4e6 - m-muro610, 3 months ago : Merge branch 'miki_m' of github.com:virtual-embodiment-lab/teamwork into miki_m
+cc7d6679 - m-muro610, 3 months ago : 0527
+8f5b34b7 - m-muro610, 3 months ago : Merge pull request #14 from virtual-embodiment-lab/miki_m
+902cd64b - m-muro610, 3 months ago : Merge branch 'main' into miki_m
+f899ff3c - m-muro610, 3 months ago : Update README.md
+2e52a08c - m-muro610, 3 months ago : 0527
+afbe6edd - m-muro610, 3 months ago : Update README.md
+cd19a7fb - m-muro610, 3 months ago : Update README.md
+ff1ff073 - m-muro610, 3 months ago : Update README.md
+9be737a8 - m-muro610, 4 months ago : 0516
+d98e9013 - m-muro610, 4 months ago : merge role selection
+fc3872c5 - m-muro610, 4 months ago : Merge branch 'test' into miki_m
+644f51e4 - m-muro610, 4 months ago : tactical_test
+da8f1c8f - m-muro610, 4 months ago : tactical_test
+1e0b5dd9 - m-muro610, 4 months ago : Delete Assets/.DS_Store
+bf26fbef - m-muro610, 4 months ago : Delete .DS_Store
+e8eae034 - m-muro610, 4 months ago : Delete TacticalView directory
+8a44046d - Miki Matsumuro, 4 months ago : 0430_tactical_test
+8c91a045 - Miki Matsumuro, 4 months ago : 0429
+305924c8 - Miki Matsumuro, 4 months ago : test_commmit
+41aa7db0 - m-muro610, 5 months ago : Merge pull request #9 from virtual-embodiment-lab/Kaylah
+c8b02886 - kaylahnicholson, 5 months ago : Add files via upload
+f02e37f7 - Miki Matsumuro, 5 months ago : 0411
+6e5e7b48 - Miki Matsumuro, 5 months ago : 0411
+8bf30922 - Miki Matsumuro, 5 months ago : 0411
+b31ecdea - Jonathan Segal, 6 months ago : vellib link
+33392cf9 - Jonathan Segal, 6 months ago : update readme
+61a7d318 - Jonathan Segal, 6 months ago : Write out ReadMe
+44fbe709 - Jonathan Segal, 7 months ago : version updates
+2217cf72 - Jonathan, 9 months ago : Merge pull request #8 from virtual-embodiment-lab/Fuyu
+eea0d8ab - Fuyu Wang, 10 months ago : Modified the file RoleSelect.cs and fixed some role syncing problems. Now users can select their roles before other users logging into the game.
+4e8c8131 - Jonathan Segal, 10 months ago : updates
+06f16002 - Jonathan Segal, 10 months ago : update
+d16e1b2a - Jonathan, 10 months ago : Merge pull request #7 from virtual-embodiment-lab/Networking-bugs
+e3419ebb - Jonathan Segal, 10 months ago : Merge branch 'Networking-bugs' of https://github.com/virtual-embodiment-lab/teamwork into Networking-bugs
+10698fce - Fuyu Wang, 10 months ago : Network bug fix: Users can see their teammate's role.
+89389c49 - Jonathan, 10 months ago : Merge pull request #5 from virtual-embodiment-lab/Collector-Pickup
+b119f86e - Jonathan Segal, 10 months ago : Merge branch 'main' into Collector-Pickup
+657f7746 - Jonathan, 10 months ago : Merge pull request #6 from virtual-embodiment-lab/Networking-bugs
+b9e713c6 - Jonathan Segal, 10 months ago : Merge branch 'main' into Networking-bugs
+82c6b086 - Jonathan, 10 months ago : Merge pull request #4 from virtual-embodiment-lab/Coin-Shape
+d4cf34ad - Jonathan, 10 months ago : Merge pull request #3 from virtual-embodiment-lab/Visibility
+dbf7107e - Jonathan, 10 months ago : Merge pull request #2 from virtual-embodiment-lab/explorer_battery
+0e6f1ad9 - Kashmala Arif, 10 months ago : Visibility update
+8e5d548c - Jenny Chen, 10 months ago : shape prefab
+681290ae - ms3737, 10 months ago : Finished collector pickup
+9824e0e2 - Fuyu Wang, 10 months ago : Now all users can see the end trial UI when time is up
+492dfe8b - Jonathan Segal, 10 months ago : player role
+fe42a98d - Fuyu Wang, 10 months ago : Merge branch 'Networking-bugs' of https://github.com/virtual-embodiment-lab/teamwork into Networking-bugs
+3171a92b - Fuyu Wang, 10 months ago : ---
+c902ab43 - Jonathan Segal, 10 months ago : role sync
+9e2a37ef - Yuqing Wu, 10 months ago : explorer battery
+9bb2166a - Fuyu Wang, 10 months ago : End screen for a single player
+58491489 - Jonathan Segal, 10 months ago : update
+80085927 - Jonathan Segal, 10 months ago : update
+9b072322 - Jonathan Segal, 10 months ago : update
+5cc66fee - Jonathan Segal, 10 months ago : update
+3a1532d6 - Jonathan Segal, 10 months ago : update
+65797e28 - Jonathan Segal, 10 months ago : update
+f522ad74 - Jonathan Segal, 10 months ago : update
+8ad17f91 - Jonathan Segal, 10 months ago : update
+2cdea06f - Jonathan Segal, 10 months ago : update
+e07c2570 - Jonathan, 10 months ago : Merge pull request #1 from virtual-embodiment-lab/Jonathan
+03adf4de - Jonathan Segal, 10 months ago : updates
+e4bca998 - Jonathan Segal, 11 months ago : Merge branch 'main' into Jonathan
+786f5200 - Jonathan Segal, 11 months ago : Init
+e1b388e9 - Jonathan, 11 months ago : Update README.md
+39f34e6f - Jonathan Segal, 11 months ago : init

@@ -94,8 +94,9 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
             return false;
 
         //*The number of players should be equal to the 3*//
-        //if (playersInTrigger != requiredPlayers)
-        //    return false;
+        // if (playersInTrigger != requiredPlayers)
+        //     return false;
+
 
         // All conditions are met
         return true;
