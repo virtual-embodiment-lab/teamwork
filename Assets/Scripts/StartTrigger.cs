@@ -97,6 +97,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
         // if (playersInTrigger != requiredPlayers)
         //     return false;
 
+
         // All conditions are met
         return true;
     }
