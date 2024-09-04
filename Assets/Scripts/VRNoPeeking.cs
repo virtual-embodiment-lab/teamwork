@@ -26,8 +26,8 @@ public class VRNoPeeking : MonoBehaviour
             if(!isCameraFadedOut)
             {
                 isCameraFadedOut = true;
-                //avatarController.EnableLinearMovement = false;
-                //avatarController.EnableRotation = false;
+                avatarController.EnableLinearMovement = false;
+                avatarController.EnableRotation = false;
 
                 StartCoroutine(FadeCamera(true, 1f));
                 //CameraFade(1f);
@@ -43,8 +43,8 @@ public class VRNoPeeking : MonoBehaviour
             if(dist < threshold)
             {
                 isCameraFadedOut = false;
-                //avatarController.EnableLinearMovement = true;
-                //avatarController.EnableRotation = true;
+                avatarController.EnableLinearMovement = true;
+                avatarController.EnableRotation = true;
                 StartCoroutine(FadeCamera(false, 0f));
                 //CameraFade(0f);
             }
