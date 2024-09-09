@@ -92,33 +92,8 @@ public class RoleSelect : MonoBehaviour
 
             if (realtimeView != null && realtimeView.isOwnedLocallySelf)
             {
-                Renderer objRenderer = GameObject.Find("Instruction").GetComponent<Renderer>();
-                Texture newTexture;
-                switch (pl.currentRole)
-                {
-                    case Role.None:
-                        newTexture = NoneT;
-                        break;
-                    case Role.Explorer:
-                        newTexture = ExplorerT;
-                        break;
-                    case Role.Collector:
-                        newTexture = CollectorT;
-                        break;
-                    case Role.Tactical:
-                        newTexture = TacticalT;
-                        break;
-                    default:
-                        newTexture = NoneT;
-                        Debug.Log("Invalid option selected.");
-                        break;
-                }
-
-                if (objRenderer != null && newTexture != null)
-                {
-                    // Change the main texture of the material
-                    objRenderer.material.mainTexture = newTexture;
-                }
+                InstructionPanel instructionPanel = GameObject.Find("Instruction").GetComponent<InstructionPanel>();
+                instructionPanel.ChangeRole(pl.currentRole);
             }
         }
 

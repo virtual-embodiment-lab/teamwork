@@ -22,6 +22,7 @@ public class UIManager: MonoBehaviour
     private TextMeshProUGUI _coinsCollectedText;
     private TextMeshProUGUI _batteryCountText;
     private TextMeshProUGUI _messages;
+    private TextMeshProUGUI _nextTarget;
     private TextMeshProUGUI _carryingCoinText;
 
     //private Button _exitTacticalButton;
@@ -48,6 +49,7 @@ public class UIManager: MonoBehaviour
         CreateCarryingCoinUI();
         CreateEnergyBarUI();
         CreateCollisionOverLay();
+        CreateTargetShape();
         //CreateExitTacticalButton();
         UpdateEnergyUI();
         panelActive(panelShow);
@@ -60,6 +62,7 @@ public class UIManager: MonoBehaviour
         UpdateBatteryNumber();
         UpdateCoinNumber();
         UpdateEnergyUI();
+        UpdateNextTarget();
         UpdateRoleDependentUI();
 
         // get controller button
@@ -179,14 +182,20 @@ public class UIManager: MonoBehaviour
 
     private void CreateBatteryCountUI()
     {
-        _batteryCountText = CreateUIElement<TextMeshProUGUI>("BatteryCountText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(-55, -65), new Vector2(-5, -65), 20);
+        _batteryCountText = CreateUIElement<TextMeshProUGUI>("BatteryCountText", new Vector2(0, 1), new Vector2(0.5f, 1), new Vector2(5, -65), new Vector2(55, -65), 20);
         _batteryCountText.text = $"Batteries: {_player.carryingBatteries}";
     }
 
     private void CreateCarryingCoinUI()
     {
-        _carryingCoinText = CreateUIElement<TextMeshProUGUI>("CarryingCoinText", new Vector2(0.5f, 1), new Vector2(1, 1), new Vector2(-55, -95), new Vector2(-5, -95), 20);
+        _carryingCoinText = CreateUIElement<TextMeshProUGUI>("CarryingCoinText", new Vector2(0, 1), new Vector2(0.5f, 1), new Vector2(5, -95), new Vector2(55, -95), 20);
         _carryingCoinText.text = $"Carrying Coins: {_player.carryingCoins}";
+    }
+
+    private void CreateTargetShape()
+    {
+        _nextTarget = CreateUIElement<TextMeshProUGUI>("DebugMessage", new Vector2(0, 1), new Vector2(0.5f, 1), new Vector2(5, -125), new Vector2(55, -125), 20);
+        _nextTarget.text = "Next target: any";
     }
 
 /*
@@ -398,6 +407,7 @@ public class UIManager: MonoBehaviour
     {
         _batteryCountText.gameObject.SetActive(_player.currentRole == Role.Collector);
         _carryingCoinText.gameObject.SetActive(_player.currentRole == Role.Collector);
+        _nextTarget.gameObject.SetActive(_player.currentRole == Role.Collector);
         _energyBar.gameObject.SetActive(_player.currentRole == Role.Explorer);
         /*
         if (_player.currentRole == Role.Tactical)
@@ -426,6 +436,13 @@ public class UIManager: MonoBehaviour
         }
     }
 
+    private void UpdateNextTarget()
+    {
+        if (_nextTarget != null)
+        {
+            _nextTarget.text = $"Next target: {_player.targetCoin.ToString()}";
+        }
+    }
     private void UpdateGameTimeUI()
     {
         // Update the game time text based on the game time from the Player or GameManager

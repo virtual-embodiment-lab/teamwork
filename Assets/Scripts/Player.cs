@@ -108,6 +108,7 @@ public class Player : RealtimeComponent<PlayerModel>
     void Update()
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
+        AudioListener audioListener = FindObjectOfType<AudioListener>();
 
         UpdatePlayerModels();
 
@@ -336,6 +337,7 @@ public class Player : RealtimeComponent<PlayerModel>
             carryingBatteries--;
             lg.AddLine("Battery:drop");
             Vector3 spawnPosition = transform.position + transform.forward * 1.5f;
+            spawnPosition.y += 0.8f;
             Realtime.Instantiate(batteryPrefab.name, spawnPosition, Quaternion.identity, new Realtime.InstantiateOptions { });
 
             OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();

@@ -10902,7 +10902,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   fadeSpeed: 10
-  sphereCheckSize: 0.08
+  sphereCheckSize: 0.1
   threshold: 0.15
   avatarController: {fileID: 4554827199489525664}
 --- !u!1 &1273979632
@@ -16278,6 +16278,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 387927a4ff5c04587b5c51655bd2265e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  avatarController: {fileID: 4554827199489525664}
+  instructionForAll:
+  - {fileID: 2800000, guid: 278db3c617e0d42a180029449cd3b029, type: 3}
+  - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
+  instructionForExplorer:
+  - {fileID: 2800000, guid: 6ffce2e7d2b604ef09c83e0300378da4, type: 3}
+  instructionForCollector:
+  - {fileID: 2800000, guid: b52299e6205ac4fcb987a69b9350532a, type: 3}
+  instructionForTactical:
+  - {fileID: 2800000, guid: 46ddb69274dba49bbac09cf7631d69f6, type: 3}
 --- !u!64 &1889563232
 MeshCollider:
   m_ObjectHideFlags: 0
