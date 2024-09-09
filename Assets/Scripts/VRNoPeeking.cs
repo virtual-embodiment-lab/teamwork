@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UltimateXR.CameraUtils;
+using UltimateXR.UI.UnityInputModule.Controls;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,41 +17,59 @@ public class VRNoPeeking : MonoBehaviour
     private Material CameraFadeMat;
     private bool isCameraFadedOut = false;
     private Vector3 peekingPosition;
+    private Vector3 prePosition;
+    private Transform headPos;
 
-    private void Awake() => CameraFadeMat = GetComponent<Renderer>().material;
+    private void Awake()
+    {
+        headPos = GameObject.Find("CenterEyeAnchor").GetComponent<Transform>();
+        prePosition = new Vector3(0.0f, 0.0f, 0.0f);
+        CameraFadeMat = GetComponent<Renderer>().material;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        if(Physics.CheckSphere(transform.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
+        Vector3 currentPos = headPos.position;
+        if(Physics.CheckSphere(headPos.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
         {
-            if(!isCameraFadedOut)
-            {
-                isCameraFadedOut = true;
-                avatarController.EnableLinearMovement = false;
-                avatarController.EnableRotation = false;
+            Vector3 previousMovement  = (prePosition - currentPos).normalized*0.01f;
 
-                StartCoroutine(FadeCamera(true, 1f));
-                //CameraFade(1f);
-                peekingPosition = transform.position;
+            while (Physics.CheckSphere(headPos.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
+            {
+                avatarController.transform.position = avatarController.transform.position - previousMovement;
             }
         }
-        else
-        {
-            if(!isCameraFadedOut)
-                return;
+        prePosition = headPos.position;
 
-            float dist = Vector3.Distance(peekingPosition, transform.position);
-            if(dist < threshold)
-            {
-                isCameraFadedOut = false;
-                avatarController.EnableLinearMovement = true;
-                avatarController.EnableRotation = true;
-                StartCoroutine(FadeCamera(false, 0f));
-                //CameraFade(0f);
-            }
+        //     if(!isCameraFadedOut)
+        //     {
+        //         isCameraFadedOut = true;
+        //         avatarController.EnableLinearMovement = false;
+        //         avatarController.EnableRotation = false;
+
+        //         StartCoroutine(FadeCamera(true, 1f));
+        //         //CameraFade(1f);
+        //         peekingPosition = transform.position;
+        //     }
+        // }
+        // else
+        // {
+        //     if(!isCameraFadedOut)
+        //         return;
+
+        //     float dist = Vector3.Distance(peekingPosition, transform.position);
+        //     if(dist < threshold)
+        //     {
+        //         isCameraFadedOut = false;
+        //         avatarController.EnableLinearMovement = true;
+        //         avatarController.EnableRotation = true;
+        //         StartCoroutine(FadeCamera(false, 0f));
+        //         //CameraFade(0f);
+        //     }
                 
-        }
+        // }
     }
 
     IEnumerator FadeCamera(bool FadedOut, float targetAlpha)

@@ -139,11 +139,11 @@ public class Coin : RealtimeComponent<CoinModel>
         }
         */
 
-        if(me)
-        {
-            _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
-            StartCoroutine(SetCoinTextAfterInstantiation(nextShape));
-        }
+        // if(me)
+        // {
+        //     _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
+        //     StartCoroutine(SetCoinTextAfterInstantiation(nextShape));
+        // }
     }
 
     private IEnumerator SetCoinTextAfterInstantiation(CoinShape shape)

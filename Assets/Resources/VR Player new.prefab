@@ -108,13 +108,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 683526093671496904}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25000006, y: -0.24999997, z: 0.066987306, w: 0.9330127}
+  m_LocalRotation: {x: 0.35355335, y: -0.61237246, z: -0.35355335, w: 0.61237246}
   m_LocalPosition: {x: 0.03, y: -0.08, z: -0.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1863687571254739271}
-  m_LocalEulerAnglesHint: {x: 30, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 90, z: 120}
 --- !u!1 &1948809455905885589
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,13 +427,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3349228141951093152}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25000006, y: 0.25000006, z: -0.06698733, w: 0.9330127}
+  m_LocalRotation: {x: 0.3535534, y: 0.61237246, z: 0.3535534, w: 0.61237246}
   m_LocalPosition: {x: -0.03, y: -0.08, z: -0.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5492079160654433322}
-  m_LocalEulerAnglesHint: {x: 30, y: 30, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 60}
 --- !u!1 &4383631810503097549
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,6 +879,7 @@ GameObject:
   - component: {fileID: -3318412551965611739}
   - component: {fileID: 7454214575255867553}
   - component: {fileID: 1823107430206145892}
+  - component: {fileID: 4471511654424974836}
   m_Layer: 3
   m_Name: VR Player new
   m_TagString: Player
@@ -1014,7 +1015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379c8ceb4626b4d2f85fa7f7dd265657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCoin: 2
+  targetCoin: 0
   walkingSpeed: 1
   gravity: 20
   lookSpeed: 2
@@ -1076,6 +1077,14 @@ MonoBehaviour:
   tempLoggedString: 
   runLogging: 1
   timeStampLive: {fileID: 0}
+--- !u!81 &4471511654424974836
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798984728026283834}
+  m_Enabled: 1
 --- !u!1001 &1000682733168495365
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,6 +31,7 @@ public class OVRSpawnPoint : MonoBehaviour
                 _characterController.enabled = false; // Temporarily disable the character controller
             }
             MovePlayerToSpawnPoint(gameObject); // Move the avatar to the spawn point
+            GameObject.Find("Instruction").GetComponent<InstructionPanel>().createInstructionPanel();
         }
     }
 
