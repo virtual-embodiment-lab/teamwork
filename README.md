@@ -10,6 +10,7 @@ All copyrights are reserved by Cornell University and Iowa State University. Lic
 
 ## Table of Contents
 
+- [How to Play](#how-to-play)
 - [Reported Bugs](#reported-bugs)
 - [Installation Guide](#installation-guide)
   - [Prerequisites](#prerequisites)
@@ -31,19 +32,6 @@ All copyrights are reserved by Cornell University and Iowa State University. Lic
     - [UltimateXR Integration Highlights](#ultimatexr-integration-highlights)
     - [Bug Fixes](#bug-fixes)
     - [Improvements](#improvements)
-
-## Reported Bugs
-
-- [ ] Place coins within the current maze and configure them correctly.
-- [x] Setup the new start area and import the scripts from the old one. [Spring, 2024]
-- [ ] Allow players to change between the two robot avatars and change color.
-- [x] Fix head and hands (OVRPlayerController) go through the walls. [Summer, 2024]
-- [x] Add in logging functionality. [Spring, 2024]
-- [ ] Adjust the avatar size.
-- [ ] Make tutorial sessions.
-- [ ] The time-up sign is not shown.
-
-If you find any bugs or points to be improved, please contact to Miki Matsumuro [mm3398@cornell.edu].
 
 ## How to Play
 Three players work together to collect as many coins as possible in a limited time. The coin are placed acros a maze, and represented gray crosses. To collect the coins, the players have to activated them. The activated coins have each color and shape, and only the target shape coin can be collected.
@@ -77,6 +65,21 @@ Players can control the avatar's body direction with the the joystick on the rig
 Players point where they want to go using the left-hand controller and teleport there with the side trigger on the left-hand controller. They can teleport to where their pointing line is green.
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Locomotion.png" width="400">
+
+## Bugs & Improvements
+
+- [ ] **Coin Placement:** Place coins within the current maze and configure them correctly.
+- [x] **Functions Transfer:** Setup the new start area and import the scripts from the old one. [Spring, 2024]
+- [ ] **Avatar Features:** Allow players to change between the two robot avatars and change color.
+- [x] **Wall Peeking:** Fix head and hands (OVRPlayerController) go through the walls. [Summer, 2024]
+- [x] **Logging System:** Add in logging functionality. [Spring, 2024]
+- [ ] **Avatat Size:** Adjust the avatar size or players' viewpoint depending on each player's height.
+- [ ] **Tutorial:** Make tutorial sessions.
+- [ ] **End of the Game:** The time-up sign is not shown.
+- [ ] **Increased Maze Complexity:** Enlarged the maze size to offer a greater challenge and encourage more strategic navigation. Add an automatic maze generation function.
+- [ ] **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication.
+
+If you find any bugs or points to be improved, please contact to Miki Matsumuro [mm3398@cornell.edu].
 
 ## Installation Guide
 
