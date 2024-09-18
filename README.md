@@ -1,14 +1,16 @@
 # Mazeworld
 
-![image](./Assets/Images/readmeimage_2024spring.png)
+![image](./Assets/Images/readmeimage_2024summer.png)
 
 Welcome to MazeWorld, this project has evolved over time but the goal is still the exploration of how to evaluate team preformance. The idea is to have participants solve a maze where they are given different roles and tasks to complete. The roles consist of an explorer, collector, and tactical which have different interdependant roles. The explorer is responsible for navigating the maze, the collector is responsible for collecting coins, and the tactical is responsible for directing the explorer and collector. There is still quite a bit to be done on the project so hopefully this document will help explain the current state of the project as well as future goals.
 
 Here is the current publication from the initial work on this project: [View Publication](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Wr3zbI8AAAAJ&citation_for_view=Wr3zbI8AAAAJ:u-x6o8ySG0sC)
 
+All copyrights are reserved by Cornell University and Iowa State University. Licensed under [Attribution-Noncommercial-Sharelike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Developers and contributers are listed in the [CREDITS.txt](link) file.
+
 ## Table of Contents
 
-- [Task List](#task-list)
+- [Reported Bugs](#reported-bugs)
 - [Installation Guide](#installation-guide)
   - [Prerequisites](#prerequisites)
   - [Downloading the Project](#downloading-the-project)
@@ -30,18 +32,36 @@ Here is the current publication from the initial work on this project: [View Pub
     - [Bug Fixes](#bug-fixes)
     - [Improvements](#improvements)
 
-## Task List
+## Reported Bugs
 
 - [ ] Place coins within the current maze and configure them correctly.
 - [x] Setup the new start area and import the scripts from the old one. [Spring, 2024]
 - [ ] Allow players to change between the two robot avatars and change color.
-- [ ] Fix head and hands (OVRPlayerController) go through the walls.
-- [ ] Add in logging functionality from the [VELLib](https://github.com/virtual-embodiment-lab/vellib).
+- [x] Fix head and hands (OVRPlayerController) go through the walls. [Summer, 2024]
+- [x] Add in logging functionality. [Spring, 2024]
+- [ ] Adjust the avatar size.
+- [ ] Make tutorial sessions.
+- [ ] The time-up sign is not shown.
 
-[VELLib](https://github.com/virtual-embodiment-lab/vellib) is a collection of scripts that were made to support development of project in the Virtual Emobodiment Lab.
+If you find any bugs or points to be improved, please contact to Miki Matsumuro [mm3398@cornell.edu].
 
-For more informaiton on how to work with VEL resources please visit the [onboarding](https://github.com/virtual-embodiment-lab/Onboarding) and [tutorial](https://github.com/virtual-embodiment-lab/unity-tutorial) documentation. If you do not have access to these respositories contact the lab manager for access.
+## How to Play
+Three players work together to collect as many coins as possible in a limited time. The coin are placed acros a maze, and represented gray crosses. To collect the coins, the players have to activated them. The activated coins have each color and shape, and only the target shape coin can be collected.
+The three players have different roles: Explorer, Collector, and Tactical.
+<img src="./Assets/Images/basic_info.png" width="500">
 
+- Explorer: Walk around the maze and find items. They activate the coins using battery power. The battery canbe recharged by a dropped battery by the collector or a battery box in the start room.
+<img src="./Assets/Images/explorer.png" width="500">
+
+- Collector: Carry items to/from the start room. Carrying many items makes their movement slow. They collect the coins and bring them to the start room and pick up batteries from the battery box and bring them to the explorer.
+<img src="./Assets/Images/collector.png" width="500">
+
+- Tactical: Observe from a birdeye view and guide the other players. They control their drone cameras to adjust observing area and detailness. They can not access any items in the maze.
+<img src="./Assets/Images/tactical.png" width="500">
+
+### Locomotion Methods
+#### Joystick
+#### Teleportation
 
 ## Installation Guide
 
@@ -82,9 +102,6 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Real-time Data Synchronization:** Normcore's real-time data synchronization is used to ensure that all interactive elements within the maze, including puzzles, obstacles, and collectibles, are consistently updated across all connected clients.
 - **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
-
-## How to Play
-<img src="./Assets/Images/controller.png" width="500">
 
 ## Script Overview
 
