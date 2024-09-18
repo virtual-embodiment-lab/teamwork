@@ -14,13 +14,13 @@ All copyrights are reserved by Cornell University and Iowa State University. Lic
   - [Locomotion Methods](#locomotion-methods)
     - [Joystick](#joystick)
     - [Teleportation](#teleportation)
+- [Multiplayer Networking with Normcore](#multiplayer-networking-with-normcore)
+  - [Features Utilized in MazeWorld](#features-utilized-in-mazeworld)
 - [Bugs and Improvements](#bugs-and-improvements)
 - [Installation Guide](#installation-guide)
   - [Prerequisites](#prerequisites)
   - [Downloading the Project](#downloading-the-project)
   - [Setting Up Unity](#setting-up-unity)
-- [Multiplayer Networking with Normcore](#multiplayer-networking-with-normcore)
-  - [Features Utilized in MazeWorld](#features-utilized-in-mazeworld)
 - [Script Overview](#script-overview)
   - [Player Management](#player-management)
   - [Avatar Control](#avatar-control)
@@ -68,6 +68,32 @@ Players can control the avatar's body direction with the the joystick on the rig
 Players point where they want to go using the left-hand controller and teleport there with the side trigger on the left-hand controller. They can teleport to where their pointing line is green.
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Locomotion.png" width="400">
+
+## Multiplayer Networking with Normcore
+
+MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver a seamless and interactive multiplayer Virtual Reality (VR) experience. Normcore is central to our ability to synchronize player actions in real-time, ensuring that every participant in the virtual environment experiences the same dynamic world simultaneously.
+
+### Normcore Settings
+1. Create a Normal cccount in [Normcore website](https://normcore.io)
+2. Click "Create ana application" or "Applications" in the dashboard.
+3. Enter any name and create an application.
+4. Note an App Key.
+5. In MazeWorld, select the "NormcoreAppSettings" under the "Assets/Normal/Resources/" and enter the App Key.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Normcore_instruction1.png" width="300">
+
+6. Select the "Realtime + VR Playeryer" under the "utility" from the hierarchy.
+  - Enter your App Key.
+  - Enter any room name.
+    - Plers who want to playe together must use the same App Key and room name.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Normcore_instruction2.png" width="300">
+
+### Features Utilized in MazeWorld
+
+- **Real-time Data Synchronization:** Normcore's real-time data synchronization is used to ensure that all interactive elements within the maze, including puzzles, obstacles, and collectibles, are consistently updated across all connected clients.
+- **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
+- **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
 
 ## Bugs & Improvements
 
