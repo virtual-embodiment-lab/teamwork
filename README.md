@@ -48,16 +48,17 @@ If you find any bugs or points to be improved, please contact to Miki Matsumuro 
 ## How to Play
 Three players work together to collect as many coins as possible in a limited time. The coin are placed acros a maze, and represented gray crosses. To collect the coins, the players have to activated them. The activated coins have each color and shape, and only the target shape coin can be collected.
 The three players have different roles: Explorer, Collector, and Tactical.
-<img src="./Assets/Images/basic_info.png" width="500">
+
+<img src="./Assets/Images/basic_info.png" width="400">
 
 - Explorer: Walk around the maze and find items. They activate the coins using battery power. The battery canbe recharged by a dropped battery by the collector or a battery box in the start room.
-<img src="./Assets/Images/explorer.png" width="500">
+<img src="./Assets/Images/explorer.png" width="400">
 
 - Collector: Carry items to/from the start room. Carrying many items makes their movement slow. They collect the coins and bring them to the start room and pick up batteries from the battery box and bring them to the explorer.
-<img src="./Assets/Images/collector.png" width="500">
+<img src="./Assets/Images/collector.png" width="400">
 
 - Tactical: Observe from a birdeye view and guide the other players. They control their drone cameras to adjust observing area and detailness. They can not access any items in the maze.
-<img src="./Assets/Images/tactical.png" width="500">
+<img src="./Assets/Images/tactical.png" width="400">
 
 ### Locomotion Methods
 #### Joystick
