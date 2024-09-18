@@ -86,7 +86,7 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 6. Select the "Realtime + VR Playeryer" under the "utility" from the hierarchy.
   - Enter your App Key.
   - Enter any room name.
-    - Players who want to playe together must use the same App Key and room name.
+    - Players who want to play together must use the same App Key and room name.
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Normcore_instruction2.png" width="300">
 
