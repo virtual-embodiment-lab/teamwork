@@ -11,7 +11,10 @@ All copyrights are reserved by Cornell University and Iowa State University. Lic
 ## Table of Contents
 
 - [How to Play](#how-to-play)
-- [Reported Bugs](#reported-bugs)
+  - [Locomotion Methods](#locomotion-methods)
+    - [Joystick](#joystick)
+    - [Teleportation](#teleportation)
+- [Bugs and Improvements](#bugs-and-improvements)
 - [Installation Guide](#installation-guide)
   - [Prerequisites](#prerequisites)
   - [Downloading the Project](#downloading-the-project)
