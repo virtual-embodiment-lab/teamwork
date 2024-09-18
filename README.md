@@ -82,7 +82,7 @@ Players point where they want to go using the left-hand controller and teleport 
 - [ ] **Increased Maze Complexity:** Enlarged the maze size to offer a greater challenge and encourage more strategic navigation. Add an automatic maze generation function.
 - [ ] **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication.
 
-If you find any bugs or points to be improved, please contact to Miki Matsumuro [mm3398@cornell.edu].
+If you find any bugs or points to be improved, please contact to Miki Matsumuro (mm3398[at]cornell.edu).
 
 ## Installation Guide
 
