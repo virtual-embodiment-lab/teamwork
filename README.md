@@ -71,9 +71,12 @@ The three players have different roles: Explorer, Collector, and Tactical.
 We implemented two locomotino methods: Joystick and Teleportation. The main branch uses the joystich method, and the teleportation branch uses the teleporation method.
 
 #### Joystick
-Players can dontrol the avatar's body direction with the the joystick on the right-hand controller and the avata's movement with thejoystick on the left-hand controller.
+Players can control the avatar's body direction with the the joystick on the right-hand controller and the avata's movement with thejoystick on the left-hand controller.
 
 #### Teleportation
+Players point where they want to go using the left-hand controller and teleport there with the side trigger on the left-hand controller. They can teleport to where their pointing line is green.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Locomotion.png" width="400">
 
 ## Installation Guide
 
