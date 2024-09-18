@@ -44,12 +44,7 @@ public class VRNoPeeking : MonoBehaviour
         Vector3 currentPos = headPos.position;
         if(Physics.CheckSphere(headPos.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
         {
-            Vector3 previousMovement  = (prePosition - currentPos).normalized*0.01f;
-
-            while (Physics.CheckSphere(headPos.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
-            {
-                _xrOrigin.transform.position = _xrOrigin.transform.position - previousMovement;
-            }
+            _xrOrigin.transform.position = prePosition;
         }
         prePosition = headPos.position;
         
