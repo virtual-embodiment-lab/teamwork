@@ -49,7 +49,7 @@ If you find any bugs or points to be improved, please contact to Miki Matsumuro 
 Three players work together to collect as many coins as possible in a limited time. The coin are placed acros a maze, and represented gray crosses. To collect the coins, the players have to activated them. The activated coins have each color and shape, and only the target shape coin can be collected.
 The three players have different roles: Explorer, Collector, and Tactical.
 
-<img src="./Assets/Images/basic_info.png" width="400">
+&nbsp; <img src="./Assets/Images/basic_info.png" width="400">
 
 - Explorer: Walk around the maze and find items. They activate the coins using battery power. The battery canbe recharged by a dropped battery by the collector or a battery box in the start room.
 <img src="./Assets/Images/explorer.png" width="400">
