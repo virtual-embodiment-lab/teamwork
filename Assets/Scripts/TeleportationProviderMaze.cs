@@ -1,3 +1,8 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+// Based on TeleportationProvider in the XR Interaction Toolkit
+
 using UnityEngine.Assertions;
 
 namespace UnityEngine.XR.Interaction.Toolkit

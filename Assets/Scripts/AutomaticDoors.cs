@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using Normal.Realtime;
 using UltimateXR.Animation.Interpolation;
 using UltimateXR.Audio;
@@ -47,9 +51,6 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
 
         if (currentModel != null)
         {
-            //IsOpen = currentModel.isOpen;
-            //OpenValue = currentModel.isOpen ? 1.0f : 0.0f;
-
             // Register for events so we'll know if the isOpen property changes later
             currentModel.isOpenDidChange += IsOpenDidChange;
             previousModel.openerDidChange += OpenerDidChange;

@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,24 +34,10 @@ public class CameraController : MonoBehaviour
         enableControl = false;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    
-    }
-
-   
     void Update()
     {
         if (enableControl == true){
-/* 
-            if (OVRInput.GetUp(OVRInput.RawButton.Y))
-            {
-                GameObject switcher = GameObject.Find("switcher");
-                switcher.GetComponent<contorllerSwitcher>().switchMode(false); 
-                enableControl = false;               
-            }
- */
+
             // get left joystick angle
             Vector2 leftJoystic = leftJoystickAction.action.ReadValue<Vector2>();
             float horizontalL = leftJoystic.x;
@@ -58,35 +48,12 @@ public class CameraController : MonoBehaviour
             Vector2 rightJoystic = rightJoystickAction.action.ReadValue<Vector2>();
             float verticalR = rightJoystic.y;
 
-            /*
-                        if ( Input.GetKey(KeyCode.UpArrow) )
-                            dir_v = 1;
-                        if ( Input.GetKey(KeyCode.DownArrow) )
-                            dir_v = -1;
-                        if ( Input.GetKey(KeyCode.RightArrow) )
-                            dir_h = 1;
-                        if ( Input.GetKey(KeyCode.LeftArrow) )
-                            dir_h = -1;
-            */
-            //move camera positoin
-            //transform.position += transform.right * -horizontalL * speed * Time.deltaTime;
-            //transform.position += transform.up * -verticalL * speed * Time.deltaTime;
-
-            //move camera height
-            //transform.position += transform.forward * verticalR * speed * Time.deltaTime;
-
-            //added new lines for camera movement and axis: //
-            // Move camera forward/backward and left/right using the left joystick
             transform.position += transform.up * -verticalL * speed * Time.deltaTime;
             transform.position += transform.right * -horizontalL * speed * Time.deltaTime;
 
             // Move camera up/down (height) using the right joystick
             transform.position += transform.forward * -verticalR * speed * Time.deltaTime;
         }
-
-        //add invisible block trigger in the room + collision information of avatar to get the role of avator and switch mode if tactical
-        //let mingyi know where trigger is stored
-        //invisible object near starting room that the camera detects to go back to normal mode add duration to go back to normal mode or mnitor mode
     }
 
    

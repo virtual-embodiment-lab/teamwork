@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using UnityEngine;
 using Normal.Realtime;
 using TMPro;
@@ -20,6 +24,7 @@ public class Player : RealtimeComponent<PlayerModel>
     [SerializeField] private Sprite crosshairSprite;
     [SerializeField] private float minWalkingSpeed = 1.0f;
     [SerializeField] private float maxEnergy = 100f;
+    [SerializeField] private float batteryConsumption = 33f;
     [SerializeField] private float coinLoad = 0.15f;
     [SerializeField] private float batteryLoad = 0.03f;
     [SerializeField] private float batteryRechargeTime = 2.0f;
@@ -40,6 +45,8 @@ public class Player : RealtimeComponent<PlayerModel>
     public float MaxEnergy => maxEnergy; // Expose max energy for the UI
     public int carryingBatteries { get; private set; } = 0; // Expose batteries for the UI
     public int carryingCoins { get; private set; } = 0;
+    public int gamePhase { get; private set; } = 0; // 0 = tutorial, 1 = playing, 2 = timeout
+
     //[SerializeField] private int carryingBatteries = 3;
     [SerializeField] private const int MaxBatteries = 3;
 
@@ -83,14 +90,6 @@ public class Player : RealtimeComponent<PlayerModel>
             float carryingLoad = (coinLoad * carryingCoins) + (batteryLoad * carryingBatteries);
             tProvider.delayTime = carryingLoad;
             sProvider.delayTime = carryingLoad;
-            
-            /* 
-            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-            float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
-            playerCon.Acceleration = 0.1f - carryingLoad;
-
-            //uiManager.UpdateBatteryRecharge();
-            */
         }
     }
 
@@ -101,7 +100,6 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private void Start()
     {
-        // roleText = GetComponentInChildren<TMP_Text>(); // 11/13
         realtimeView = GetComponent<RealtimeView>();
         characterController = GetComponent<CharacterController>();
         gameManager = FindObjectOfType<GameManager>();
@@ -148,6 +146,7 @@ public class Player : RealtimeComponent<PlayerModel>
         canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        gamePhase = 2;
         uiManager.DisplayTrialOverScreen();
     }
 
@@ -161,6 +160,11 @@ public class Player : RealtimeComponent<PlayerModel>
         currentEnergy = maxEnergy;
     }
 
+    public void GetStarted()
+    {
+        gamePhase = 1;
+    }
+    
     void Update()
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
@@ -321,38 +325,7 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void HandleEnergyConsumption(Player player)
     {
-        /*
-        // Determine if the player is moving
-        isMoving = characterController.velocity.magnitude > 0;
-        
-        // If moving, deplete energy
-        if (isMoving)
-        {
-            // energy change based on time instead of movement
-            currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/45.0f, 1);
-        
-            //float energyRatio = currentEnergy / maxEnergy;
-            //float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
-
-            //currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime * scaledSpeed, 1); // Keep energy above 0 to avoid division by zero
-        }
-
-        // Handle energy reaching zero if needed
-
-        if (currentEnergy <= 5)
-        {
-            // Perform any logic for when energy depletes (like disabling movement)
-            GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>().Acceleration = 0.01f;
-        }
-        else if (currentEnergy <= 50)
-        {
-            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-            float currentAcceleration = playerCon.Acceleration;
-            playerCon.Acceleration = currentEnergy/500f;
-        }
-        */
-        player.currentEnergy -= 33;
-
+        player.currentEnergy -= batteryConsumption;
     }
 
     private void boxEvents(Collider other)
@@ -368,13 +341,6 @@ public class Player : RealtimeComponent<PlayerModel>
             float carryingLoad = (coinLoad * carryingCoins) + (batteryLoad * carryingBatteries);
             tProvider.delayTime = carryingLoad;
             sProvider.delayTime = carryingLoad;
-            
-/* 
-            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-            float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
-            playerCon.Acceleration = 0.1f - carryingLoad;
-
- */
             lg.AddLine("dropCoins");
             lg.AddLine("carryingCoins:0");
         }
@@ -391,11 +357,7 @@ public class Player : RealtimeComponent<PlayerModel>
                 float carryingLoad = (coinLoad * carryingCoins) + (batteryLoad * carryingBatteries);
                 tProvider.delayTime = carryingLoad;
                 sProvider.delayTime = carryingLoad;
-/* 
-                OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-                float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
-                playerCon.Acceleration = 0.1f - carryingLoad;
- */
+                
                 lg.AddLine("pickUpBattery");
                 string line = $"carryingBatteries:{carryingBatteries}";
                 lg.AddLine(line);
@@ -422,13 +384,6 @@ public class Player : RealtimeComponent<PlayerModel>
             float carryingLoad = (coinLoad * carryingCoins) + (batteryLoad * carryingBatteries);
             tProvider.delayTime = carryingLoad;
             sProvider.delayTime = carryingLoad;
-/* 
-            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-            float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
-            playerCon.Acceleration = 0.1f - carryingLoad;
-
-           //uiManager.UpdateBatteryRecharge();
-*/
         }
     }
     
@@ -473,11 +428,6 @@ public class Player : RealtimeComponent<PlayerModel>
         float carryingLoad = (coinLoad * carryingCoins) + (batteryLoad * carryingBatteries);
         tProvider.delayTime = carryingLoad;
         sProvider.delayTime = carryingLoad;
-/*         
-        OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-        float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
-        playerCon.Acceleration = 0.1f - carryingLoad;
- */
     }
     
     public string GetFormattedGameTime()

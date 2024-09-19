@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using System.Collections;
 using Normal.Realtime;
 using TMPro;
@@ -129,21 +133,6 @@ public class Coin : RealtimeComponent<CoinModel>
                     childRenderer.enabled = false;
             }
         }
-
-        /*
-        if (currentShapeObject != null)
-        {
-            Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
-            if (childRenderer != null)
-                childRenderer.enabled = false;
-        }
-        */
-
-        // if(me)
-        // {
-        //     _ = Realtime.Instantiate(particles.name, transform.position, Quaternion.identity, new Realtime.InstantiateOptions { });
-        //     StartCoroutine(SetCoinTextAfterInstantiation(nextShape));
-        // }
     }
 
     private IEnumerator SetCoinTextAfterInstantiation(CoinShape shape)
@@ -196,9 +185,6 @@ public class Coin : RealtimeComponent<CoinModel>
         if (collected)
         {
             onCollected(null, false);
-            //Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
-            //if (childRenderer != null)
-            //    childRenderer.enabled = false;
         }
     }
 
@@ -209,9 +195,6 @@ public class Coin : RealtimeComponent<CoinModel>
             if (model.found)
             {
                 onFound(null);
-                //Renderer childRenderer = currentShapeObject.GetComponent<Renderer>();
-                //if (childRenderer != null)
-                //    childRenderer.enabled = false;
             }
         }
     }

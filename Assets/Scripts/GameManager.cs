@@ -1,6 +1,11 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using System;
 using UnityEngine;
 using Normal.Realtime;
+using TMPro;
 
 public class GameManager : RealtimeComponent<GameModel>
 {
@@ -110,8 +115,14 @@ public class GameManager : RealtimeComponent<GameModel>
             Player[] p = FindObjectsOfType<Player>();
             foreach(Player player in p)
             {
-                Logger_new ln = player.GetComponent<Logger_new>();
-                ln.AddLine("GameStart");
+                RealtimeView realtimeView = player.GetComponent<RealtimeView>();
+
+                if (realtimeView != null && realtimeView.isOwnedLocallySelf)
+                {
+                    Logger_new ln = player.GetComponent<Logger_new>();
+                    player.GetComponent<Player>().GetStarted();
+                    ln.AddLine("GameStart");
+                }
             }
         }
     }
