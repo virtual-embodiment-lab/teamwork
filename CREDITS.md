@@ -3,7 +3,7 @@
 # Release Date: September 2024
 # License: [Attribution-Noncommercial-Sharelike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-## Development Team and Main Contributers
+## Development Team and Main Contributors
 
 ### Cornell University:
 Miki Matsumuro, Jonathan Isaac Segal, Andrea Stevenson Won
@@ -17,7 +17,7 @@ Ghazal Shah Abadi, Ashley B Deal, Michael Dorneich, Stephen Fieffer, Stephen B. 
 ### Penn State University:
 Nina Lauharatanahirun
 
-## Other Contributers
+## Other Contributors
 - Cornell University:
     - Jenny Chen, Krisha Jivani, Kaylah Nicholson, Ryan Robles, Mingyi Shao, Emily Vo, Fuyu Wang, Yuqing Wu, Xiaohan Zhou
 
