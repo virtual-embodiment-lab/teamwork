@@ -8,17 +8,17 @@
 ### Cornell University:
 Miki Matsumuro, Jonathan Isaac Segal, Andrea Stevenson Won
 
-### Ithaca College
+### Ithaca College:
 Surya Sharma
 
-### Iowa State University
+### Iowa State University:
 Ghazal Shah Abadi, Ashley B Deal, Michael Dorneich, Stephen Fieffer, Stephen B. Gilbert, Lucas Allan Lovig, Amanda K. Newendorp, Maral Jafari Ranjbar, Hila Sabouni
 
-### Penn State University
+### Penn State University:
 Nina Lauharatanahirun
 
 ## Other Contributers
-- Cornell University
+- Cornell University:
     - Jenny Chen, Krisha Jivani, Kaylah Nicholson, Ryan Robles, Mingyi Shao, Emily Vo, Fuyu Wang, Yuqing Wu, Xiaohan Zhou
 
 ## Acknowledgements
