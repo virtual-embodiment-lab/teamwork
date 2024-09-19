@@ -19,7 +19,7 @@ Nina Lauharatanahirun
 
 ## Other Contributers
 - Cornell University
-Jenny Chen, Krisha Jivani, Kaylah Nicholson, Ryan Robles, Mingyi Shao, Emily Vo, Fuyu Wang, Yuqing Wu, Xiaohan Zhou
+    - Jenny Chen, Krisha Jivani, Kaylah Nicholson, Ryan Robles, Mingyi Shao, Emily Vo, Fuyu Wang, Yuqing Wu, Xiaohan Zhou
 
 ## Acknowledgements
 - This project was partially funded by **Research Grant XYZ**.
