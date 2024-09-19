@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,17 +24,5 @@ public class BatteryBox : MonoBehaviour
                 int batteries = _player.carryingBatteries;
             }
         }        
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
