@@ -6,7 +6,7 @@ Welcome to MazeWorld, this project has evolved over time but the goal is still t
 
 Here is the current publication from the initial work on this project: [View Publication](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Wr3zbI8AAAAJ&citation_for_view=Wr3zbI8AAAAJ:u-x6o8ySG0sC)
 
-All copyrights are reserved by Cornell University and Iowa State University. Licensed under [Attribution-Noncommercial-Sharelike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Developers and contributers are listed in the [CREDITS.txt](link) file.
+All copyrights are reserved by Cornell University and Iowa State University. Licensed under [Attribution-Noncommercial-Sharelike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Developers and contributers are listed in the [CREDITS.md](./CREDITS.md) file.
 
 ## Table of Contents
 
