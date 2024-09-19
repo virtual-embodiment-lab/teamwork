@@ -4551,6 +4551,7 @@ MonoBehaviour:
   sphereCheckSize: 0.15
   teleportSphereCheckSize: 0.15
   threshold: 0.15
+  avatarController: {fileID: 0}
 --- !u!1 &444917676
 GameObject:
   m_ObjectHideFlags: 0
@@ -9698,6 +9699,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29133ad413a194106a94a6d2fed3d395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instructionForAll: []
+  instructionForExplorer: []
+  instructionForCollector: []
+  instructionForTactical: []
   BButtonAction: {fileID: 4078420250206965310, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
 --- !u!1 &998137272
@@ -19302,7 +19307,7 @@ MonoBehaviour:
   _obsoleteAppKey: 
   _normcoreAppSettings: {fileID: 11400000, guid: 15dcd3df86c7f4424b4b891dda120cf0,
     type: 2}
-  _roomToJoinOnStart: Test Room
+  _roomToJoinOnStart: 
   _joinRoomOnStart: 1
 --- !u!4 &99280728196192866
 Transform:

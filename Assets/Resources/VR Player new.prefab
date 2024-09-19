@@ -1028,6 +1028,7 @@ MonoBehaviour:
   crosshairSprite: {fileID: 0}
   minWalkingSpeed: 1
   maxEnergy: 100
+  batteryConsumption: 33
   coinLoad: 0.15
   batteryLoad: 0.03
   batteryRechargeTime: 2
