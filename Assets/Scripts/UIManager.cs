@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -12,7 +16,7 @@ public class UIManager: MonoBehaviour
 
     //private TacticalControl _tacticalControl;
     private GameManager _gameManager;
-    private Image _collisionOverlay;
+    private Image _trialEndOverlay;
     private Image _roleColorIndicator;
     private Image _uiPanelBackground;
     private Image _crosshairImage;
@@ -48,7 +52,7 @@ public class UIManager: MonoBehaviour
         CreateBatteryCountUI();
         CreateCarryingCoinUI();
         CreateEnergyBarUI();
-        CreateCollisionOverLay();
+        CreateTrialEndOverlay();
         CreateTargetShape();
         //CreateExitTacticalButton();
         UpdateEnergyUI();
@@ -57,6 +61,8 @@ public class UIManager: MonoBehaviour
 
     public void UpdateUI()
     {
+        if (_player.gamePhase == 2) return;
+        
         UpdateGameTimeUI();
         UpdateCoinsCollectedUI();
         UpdateBatteryNumber();
@@ -346,16 +352,36 @@ public class UIManager: MonoBehaviour
         return button;
     }
 
-    private void CreateCollisionOverLay()
+    private void CreateTrialEndOverlay()
     {
-        GameObject overlay = new GameObject("collisonOverLay");
-        _collisionOverlay = overlay.AddComponent<Image>();
-        _collisionOverlay.color = new Color(0,0,0,0);
+        GameObject overlay = new GameObject("Overlay");
+        _trialEndOverlay = overlay.AddComponent<Image>();
+        _trialEndOverlay.color = new Color(0f,0f,0f,1.0f);
         
-        RectTransform col = _collisionOverlay.rectTransform;
+        RectTransform overlayRect = _trialEndOverlay.rectTransform;
         Vector2 ImageSize = _mainCanvas.GetComponent<RectTransform>().sizeDelta;
-        col.sizeDelta = new Vector2 (ImageSize.x, ImageSize.y);
-        col.SetParent(_mainCanvas.transform, false);
+        overlayRect.sizeDelta = new Vector2 (ImageSize.x, ImageSize.y);
+        overlayRect.SetParent(_mainCanvas.transform, false);
+
+        // Create the UI element with the specified values
+        Vector2 anchorMin = new Vector2(0.5f, 0.5f);
+        Vector2 anchorMax = new Vector2(0.5f, 0.5f);
+        Vector2 offsetMin = new Vector2(0, 0);
+        Vector2 offsetMax = new Vector2(0, 0);
+        _messages = CreateUIElement<TextMeshProUGUI>("Message", anchorMin, anchorMax, offsetMin, offsetMax, 32);
+        _messages.enableAutoSizing = false;
+        _messages.fontSize = 32;
+        _messages.alignment = TextAlignmentOptions.Center;
+        _messages.text = $"Time Over!\nCollected coin: {_gameManager.CoinsCollected}";
+
+        // Set RectTransform properties
+        RectTransform rectTransform = _messages.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(240, 180);  // Adjust size as necessary
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.anchoredPosition = Vector2.zero;
+        rectTransform.SetParent(_trialEndOverlay.transform, false);
+        _trialEndOverlay.enabled = false;
+        _messages.enabled = false;
     }
 
     private void SetupUIElement(RectTransform rt, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin, Vector2 offsetMax)
@@ -378,9 +404,9 @@ public class UIManager: MonoBehaviour
     {
         if(hit)
         {
-            _collisionOverlay.color = new Color(0,0,0,1);
+            _trialEndOverlay.color = new Color(0,0,0,1);
         }else{
-            _collisionOverlay.color = new Color(0,0,0,0);
+            _trialEndOverlay.color = new Color(0,0,0,0);
         }
     }
 
@@ -499,35 +525,17 @@ public class UIManager: MonoBehaviour
 
     public void DisplayTrialOverScreen()
     {
-        if (_mainCanvas == null)
-        {
-            // Debug.LogError("MainCanvas is null");
-            InitializeMainCanvas();
-        }
-
         Logger_new lg = _player.GetComponent<Logger_new>();
         lg.AddLine("TimeOver");
-        collideWall(true);
-        Vector2 anchorMin = new Vector2(0, 0);
-        Vector2 anchorMax = new Vector2(0, 0);
-        Vector2 offsetMin = new Vector2(0, 0);
-        Vector2 offsetMax = new Vector2(0, 0);
 
-        // Create the UI element with the specified values
-        _messages = CreateUIElement<TextMeshProUGUI>("Message", anchorMin, anchorMax, offsetMin, offsetMax, 36);
-        _messages.alignment = TextAlignmentOptions.Center;
+        if (panelShow == false)
+        {
+            panelActive(true);
+        }
+
+        _trialEndOverlay.enabled = true;
+        _messages.enabled = true;
         _messages.text = $"Time Over!\nCollected coin: {_gameManager.CoinsCollected}";
-
-        // Set RectTransform properties
-        RectTransform rectTransform = _messages.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(600, 200);  // Adjust size as necessary
-        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        rectTransform.anchoredPosition = Vector2.zero;
-        RectTransform parentImage = GameObject.Find("collisonOverLay").GetComponent<RectTransform>();
-        rectTransform.SetParent(parentImage, false);
-
         /*
        // Now create the "Trial Over" screen
         GameObject trialOverPanelObject = new GameObject("TrialOverPanel");

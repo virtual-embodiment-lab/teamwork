@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,42 +38,10 @@ public class VRNoPeeking : MonoBehaviour
         Vector3 currentPos = headPos.position;
         if(Physics.CheckSphere(headPos.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
         {
-            Vector3 previousMovement  = (prePosition - currentPos).normalized*0.01f;
-
-            while (Physics.CheckSphere(headPos.position, sphereCheckSize, collisionLayer, QueryTriggerInteraction.Ignore)) 
-            {
-                avatarController.transform.position = avatarController.transform.position - previousMovement;
-            }
+            //Vector3 previousMovement  = (prePosition - currentPos).normalized*0.01f;
+            avatarController.transform.position = prePosition;
         }
         prePosition = headPos.position;
-
-        //     if(!isCameraFadedOut)
-        //     {
-        //         isCameraFadedOut = true;
-        //         avatarController.EnableLinearMovement = false;
-        //         avatarController.EnableRotation = false;
-
-        //         StartCoroutine(FadeCamera(true, 1f));
-        //         //CameraFade(1f);
-        //         peekingPosition = transform.position;
-        //     }
-        // }
-        // else
-        // {
-        //     if(!isCameraFadedOut)
-        //         return;
-
-        //     float dist = Vector3.Distance(peekingPosition, transform.position);
-        //     if(dist < threshold)
-        //     {
-        //         isCameraFadedOut = false;
-        //         avatarController.EnableLinearMovement = true;
-        //         avatarController.EnableRotation = true;
-        //         StartCoroutine(FadeCamera(false, 0f));
-        //         //CameraFade(0f);
-        //     }
-                
-        // }
     }
 
     IEnumerator FadeCamera(bool FadedOut, float targetAlpha)

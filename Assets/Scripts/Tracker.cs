@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using System;
 using System.Collections.Generic;
 using StandardLogging;
@@ -17,18 +21,6 @@ public abstract class Tracker : MonoBehaviour
     [SerializeField] protected ValueMap<logtype, string> Map = new ValueMap<logtype, string>();
 
     public virtual void StartReplayMode() { }
-
-    //public void StartReplayMode()
-    //{
-    //    MonoBehaviour[] comps = GetComponents<MonoBehaviour>();
-    //    foreach (MonoBehaviour c in comps)
-    //    {
-    //        if (c.GetType() != typeof(Tracker))
-    //        {
-    //            c.enabled = false;
-    //        }
-    //    }
-    //}
 
     /* Add or Update value on the value map */
     protected void UpdateOrCreate(KVPair<logtype, string> input)

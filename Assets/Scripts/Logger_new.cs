@@ -173,26 +173,6 @@ public class Logger_new : Utility
 
     private void Update()
     {
-        /*
-        if (InputSystem.GetDevice<Keyboard>().eKey.wasPressedThisFrame ||
-        (OVRInput.GetDown(OVRInput.RawButton.X) && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) == 1 && OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) == 1) ||
-        (OVRInput.GetDown(OVRInput.RawButton.A) && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) == 1 && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) == 1))
-        { pausePlay(); }
-        */
-
-        /*
-        if (FindObjectsOfType<Tracker>().Length > LoggedObjects.Count)
-        {
-            foreach (var item in FindObjectsOfType<Tracker>())
-            {
-                if (!LoggedObjects.Contains(item))
-                {
-                    LoggedObjects.Add(item);
-                }
-            }
-        }
-        */
-
         if (InputSystem.GetDevice<Keyboard>().eKey.wasPressedThisFrame ||
         (OVRInput.GetDown(OVRInput.RawButton.X) && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.LTouch) == 1 && OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger) == 1) ||
         (OVRInput.GetDown(OVRInput.RawButton.A) && OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, OVRInput.Controller.RTouch) == 1 && OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) == 1))
@@ -209,10 +189,6 @@ public class Logger_new : Utility
 
     void FixedUpdate()
     {
-        // Display Timestamp time in Update to keep it accurate + consistent
-        //string currentTimestamp = "TimeStamp:" + Time.realtimeSinceStartup.ToString("0.00000") + "\t";
-        //writer.WriteLine(currentTimestamp);
-        //writer.Flush();
     }
 
     public void AddLine(string line)
@@ -236,8 +212,7 @@ public class Logger_new : Utility
         while (runLogging)
         {
             DateTime dt = DateTime.Now;
-            tempLoggedString = dt.ToString("yyyy-MM-dd HH:mm:ss.fff") + "\t";  //Time.realtimeSinceStartup.ToString("0.00000") + "\t";
-            //timeStampLive.text = Time.realtimeSinceStartup.ToString("00.00");
+            tempLoggedString = dt.ToString("yyyy-MM-dd HH:mm:ss.fff") + "\t";
 
             //space for events
             tempLoggedString += "\t"; 
@@ -248,7 +223,6 @@ public class Logger_new : Utility
             switch (myPlayer.currentRole)
             {
                 case Role.Collector:
-                    //tempLoggedString += myPlayer.CurrentEnergy + "\t"; 
                     break;
                 case Role.Explorer:
                     tempLoggedString += myPlayer.CurrentEnergy + "\t"; 
@@ -313,81 +287,6 @@ public class Logger_new : Utility
             yield return new WaitForSecondsRealtime((float)(1.0 / logFileSampleRate));
         }
     }
-
-    /*
-    public bool pausePlay()
-    {
-        return (paused = !paused);
-    }
-
-    public bool reversePlay()
-    {
-        return (reversed = !reversed);
-    }
-
-    public void resetPlay()
-    {
-        currentLine = 0;
-    }
-
-    public void endLinePlay()
-    {
-        currentLine = logFile.Length - 1;
-    }
-
-    public int setSpeed(int speed)
-    {
-        this.speed = speed;
-        return speed;
-    }
-
-    IEnumerator Replaying()
-    {
-        while (true)
-        {
-            foreach (AudioSource audio in Audio)
-            {
-                if (paused)
-                {
-                    audio.UnPause();
-                }
-                else
-                {
-                    audio.Pause();
-                }
-            }
-
-            while (!paused) yield return null;
-
-            logSplit = logFile[currentLine].Split('\t');
-            timeStamp = logSplit[0].Substring(10);
-
-            //audioWizard.timeStamp = timeStamp;
-
-            if (logSplit[1].Contains("Initiate step") || logSplit[1].Contains("Step Started"))
-            {
-                //TODO: Handle this case
-                Debug.Log("Step Values");
-            }
-            else
-            {
-                for (int i = 1; i < logSplit.Length; i++)
-                {
-                    colonSplit = logSplit[i].Split(':');
-                    if (colonSplit.Length > 1)
-                    {
-                        LoggedObjects[int.Parse(colonSplit[0])].ApplyValue(colonSplit[1], colonSplit[2]);
-                    }
-                }
-            }
-            currentLine = Math.Min(Math.Max(currentLine + (reversed ? -speed : speed), 0), logFile.Length - 1);
-
-            // Use non-scaled realtime method instead of scaled WaitForSeconds to count timestamp
-            // Issue is that this gets called after Update, so it's closer to accurate but a few ms off potentially (>=)
-            yield return new WaitForSecondsRealtime((float)(1.0 / logFileSampleRate));
-        }
-    }
-    */
 
     void OnApplicationQuit()
     {

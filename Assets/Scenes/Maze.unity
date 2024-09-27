@@ -20178,7 +20178,7 @@ MonoBehaviour:
   _obsoleteAppKey: 
   _normcoreAppSettings: {fileID: 11400000, guid: 15dcd3df86c7f4424b4b891dda120cf0,
     type: 2}
-  _roomToJoinOnStart: Test Room
+  _roomToJoinOnStart: 
   _joinRoomOnStart: 1
 --- !u!4 &99280728196192866
 Transform:
@@ -20207,7 +20207,7 @@ GameObject:
   - component: {fileID: 64480930817763406}
   - component: {fileID: 105188259262863837}
   m_Layer: 0
-  m_Name: Realtime + VR Player
+  m_Name: ltime + VR Playeryer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
