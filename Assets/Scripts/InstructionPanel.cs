@@ -42,7 +42,7 @@ public class InstructionPanel : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(player.forward, Vector3.up);
             }  
         }
-        else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))
+        else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKey(KeyCode.B))
         {
             GetComponent<Renderer>().material.mainTexture = instructionForAll[1];
         }
