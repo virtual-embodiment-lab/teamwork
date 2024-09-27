@@ -107,6 +107,7 @@ public class Coin : RealtimeComponent<CoinModel>
     {
         currentShapeObject = Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
         currentShapeObject.transform.SetParent(thisTransform, false);
+        //currentShapeObject.layer = 0;
     }
 
     public void onCollected(Player player, bool me = true)
