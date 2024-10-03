@@ -57,11 +57,12 @@ public class InstructionPanel : MonoBehaviour
                 objRenderer.material.mainTexture = instructionForAll[currentSlide];
             }  
         }
+        
         else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKey(KeyCode.B))
         {
             GetComponent<Renderer>().material.mainTexture = instructionForAll[1];
                 Debug.Log("test");
-            }
+            
         }
     }
 
