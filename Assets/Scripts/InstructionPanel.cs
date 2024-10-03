@@ -16,11 +16,19 @@ public class InstructionPanel : MonoBehaviour
     private bool showInstruction = true;
     private Renderer objRenderer;
 
+    private int currentSlide  = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         objRenderer = GetComponent<Renderer>();
         objRenderer.enabled = showInstruction;
+
+        // initialize panel with first image
+        if (instructionForAll.Count > 0)
+        {
+            objRenderer.material.mainTexture = instructionForAll[currentSlide ];
+        }
     }
 
     // Update is called once per frame
@@ -30,21 +38,30 @@ public class InstructionPanel : MonoBehaviour
         {
             showInstruction = !showInstruction;
             objRenderer.enabled = showInstruction;
+
             if (showInstruction)
             {
                 Transform player = GameObject.Find("OVRPlayerController").transform;
                 Vector3 plPosition = player.position;
                 transform.position = plPosition + new Vector3(0f, 1.5f, 0f) + player.forward * 1.5f;
                 transform.rotation = Quaternion.LookRotation(player.forward, Vector3.up);
+
+                // Iterate through the textures in instructionForAll
+                currentSlide++;
+                if (currentSlide >= instructionForAll.Count)
+                {
+                    currentSlide = 0;  // Loop back to the first texture
+                }
+
+                // Update the texture on the panel
+                objRenderer.material.mainTexture = instructionForAll[currentSlide];
             }  
         }
-        else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))
+        else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKey(KeyCode.B))
         {
             GetComponent<Renderer>().material.mainTexture = instructionForAll[1];
-        }
-        else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))
-        {
-            
+                Debug.Log("test");
+            }
         }
     }
 
