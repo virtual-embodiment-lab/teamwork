@@ -25,6 +25,11 @@ public class InstructionPanel : MonoBehaviour
     {
         objRenderer = GetComponent<Renderer>();
         objRenderer.enabled = showInstruction;
+
+        if (instructionForAll.Count > 0)
+        {
+            objRenderer.material.mainTexture = instructionForAll[currentSlide];
+        }
     }
 
     // Update is called once per frame
@@ -45,6 +50,10 @@ public class InstructionPanel : MonoBehaviour
         else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger))
         {
             GetComponent<Renderer>().material.mainTexture = instructionForAll[1];
+            Debug.Log("test");
+
+            currentSlide++;
+            objRenderer.material.mainTexture = instructionForAll[currentSlide];
         }
         else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))
         {
