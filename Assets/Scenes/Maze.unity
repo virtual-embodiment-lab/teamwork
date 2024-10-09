@@ -16282,6 +16282,7 @@ MonoBehaviour:
   instructionForAll:
   - {fileID: 2800000, guid: 278db3c617e0d42a180029449cd3b029, type: 3}
   - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
+  - {fileID: 2800000, guid: a29d23bf167dfb248bd3a0899b1a2711, type: 3}
   instructionForExplorer:
   - {fileID: 2800000, guid: 6ffce2e7d2b604ef09c83e0300378da4, type: 3}
   instructionForCollector:
@@ -16369,7 +16370,7 @@ Transform:
   m_GameObject: {fileID: 1889563230}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.11, y: 0, z: 0.01}
   m_LocalScale: {x: 1.3, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

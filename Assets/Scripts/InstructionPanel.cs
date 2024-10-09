@@ -16,7 +16,24 @@ public class InstructionPanel : MonoBehaviour
     private bool showInstruction = true;
     private Renderer objRenderer;
 
+    // Current slide number
     private int currentSlide  = 0;
+
+    private List<Texture> GetRoleInstructionList()
+    {
+        switch (roleInstruction)
+        {
+            case Role.Explorer:
+                return instructionForExplorer;
+            case Role.Collector:
+                return instructionForCollector;
+            case Role.Tactical:
+                return instructionForTactical;
+            default:
+                return instructionForAll;  // Default if no specific role is set
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,10 +41,10 @@ public class InstructionPanel : MonoBehaviour
         objRenderer = GetComponent<Renderer>();
         objRenderer.enabled = showInstruction;
 
-        // initialize panel with first image
+        // Initialize panel with first image
         if (instructionForAll.Count > 0)
         {
-            objRenderer.material.mainTexture = instructionForAll[currentSlide ];
+            objRenderer.material.mainTexture = instructionForAll[currentSlide];
         }
     }
 
@@ -41,30 +58,35 @@ public class InstructionPanel : MonoBehaviour
 
             if (showInstruction)
             {
-                Transform player = GameObject.Find("OVRPlayerController").transform;
-                Vector3 plPosition = player.position;
-                transform.position = plPosition + new Vector3(0f, 1.5f, 0f) + player.forward * 1.5f;
-                transform.rotation = Quaternion.LookRotation(player.forward, Vector3.up);
-
-                // Iterate through the textures in instructionForAll
-                currentSlide++;
-                if (currentSlide >= instructionForAll.Count)
+                GameObject player = GameObject.Find("OVRPlayerController");
+                if (player != null)
                 {
-                    currentSlide = 0;  // Loop back to the first texture
+                    Transform plTransform = player.transform;
+                    Vector3 plPosition = plTransform.position;
+                    transform.position = plPosition + new Vector3(0f, 1.5f, 0f) + plTransform.forward * 1.5f;
+                    transform.rotation = Quaternion.LookRotation(plTransform.forward, Vector3.up);
                 }
-
-                // Update the texture on the panel
-                objRenderer.material.mainTexture = instructionForAll[currentSlide];
-            }  
+                else
+                {
+                    Debug.LogWarning("OVRPlayerController not found!");
+                }
+            }
         }
-        
+
         else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKey(KeyCode.B))
         {
-            GetComponent<Renderer>().material.mainTexture = instructionForAll[1];
-                Debug.Log("test");
-            
+            currentSlide++;
+            List<Texture> instructions = GetRoleInstructionList();  // Use the correct list of textures
+
+            if (currentSlide >= instructions.Count)
+            {
+                currentSlide = 0;  // Loop back to the first slide if necessary
+            }
+
+            objRenderer.material.mainTexture = instructions[currentSlide];
         }
     }
+
 
     public void ChangeRole(Role role)
     {
