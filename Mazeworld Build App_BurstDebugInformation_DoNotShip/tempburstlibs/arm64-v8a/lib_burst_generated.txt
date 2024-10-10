@@ -9,6 +9,7 @@ Library: C:\Users\emmpa\Documents\VEL\teamwork\Temp\BurstOutput\tempburstlibs\ar
 --target-framework=NetFramework
 --assembly-defines=Assembly-CSharp-firstpass;
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=Meta.XR.Audio;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Normal.Realtime;
@@ -117,6 +118,7 @@ Library: C:\Users\emmpa\Documents\VEL\teamwork\Temp\BurstOutput\tempburstlibs\ar
 --float-mode=Fast
 --assembly-defines=Assembly-CSharp-firstpass;
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=Meta.XR.Audio;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Normal.Realtime;

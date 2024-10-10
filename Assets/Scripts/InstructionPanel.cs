@@ -24,11 +24,11 @@ public class InstructionPanel : MonoBehaviour
         switch (roleInstruction)
         {
             case Role.Explorer:
-                return instructionForExplorer;
+                return instructionForAll.AddRange(instructionForExplorer);
             case Role.Collector:
-                return instructionForCollector;
+                return instructionForAll.AddRange(instructionForCollector);
             case Role.Tactical:
-                return instructionForTactical;
+                return instructionForAll.AddRange(instructionForTactical);
             default:
                 return instructionForAll;  // Default if no specific role is set
         }
