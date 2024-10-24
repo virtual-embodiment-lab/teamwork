@@ -11,24 +11,22 @@ public class InstructionPanel : MonoBehaviour
     [SerializeField] public List<Texture> instructionForExplorer = new List<Texture>();
     [SerializeField] public List<Texture> instructionForCollector = new List<Texture>();
     [SerializeField] public List<Texture> instructionForTactical = new List<Texture>();
+    
     private Role roleInstruction = Role.None;
-
     private bool showInstruction = true;
     private Renderer objRenderer;
-
-    // Current slide number
-    private int currentSlide  = 0;
+    private int currentSlide  = 0;    // Current slide number
 
     private List<Texture> GetRoleInstructionList()
     {
         switch (roleInstruction)
         {
             case Role.Explorer:
-                return instructionForAll.AddRange(instructionForExplorer);
+                return instructionForExplorer;
             case Role.Collector:
-                return instructionForAll.AddRange(instructionForCollector);
+                return instructionForCollector;
             case Role.Tactical:
-                return instructionForAll.AddRange(instructionForTactical);
+                return instructionForTactical;
             default:
                 return instructionForAll;  // Default if no specific role is set
         }
@@ -39,12 +37,18 @@ public class InstructionPanel : MonoBehaviour
     void Start()
     {
         objRenderer = GetComponent<Renderer>();
-        objRenderer.enabled = showInstruction;
-
-        // Initialize panel with first image
-        if (instructionForAll.Count > 0)
+        if (objRenderer != null)
         {
-            objRenderer.material.mainTexture = instructionForAll[currentSlide];
+            objRenderer.enabled = showInstruction;
+            // Initialize panel with first image from 'instructionForAll'
+            if (instructionForAll.Count > 0)
+            {
+                objRenderer.material.mainTexture = instructionForAll[currentSlide];
+            }
+        }
+        else
+        {
+            Debug.LogError("Renderer component is missing on the InstructionPanel object.");
         }
     }
 
@@ -73,14 +77,29 @@ public class InstructionPanel : MonoBehaviour
             }
         }
 
+        // Proceed to the next slide with the right trigger or the B key
         else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKey(KeyCode.B))
         {
             currentSlide++;
-            List<Texture> instructions = GetRoleInstructionList();  // Use the correct list of textures
+            List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
 
             if (currentSlide >= instructions.Count)
             {
                 currentSlide = 0;  // Loop back to the first slide if necessary
+            }
+
+            objRenderer.material.mainTexture = instructions[currentSlide];
+        }
+
+        // Go back to the previous slide with the left trigger
+        else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))
+        {
+            currentSlide--;
+            List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
+
+            if (currentSlide < 0)
+            {
+                currentSlide = instructions.Count - 1;  // Loop back to the last slide if necessary
             }
 
             objRenderer.material.mainTexture = instructions[currentSlide];
