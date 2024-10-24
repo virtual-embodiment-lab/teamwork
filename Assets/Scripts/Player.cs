@@ -43,7 +43,7 @@ public class Player : RealtimeComponent<PlayerModel>
     public int carryingCoins { get; private set; } = 0;
     public int gamePhase { get; private set; } = 0; // 0 = tutorial, 1 = playing, 2 = timeout
 
-    public const int MaxBatteries = 3;
+    [SerializeField] public const int MaxBatteries = 1;
 
     private UIManager uiManager; // Reference to the UIManager
     private Logger_new lg;
@@ -255,8 +255,9 @@ public class Player : RealtimeComponent<PlayerModel>
         if (other.CompareTag("Battery") || (other.gameObject.name == "batteryBox"))
         {
             // Assuming batteries restore a fixed amount of energy
-            float energyRestored = 10f*maxEnergy/20f; // Adds 10 secs. Adjust this value as needed
-            currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
+            // float energyRestored = 10f*maxEnergy/20f; // Adds 10 secs. Adjust this value as needed
+            // currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
+            currentEnergy = maxEnergy;
             lg.AddLine("Battery:pickUp");
             
             if (other.CompareTag("Battery"))
