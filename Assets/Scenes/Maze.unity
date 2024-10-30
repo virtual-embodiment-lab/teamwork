@@ -16280,15 +16280,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatarController: {fileID: 4554827199489525664}
   instructionForAll:
-  - {fileID: 2800000, guid: 278db3c617e0d42a180029449cd3b029, type: 3}
-  - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
-  - {fileID: 2800000, guid: a29d23bf167dfb248bd3a0899b1a2711, type: 3}
+  - {fileID: 2800000, guid: e0b1a4e0116a0dd4a874072e78d63d01, type: 3}
+  - {fileID: 2800000, guid: 5d7d9831c0a3de64392f1e6614a27e36, type: 3}
+  - {fileID: 2800000, guid: 216f442c89381dd4aab90d7ea2022a40, type: 3}
+  - {fileID: 2800000, guid: 195f1ca2b9118ff4c9fbfac6e0bd4e19, type: 3}
+  - {fileID: 2800000, guid: 3eb3b319a912ae743bb846338cf3f4c4, type: 3}
+  - {fileID: 2800000, guid: 8d25910a8c841164fb6da828db97bc72, type: 3}
+  - {fileID: 2800000, guid: 6900612dc30c0ca4daf54a84d43a989b, type: 3}
+  - {fileID: 2800000, guid: 77edb59ee500c094f9e3283e094ae86a, type: 3}
   instructionForExplorer:
-  - {fileID: 2800000, guid: 6ffce2e7d2b604ef09c83e0300378da4, type: 3}
+  - {fileID: 2800000, guid: c9fa5225744050549963955c422c50c2, type: 3}
+  - {fileID: 2800000, guid: cb31ecdd06260f544892823050792746, type: 3}
+  - {fileID: 2800000, guid: beebfee9da3a92844b09de05e8e7f39b, type: 3}
+  - {fileID: 2800000, guid: e3c3d12a920b8a8498e8bbb9a0b231f0, type: 3}
+  - {fileID: 2800000, guid: 2e1d8a746131e9d4d84c287351e22da1, type: 3}
+  - {fileID: 2800000, guid: 6bffa7ca7d566bb4ea1799cad107acb8, type: 3}
+  - {fileID: 2800000, guid: 99b6eb138044d4b4192ac2743ea42f5e, type: 3}
   instructionForCollector:
-  - {fileID: 2800000, guid: b52299e6205ac4fcb987a69b9350532a, type: 3}
+  - {fileID: 2800000, guid: 40d728b5049fb2640bb7942b4af938de, type: 3}
+  - {fileID: 2800000, guid: f635f5b446a11424baafb0dcff619984, type: 3}
+  - {fileID: 2800000, guid: 32d8708ac5160ec49be0ccba81c02031, type: 3}
+  - {fileID: 2800000, guid: 2938da26b8f7e2047b78538aa97694f9, type: 3}
+  - {fileID: 2800000, guid: 886279fa7724de34cbc0a09bce66f144, type: 3}
+  - {fileID: 2800000, guid: 345a22fecd802de4283629be906d5903, type: 3}
+  - {fileID: 2800000, guid: 5c11bdbb8f9fb6c499e07e66df3e04bb, type: 3}
+  - {fileID: 2800000, guid: 502a379c18ac72548b180a0187275841, type: 3}
   instructionForTactical:
-  - {fileID: 2800000, guid: 46ddb69274dba49bbac09cf7631d69f6, type: 3}
+  - {fileID: 2800000, guid: 6c6b8a0633062054892a25430ab972eb, type: 3}
+  - {fileID: 2800000, guid: 0892afafdf99fec4fbdec6dfa5655f61, type: 3}
+  - {fileID: 2800000, guid: 80b2e4cb2b992c54bae3ef63e3238e62, type: 3}
+  - {fileID: 2800000, guid: dbd29c1e76e659a49b92510d785d663a, type: 3}
+  - {fileID: 2800000, guid: ab55962b55db59d46a976f92ee7f2b59, type: 3}
+  - {fileID: 2800000, guid: fcb77b37621bae9469ebf688c70be601, type: 3}
+  - {fileID: 2800000, guid: 519e4f4bc86ddab4181a354e454b4c78, type: 3}
+  - {fileID: 2800000, guid: 74c751e26d5c9b94594b9bdd77a73f49, type: 3}
+  - {fileID: 2800000, guid: f7e1189d10fe8f445bc241000bd14bd4, type: 3}
 --- !u!64 &1889563232
 MeshCollider:
   m_ObjectHideFlags: 0
