@@ -82,7 +82,7 @@ public class InstructionPanel : MonoBehaviour
         }
 
         // Proceed to the next slide with the right trigger or the B key
-        else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKey(KeyCode.B))
+        else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space))
         {
             currentSlide++;
             List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
@@ -96,7 +96,7 @@ public class InstructionPanel : MonoBehaviour
         }
 
         // Go back to the previous slide with the left trigger
-        else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger))
+        else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger) || Input.GetKeyDown(KeyCode.B))
         {
             currentSlide--;
             List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
@@ -123,3 +123,4 @@ public class InstructionPanel : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(player.forward, Vector3.up);
     }
 }
+
