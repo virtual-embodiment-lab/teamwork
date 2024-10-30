@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +12,6 @@ public class CameraController : MonoBehaviour
     public float sensitivity = 5.0f;
     public bool enableControl = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    
-    }
-
-   
     void Update()
     {
         if (enableControl == true){
@@ -33,16 +30,6 @@ public class CameraController : MonoBehaviour
             float horizontalR = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).x;
             float verticalR = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y;
 
-/*
-            if ( Input.GetKey(KeyCode.UpArrow) )
-                dir_v = 1;
-            if ( Input.GetKey(KeyCode.DownArrow) )
-                dir_v = -1;
-            if ( Input.GetKey(KeyCode.RightArrow) )
-                dir_h = 1;
-            if ( Input.GetKey(KeyCode.LeftArrow) )
-                dir_h = -1;
-*/
             //move camera positoin
             transform.position += transform.right * -horizontalL * speed * Time.deltaTime;
             transform.position += transform.up * -verticalL * speed * Time.deltaTime;
@@ -50,10 +37,6 @@ public class CameraController : MonoBehaviour
             //move camera height
             transform.position += transform.forward * verticalR * speed * Time.deltaTime;
         }
-
-        //add invisible block trigger in the room + collision information of avatar to get the role of avator and switch mode if tactical
-        //let mingyi know where trigger is stored
-        //invisible object near starting room that the camera detects to go back to normal mode add duration to go back to normal mode or mnitor mode
     }
 }
 
