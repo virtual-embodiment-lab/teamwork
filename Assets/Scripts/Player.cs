@@ -418,6 +418,7 @@ public class Player : RealtimeComponent<PlayerModel>
                 carryingBatteries++;
                 batteryTimer = 0;
                 uiManager.UpdateBatteryNumber();
+                Debug.Log("test");
             }
         }
     }
