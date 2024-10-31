@@ -9,6 +9,7 @@ TagManager:
   - Coin
   - SpawnPoint
   - OverflowSpawnPoint
+  - Flag
   layers:
   - Default
   - TransparentFX

@@ -11,6 +11,7 @@ Library: /Users/Miki/Documents/VEL/Git/teamwork/Temp/BurstOutput/tempburstlibs/a
 --float-mode=Fast
 --assembly-defines=Assembly-CSharp-firstpass;
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=Meta.XR.Audio;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Normal.Realtime;
@@ -61,6 +62,7 @@ Library: /Users/Miki/Documents/VEL/Git/teamwork/Temp/BurstOutput/tempburstlibs/a
 --target-framework=NetFramework
 --assembly-defines=Assembly-CSharp-firstpass;
 --assembly-defines=Assembly-CSharp;
+--assembly-defines=Meta.XR.Audio;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Normal.Realtime;
