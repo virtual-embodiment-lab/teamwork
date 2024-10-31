@@ -110,6 +110,7 @@ public class GameManager : RealtimeComponent<GameModel>
         if (_startTrigger.started && model.gameTime == 0)
         {
             model.gameTime = CountdownDuration;
+            Debug.Log("start count down: "+ CountdownDuration);
             Player[] p = FindObjectsOfType<Player>();
             foreach(Player player in p)
             {
@@ -120,6 +121,7 @@ public class GameManager : RealtimeComponent<GameModel>
                     Logger_new ln = player.GetComponent<Logger_new>();
                     player.GetComponent<Player>().GetStarted();
                     ln.AddLine("GameStart");
+                    Debug.Log("start for role: "+ player.GetRole());
                 }
             }
         }

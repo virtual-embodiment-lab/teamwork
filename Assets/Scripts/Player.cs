@@ -99,6 +99,7 @@ public class Player : RealtimeComponent<PlayerModel>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gamePhase = 2;
+        Debug.Log("end trial for role: "+GetRole());
         uiManager.DisplayTrialOverScreen();
     }
 
