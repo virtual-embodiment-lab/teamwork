@@ -121,7 +121,7 @@ public class Player : RealtimeComponent<PlayerModel>
     void Update()
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
-        // AudioListener audioListener = FindObjectOfType<AudioListener>(); // LTQ destory the audio listener for debugging
+        AudioListener audioListener = FindObjectOfType<AudioListener>(); 
 
         UpdatePlayerModels();
 

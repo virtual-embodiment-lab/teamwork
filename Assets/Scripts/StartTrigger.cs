@@ -93,7 +93,6 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
         //if (!mazeStateSync.IsMazeSelected())
         //    return false;
 
-        // LTQ for debugging, delete the following checking functions
         // Check if all players have roles
         if (!roleSelect.AreAllRolesAssigned())
             return false;

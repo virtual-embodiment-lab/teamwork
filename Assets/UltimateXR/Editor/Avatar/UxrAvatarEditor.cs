@@ -266,7 +266,7 @@ namespace UltimateXR.Editor.Avatar
 
                             Camera newCamera = cameraObject.AddComponent<Camera>();
                             newCamera.nearClipPlane = 0.01f;
-                            // cameraObject.AddComponent<AudioListener>(); // LTQ destory the audio listener for debugging
+                            cameraObject.AddComponent<AudioListener>();
                         }
                     }
                     else
