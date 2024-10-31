@@ -90,7 +90,7 @@ public class Player : RealtimeComponent<PlayerModel>
     
     public void EndTrial()
     {
-        if (uiManager == null)
+        if (uiManager == null || gameManager == null)
         {
             Debug.LogError("UIManager is null in EndTrial");
             return;
@@ -121,7 +121,7 @@ public class Player : RealtimeComponent<PlayerModel>
     void Update()
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
-        AudioListener audioListener = FindObjectOfType<AudioListener>();
+        // AudioListener audioListener = FindObjectOfType<AudioListener>(); // LTQ destory the audio listener for debugging
 
         UpdatePlayerModels();
 
