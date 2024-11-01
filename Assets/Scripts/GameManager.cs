@@ -24,6 +24,7 @@ public class GameManager : RealtimeComponent<GameModel>
 
     private void Awake()
     {
+        Debug.Log("Awake!!");
         _startTrigger = FindObjectOfType<StartTrigger>();
         if (_startTrigger != null)
             _startTrigger.OnGameStarted += StartCountdown;
@@ -96,6 +97,7 @@ public class GameManager : RealtimeComponent<GameModel>
     }
 
     private void TrialOverDidChange(GameModel model, bool value) {
+        Debug.Log("TrialOverDidChange, value: "+value);
         if (value) {
             EndTrialForAllPlayers();
         }
@@ -106,10 +108,19 @@ public class GameManager : RealtimeComponent<GameModel>
     }
 
     private void EndTrialForAllPlayers() {
+        Debug.Log("end trial for all players");
         Player[] players = FindObjectsOfType<Player>();
 
+        
         foreach (Player player in players) {
-            player.EndTrial();
+            RealtimeView realtimeView = player.GetComponent<RealtimeView>();
+            if (realtimeView != null)
+            {
+                // Check if the RealtimeView is owned by the local player
+                if (realtimeView.isOwnedLocallySelf) {
+                    player.EndTrial();
+                }
+            }
         }
     }
 
@@ -129,9 +140,13 @@ public class GameManager : RealtimeComponent<GameModel>
 
     public void StartCountdown()
     {
+        Debug.Log("in function: start count down");
+        Debug.Log("_startTrigger.started: "+_startTrigger.started);
+        Debug.Log("model.gameTime: "+model.gameTime);
         if (_startTrigger.started && model.gameTime == 0)
         {
             model.gameTime = CountdownDuration;
+            Debug.Log("start count down: "+ CountdownDuration);
             Player[] p = FindObjectsOfType<Player>();
             foreach(Player player in p)
             {
@@ -142,6 +157,7 @@ public class GameManager : RealtimeComponent<GameModel>
                     Logger_new ln = player.GetComponent<Logger_new>();
                     player.GetComponent<Player>().GetStarted();
                     ln.AddLine("GameStart");
+                    Debug.Log("start for role: "+ player.GetRole());
                 }
             }
         }

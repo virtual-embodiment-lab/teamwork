@@ -525,9 +525,14 @@ public class UIManager: MonoBehaviour
 
     public void DisplayTrialOverScreen()
     {
+        // Debug.Log("displaying over screen for player... "+_player.currentRole.ToString());
+        if (_player.GetComponent<Logger_new>() == null) {
+            Debug.Log("it's null!!!");
+            return;
+        }
         Logger_new lg = _player.GetComponent<Logger_new>();
         lg.AddLine("TimeOver");
-
+        Debug.Log("panelShow"+panelShow);
         if (panelShow == false)
         {
             panelActive(true);

@@ -90,7 +90,7 @@ public class Player : RealtimeComponent<PlayerModel>
     
     public void EndTrial()
     {
-        if (uiManager == null)
+        if (uiManager == null || gameManager == null)
         {
             Debug.LogError("UIManager is null in EndTrial");
             return;
@@ -99,6 +99,7 @@ public class Player : RealtimeComponent<PlayerModel>
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         gamePhase = 2;
+        Debug.Log("end trial for role: "+GetRole());
         uiManager.DisplayTrialOverScreen();
     }
 
@@ -120,7 +121,7 @@ public class Player : RealtimeComponent<PlayerModel>
     void Update()
     {
         if (!realtimeView.isOwnedLocallyInHierarchy) return;
-        AudioListener audioListener = FindObjectOfType<AudioListener>();
+        AudioListener audioListener = FindObjectOfType<AudioListener>(); 
 
         UpdatePlayerModels();
 

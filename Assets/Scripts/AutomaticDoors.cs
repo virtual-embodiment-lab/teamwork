@@ -59,9 +59,10 @@ public class AutomaticDoor : RealtimeComponent<DoorModel>
     private void IsOpenDidChange(DoorModel model, bool value)
     {
         // Update the door's state when the model changes
-        Debug.Log("isOpen is changed");
+        Debug.Log("isOpen is changed"+value);
         IsOpen = value;
         OpenValue = value ? 1.0f : 0.0f;
+        Debug.Log("openValue: "+OpenValue);
     }
 
    private void OpenerDidChange(DoorModel model, int value)

@@ -75,10 +75,14 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
 
     void CheckStartConditions()
     {
+        Debug.Log("CheckStartConditions");
+        Debug.Log("now: model.started: "+model.started);
+        Debug.Log("IsEveryoneReady: "+IsEveryoneReady());
         totalPlayers = GameObject.FindGameObjectsWithTag("Player").Length;
         // Check if the game is not started and all conditions are met to start the game
         if (!model.started && IsEveryoneReady())
         {
+            Debug.Log("ready to start --");
             StartGame();
         }
     }
@@ -103,6 +107,7 @@ public class StartTrigger : RealtimeComponent<StartTriggerModel>
 
     private void StartGame()
     {
+        Debug.Log("Start Game");
         model.started = true;
         started = true;
         door.GetComponent<AutomaticDoor>().distanceChange(1.85f);
