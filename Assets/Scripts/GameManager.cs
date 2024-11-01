@@ -11,7 +11,11 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Composites;
 public class GameManager : RealtimeComponent<GameModel>
 {
     [SerializeField] private float CountdownDuration = 300.0f; // 5 minutes
+    [SerializeField] private flagCondition experimentCondition; 
+    [SerializeField] private float startRemoving = 5f; 
     private StartTrigger _startTrigger;
+    private bool removeFlag = false;
+    public int flagNum { get; private set; } = 0;
 
     public event Action<int> OnCoinsCollectedChanged;
     public int CoinsCollected => model.coinsCollected;
@@ -38,6 +42,15 @@ public class GameManager : RealtimeComponent<GameModel>
             return;
         }
 
+        if ((CountdownDuration - model.gameTime) >  startRemoving && removeFlag == false) 
+        {
+            removeFlag = true;
+            flagNum++;
+            model.removeFlag++;
+        }else if (removeFlag && experimentCondition == flagCondition.Gradual){
+            // increment removeFlag ever x seconds
+        }
+
         if (CheckFinished()) {
            SetTrialOver(true);
         } else {
@@ -56,6 +69,7 @@ public class GameManager : RealtimeComponent<GameModel>
             previousModel.gameTimeDidChange -= GameTimeDidChange;
             previousModel.coinsCollectedDidChange -= CoinsCollectedDidChange;
             previousModel.trialOverDidChange -= TrialOverDidChange;
+            previousModel.removeFlagDidChange -= RemoveFlagDidChange;
         }
 
         if (currentModel != null)
@@ -66,6 +80,7 @@ public class GameManager : RealtimeComponent<GameModel>
                 currentModel.trialOver = false;
             }
             currentModel.trialOverDidChange += TrialOverDidChange;
+            currentModel.removeFlagDidChange += RemoveFlagDidChange;
         }
     }
 
@@ -88,6 +103,10 @@ public class GameManager : RealtimeComponent<GameModel>
         }
     }
 
+    private void RemoveFlagDidChange(GameModel model, int value){
+
+    }
+
     private void EndTrialForAllPlayers() {
         Debug.Log("end trial for all players");
         Player[] players = FindObjectsOfType<Player>();
@@ -108,6 +127,9 @@ public class GameManager : RealtimeComponent<GameModel>
     private void UpdateCountdownUI(float remainingTime)
     {
         // Update any UI elements or trigger events based on the remaining time
+        // if (remainingTime == CountdownDuration){
+        //     model.gameTime = CountdownDuration;
+        // }
     }
 
     public string GetFormattedGameTime()
