@@ -2949,11 +2949,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cyan1
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3737,11 +3732,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Yellow1
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4130,11 +4120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cyan3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5404,11 +5389,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Yellow2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7063,11 +7043,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: lightGreen1
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7648,11 +7623,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cyan4
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8084,11 +8054,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue2
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8262,11 +8227,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blue4
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8334,11 +8294,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Purple2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9937,11 +9892,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Green3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12475,11 +12425,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cyan2
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12958,11 +12903,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Blue1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15563,11 +15503,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Purple1
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16069,11 +16004,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Yellow3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17281,11 +17211,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: lightGreen3
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 7
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17743,11 +17668,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Blue3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18786,11 +18706,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: lightGreen2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22487,11 +22402,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Green1
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22763,11 +22673,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Green4
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23022,11 +22927,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Green2
       objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23233,11 +23133,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Purple3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548590916562688669, guid: 96b3d2fce55ec4f7ca44ce41bf9fe34c,
-        type: 3}
-      propertyPath: flagColor
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

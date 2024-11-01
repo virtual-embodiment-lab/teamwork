@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8676085fe69cd465080ed97f16d351c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flagColor: 3
+  flagColor: 0
   removeOrder: 1
   blinkingTime: 6
   timeToRemove: 3
