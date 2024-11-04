@@ -23250,11 +23250,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatarController: {fileID: 4554827199489525664}
   instructionForAll:
-  - {fileID: 2800000, guid: 278db3c617e0d42a180029449cd3b029, type: 3}
-  - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
-  - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
-  - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
-  - {fileID: 2800000, guid: 93b164eed23e646a082d7bcf8c361ee9, type: 3}
+  - {fileID: 2800000, guid: 02bd0930634e04d42a5dcb2c66deff50, type: 3}
+  - {fileID: 2800000, guid: 78e70dc42d3ad4b4faadff40c0e7586b, type: 3}
+  - {fileID: 2800000, guid: a2bfc943baa3540b7adebb175090eaa6, type: 3}
+  - {fileID: 2800000, guid: ba28238198845474685173c8ec44cc9e, type: 3}
+  - {fileID: 2800000, guid: 25d665ace8e69498285b0c527ecb5c04, type: 3}
+  - {fileID: 2800000, guid: 85a33b65302474ca8be194b04e01a31a, type: 3}
+  - {fileID: 2800000, guid: 91b238c3272df460b8b3ea7a41bff39b, type: 3}
+  - {fileID: 2800000, guid: 7a4a2aabb2b6a48f6bbcad43f41b8a3a, type: 3}
   instructionForExplorer:
   - {fileID: 2800000, guid: c9fa5225744050549963955c422c50c2, type: 3}
   - {fileID: 2800000, guid: cb31ecdd06260f544892823050792746, type: 3}
@@ -28050,7 +28053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11400010, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: RotateAroundGuardianCenter
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11493974, guid: ce816f2e6abb0504092c23ed9b970dfd, type: 3}
       propertyPath: m_Enabled
