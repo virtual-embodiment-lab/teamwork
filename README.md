@@ -104,10 +104,10 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - [x] **Wall Peeking:** Fix head and hands (OVRPlayerController) go through the walls. [Summer, 2024]
 - [x] **Logging System:** Add in logging functionality. [Spring, 2024]
 - [ ] **Avatat Size:** Adjust the avatar size or players' viewpoint depending on each player's height.
-- [ ] **Tutorial:** Make tutorial sessions.
-- [ ] **End of the Game:** The time-up sign is not shown.
+- [x] **Tutorial:** Make tutorial sessions. [Fall, 2024]
+- [x] **End of the Game:** The time-up sign is not shown. [Fall, 2024]
 - [ ] **Increased Maze Complexity:** Enlarged the maze size to offer a greater challenge and encourage more strategic navigation. Add an automatic maze generation function.
-- [ ] **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication.
+- [x] **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication. [Fall, 2024]
 
 If you find any bugs or points to be improved, please contact to Miki Matsumuro (mm3398[at]cornell.edu).
 
