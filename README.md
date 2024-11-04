@@ -1,6 +1,6 @@
 # Mazeworld
 
-![image](./Assets/Images/readmeimage_2024summer.png)
+![image](./Assets/Images/readmeimage_2024fall.png)
 
 Welcome to MazeWorld, this project has evolved over time but the goal is still the exploration of how to evaluate team preformance. The idea is to have participants solve a maze where they are given different roles and tasks to complete. The roles consist of an explorer, collector, and tactical which have different interdependant roles. The explorer is responsible for navigating the maze, the collector is responsible for collecting coins, and the tactical is responsible for directing the explorer and collector. There is still quite a bit to be done on the project so hopefully this document will help explain the current state of the project as well as future goals.
 
@@ -43,21 +43,21 @@ The three players have different roles: Explorer, Collector, and Tactical.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/basic_info.png" width="400">
 
-- Explorer: Walk around the maze and find items. They activate the coins using battery power. The battery canbe recharged by a dropped battery by the collector or a battery box in the start room.
+- Explorer: Walk around the maze and find items. They activate the coins using battery power. The battery can be recharged by a dropped battery by the collector.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/explorer.png" width="400">
 
-- Collector: Carry items to/from the start room. Carrying many items makes their movement slow. They collect the coins and bring them to the start room and pick up batteries from the battery box and bring them to the explorer.
+- Collector: Carry items to/from the start room. Carrying many items makes their movement slow. They collect the coins and bring it to the start room and pick up batteries from the battery box and bring them to the explorer.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/collector.png" width="400">
 
-- Tactical: Observe from a birdeye view and guide the other players. They control their drone cameras to adjust observing area and detailness. They can not access any items in the maze.
+- Tactical: Observe from a birdeye view and guide the other players. They control their drone cameras to adjust observing area and detailness. They can not access any items in the maze and non-activated coins cannot be 
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/tactical.png" width="400">
 
 - Common functions: 
   - Information panel is shown and hidden with the A button.
-  - Instruction panel is shown and hidden with the B button.
+  - Players learn how to play through a tutorial session before entering the maze.
 
 ### Locomotion Methods
 We implemented two locomotino methods: Joystick and Teleportation. The main branch uses the joystich method, and the teleportation branch uses the teleporation method.

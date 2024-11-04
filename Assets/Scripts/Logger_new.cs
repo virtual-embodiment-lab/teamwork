@@ -258,8 +258,8 @@ public class Logger_new : Utility
             //record logged objects' position and rotation
             foreach (Transform obj in LoggedObjects)
             {
-                Vector3 pos = obj.position;
-                Quaternion rot = obj.rotation;
+                Vector3 pos = obj.localPosition;
+                Quaternion rot = obj.localRotation;
                 tempLoggedString += pos.x + "\t" + pos.y + "\t" + pos.z + "\t";
                 tempLoggedString += rot.x + "\t" + rot.y + "\t" + rot.z + "\t" + rot.w + "\t";
             }
@@ -270,8 +270,8 @@ public class Logger_new : Utility
                 List<Transform> objLis = new List<Transform>{headRig, leftHandRig, rightHandRig};
                 foreach (Transform obj in LoggedObjects)
                 {
-                    Vector3 pos = obj.position;
-                    Quaternion rot = obj.rotation;
+                    Vector3 pos = obj.localPosition;
+                    Quaternion rot = obj.localRotation;
                     tempLoggedString += pos.x + "\t" + pos.y + "\t" + pos.z + "\t";
                     tempLoggedString += rot.x + "\t" + rot.y + "\t" + rot.z + "\t" + rot.w + "\t";
                 }
