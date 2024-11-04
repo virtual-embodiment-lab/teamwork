@@ -47,7 +47,10 @@ public class Player : RealtimeComponent<PlayerModel>
 
     private UIManager uiManager; // Reference to the UIManager
     private Logger_new lg;
-
+    private float avatarEyePosition = 1.6f;
+    private float playerEyePosition = 1.6f;
+    private bool backsideTriggerPressed = false;
+    private float pressedDuration = 0.0f;
 
     private void Start()
     {
@@ -192,8 +195,30 @@ public class Player : RealtimeComponent<PlayerModel>
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
         }
+
+        if (OVRInput.GetDown(OVRInput.Button.SecondaryHandTrigger)){
+            backsideTriggerPressed = true;
+        
+        }else if (backsideTriggerPressed == true){
+            pressedDuration += Time.deltaTime;
+
+            if (pressedDuration > 3.0f){
+                adjustEyePosition(GameObject.Find("CenterEyeAnchor").transform.position.y);
+                backsideTriggerPressed = false;
+                pressedDuration = 0.0f;
+            }else if (OVRInput.GetUp(OVRInput.Button.SecondaryHandTrigger)) {
+                backsideTriggerPressed = false;
+                pressedDuration = 0.0f;
+            }
+        }
     }
 
+    private void adjustEyePosition (float userEye){
+        Camera eyeCamera = Camera.main;
+        float offset = userEye - avatarEyePosition;
+        eyeCamera.transform.localPosition += new Vector3(0, offset, 0);
+    }
+ 
     private void HandleMovement()
     {
         if (!canMove) return;

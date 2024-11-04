@@ -15,7 +15,4 @@ public partial class GameModel
 
     [RealtimeProperty(3, true, true)]
     private bool _trialOver;
-
-    [RealtimeProperty(4, true, true)]
-    private int _removeFlag;
 }

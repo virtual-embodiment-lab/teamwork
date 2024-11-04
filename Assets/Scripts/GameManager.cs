@@ -11,8 +11,10 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Composites;
 public class GameManager : RealtimeComponent<GameModel>
 {
     [SerializeField] private float CountdownDuration = 300.0f; // 5 minutes
-    [SerializeField] private flagCondition experimentCondition; 
-    [SerializeField] private float startRemoving = 5f; 
+    [SerializeField] public flagCondition experimentCondition; 
+    [SerializeField] private float startRemoving = 5.0f; 
+    [SerializeField] private int totalFlags = 25; 
+    [SerializeField] private int removeInterval = 8; 
     private StartTrigger _startTrigger;
     private bool removeFlag = false;
     public int flagNum { get; private set; } = 0;
@@ -46,9 +48,15 @@ public class GameManager : RealtimeComponent<GameModel>
         {
             removeFlag = true;
             flagNum++;
-            model.removeFlag++;
-        }else if (removeFlag && experimentCondition == flagCondition.Gradual){
-            // increment removeFlag ever x seconds
+
+        }else if (removeFlag == true){
+            GameObject[] flags = GameObject.FindGameObjectsWithTag("Flag");
+
+            if (flags.Length == 0) {
+                removeFlag = false;
+            }else if ((CountdownDuration - model.gameTime -  startRemoving) > flagNum * removeInterval){
+                flagNum++;
+            }
         }
 
         if (CheckFinished()) {
@@ -69,7 +77,6 @@ public class GameManager : RealtimeComponent<GameModel>
             previousModel.gameTimeDidChange -= GameTimeDidChange;
             previousModel.coinsCollectedDidChange -= CoinsCollectedDidChange;
             previousModel.trialOverDidChange -= TrialOverDidChange;
-            previousModel.removeFlagDidChange -= RemoveFlagDidChange;
         }
 
         if (currentModel != null)
@@ -80,7 +87,6 @@ public class GameManager : RealtimeComponent<GameModel>
                 currentModel.trialOver = false;
             }
             currentModel.trialOverDidChange += TrialOverDidChange;
-            currentModel.removeFlagDidChange += RemoveFlagDidChange;
         }
     }
 
@@ -101,10 +107,6 @@ public class GameManager : RealtimeComponent<GameModel>
         if (value) {
             EndTrialForAllPlayers();
         }
-    }
-
-    private void RemoveFlagDidChange(GameModel model, int value){
-
     }
 
     private void EndTrialForAllPlayers() {

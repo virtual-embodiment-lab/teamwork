@@ -24,6 +24,9 @@ public class Flag : MonoBehaviour
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
+        if (gameManager.experimentCondition == flagCondition.Sudden){
+            removeOrder = 1;
+        }
 
         ren = GetComponentsInChildren<Renderer>();
         switch (flagColor)
