@@ -161,6 +161,7 @@ MazeWorld includes a set of scripts that controll the game's mechanics, player i
 - **`PlayerManager.cs`**: Oversees all players in the game, handling tasks such as spawning and player-specific events.
 - **`PlayerRoles.cs`**: Assigns and manages roles for each player, influencing their abilities and objectives within the game.
 - **`PlayerRootSpawnPoint.cs`**, **`SpawnPoint.cs`**: Define spawn points for players and objects within the game world.
+- **`Logger_new.cs`**: Record inputs and the avatar's (body) position and rotation.
 
 ### Avatar Control
 
@@ -172,7 +173,11 @@ MazeWorld includes a set of scripts that controll the game's mechanics, player i
 
 - **`AutomaticDoors.cs`**: Controls the behavior of automatic doors within the maze, responding to player proximity.
 - **`Billboard.cs`**: Ensures certain UI elements always face the player, enhancing readability and interaction.
-- **`Coin.cs`**, **`CoinParticles.cs`**: Define collectible items within the game and their visual effects upon collection.
+- **`Coin.cs`**, **`CoinParticles.cs`**, **`Battery.cs`**: Define collectible items within the game and their visual effects upon collection.
+- **`BatteryBox.cs`**, **`CoinBox.cs`**: Define the coin-drop and battery pick-up functions.
+- **`Flag.cs`**: Define landmarks on the maze and their removal.
+- **`InstructionPanel.cs`**: Provide a tutorial session before starting the task.
+- **`VRNoPeeking.cs`**: Prevent players' heads from going through the walls.
 
 ### Tactical and Role-Based Mechanics
 
@@ -182,8 +187,10 @@ MazeWorld includes a set of scripts that controll the game's mechanics, player i
 ### Game State and Networking
 
 - **`GameManager.cs`**: Central management script for game states, transitions between levels, and session control.
+<!-- we don't use them now.
 - **`MazeStateSync.cs`**: Synchronizes the state of the maze across all players, ensuring a consistent world view.
 - **`MazeSelect.cs`**: Allows for selection of different maze configurations, adjusting the game's difficulty and layout.
+ -->
 
 ### Utility and Support Scripts
 
@@ -193,8 +200,12 @@ MazeWorld includes a set of scripts that controll the game's mechanics, player i
 
 ### VR Integration
 
+- Check [Meta XR All-in-One SDK](https://developer.oculus.com/documentation/unity/unity-gs-overview/) and OVRPlayerController for the Joystick version.
+- Check [XR Interaction Toolkit](https://docs.unity3d.com/Packages/com.unity.xr.interaction.toolkit@3.0/manual/index.html) and XR Origin for the Teleportation version.
+<!-- the avatar movement is controlled through OVRPlayerController or XR Origin
 - **`SimpleVRMovement.cs`**: Implements basic VR movement mechanics, allowing for natural player navigation.
 - **`VRRigTransform.cs`**: Manages the transformation of VR rigs, ensuring accurate representation of player movements.
+ -->
 
 ### UI and Interaction
 

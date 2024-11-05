@@ -10593,7 +10593,7 @@ PrefabInstance:
     - target: {fileID: 786053449389838135, guid: 965e926eb76f2416289c01b3d94e6f48,
         type: 3}
       propertyPath: _openDistance
-      value: 1.85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 786053449389838135, guid: 965e926eb76f2416289c01b3d94e6f48,
         type: 3}
