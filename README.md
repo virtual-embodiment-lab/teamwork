@@ -161,7 +161,7 @@ MazeWorld includes a set of scripts that controll the game's mechanics, player i
 - **`PlayerManager.cs`**: Oversees all players in the game, handling tasks such as spawning and player-specific events.
 - **`PlayerRoles.cs`**: Assigns and manages roles for each player, influencing their abilities and objectives within the game.
 - **`PlayerRootSpawnPoint.cs`**, **`SpawnPoint.cs`**: Define spawn points for players and objects within the game world.
-- **`Logger_new.cs`**: Record inputs and the avatar's (body) position and rotation.
+- **`Logger_new.cs`**: Record inputs and the avatar's body (parts) position and rotation.
 
 ### Avatar Control
 
