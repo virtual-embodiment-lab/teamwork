@@ -65,6 +65,7 @@ public class InstructionPanel : MonoBehaviour
     {
         roleInstruction = role;
     }
+
     public void createInstructionPanel()
     {
         Transform player = GameObject.Find("OVRPlayerController").transform;
@@ -72,4 +73,34 @@ public class InstructionPanel : MonoBehaviour
         transform.position = plPosition + new Vector3(0f, 1.5f, 0f) + player.forward * 1.5f;
         transform.rotation = Quaternion.LookRotation(player.forward, Vector3.up);
     }
+
+    public void DisplayInstruction()
+    {
+        if (currentSlide == 6)
+        {
+            transform.position = new Vector3(0f, 1.5f, 0f); //update
+            transform.rotation = //ask chatgpt, convert degree to radian?
+        }
+
+        //explorer and collector
+        if (roleInstruction == Role.explorer && currentSlide == 10)
+        {
+            transform.position = new Vector3(0f, 0.85f, -0.91f);
+            transform.rotation = 
+        }
+
+        if (roleInstruction == Role.collector && currentSlide == 10)
+        {
+            transform.position = new Vector3(0f, 0.85f, -0.91f);
+            transform.rotation = 
+        }
+
+        //tactical
+        if (roleInstruction == Role.tactical && currentSlide == 20) {
+            transform.position = new Vector3(0f, 0.85f, -0.91f);
+        }
+
+        if (roleInstruction == Role.tactical && currentSlide == 21) {
+            transform.position = new Vector3(0f, 0.85f, -0.91f);
+        }
 }
