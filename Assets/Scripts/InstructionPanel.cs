@@ -86,21 +86,20 @@ public class InstructionPanel : MonoBehaviour
         if (roleInstruction == Role.explorer && currentSlide == 10)
         {
             transform.position = new Vector3(0f, 0.85f, -0.91f);
-            transform.rotation = 
         }
 
         if (roleInstruction == Role.collector && currentSlide == 10)
         {
             transform.position = new Vector3(0f, 0.85f, -0.91f);
-            transform.rotation = 
         }
 
         //tactical
-        if (roleInstruction == Role.tactical && currentSlide == 20) {
-            transform.position = new Vector3(0f, 0.85f, -0.91f);
+        if (roleInstruction == Role.tactical && currentSlide == 20 && currentSlide == 21) {
+            transform.position = new Vector3(0f, 1.01f, -1.375f);
         }
 
-        if (roleInstruction == Role.tactical && currentSlide == 21) {
-            transform.position = new Vector3(0f, 0.85f, -0.91f);
+        if (roleInstruction == Role.tactical && currentSlide >= 22 && currentSlide <= 26) {
+            transform.position = new Vector3(0f, 1.337f, -5.874f);
         }
+    }
 }
