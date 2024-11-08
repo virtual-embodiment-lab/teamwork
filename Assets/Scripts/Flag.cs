@@ -96,7 +96,7 @@ public class Flag : MonoBehaviour
                 {
                     r.material.color = endColor;
                 }
-                Destroy(gameObject);            
+                Destroy(gameObject);
             }
         }
 

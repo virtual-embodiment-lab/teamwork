@@ -12,7 +12,7 @@ public class GameManager : RealtimeComponent<GameModel>
 {
     [SerializeField] private float CountdownDuration = 300.0f; // 5 minutes
     [SerializeField] public flagCondition experimentCondition; 
-    [SerializeField] private float startRemoving = 5.0f; 
+    [SerializeField] private float startRemoving = 30.0f; 
     [SerializeField] private int totalFlags = 25; 
     [SerializeField] private int removeInterval = 8; 
     private StartTrigger _startTrigger;
