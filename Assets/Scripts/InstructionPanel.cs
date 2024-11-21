@@ -80,30 +80,24 @@ public class InstructionPanel : MonoBehaviour
         // Proceed to the next slide with the right trigger or the B key
         else if (OVRInput.GetUp(OVRInput.RawButton.RIndexTrigger) || Input.GetKeyDown(KeyCode.Space))
         {
-            currentSlide++;
             List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
 
-            if (currentSlide >= instructions.Count)
+            if (currentSlide < instructions.Count - 1) // Only increment if not at the last slide
             {
-                currentSlide = 0;  // Loop back to the first slide if necessary
+                currentSlide++;
+                objRenderer.material.mainTexture = instructions[currentSlide];
             }
-
-            objRenderer.material.mainTexture = instructions[currentSlide];
-            //test
         }
 
         // Go back to the previous slide with the left trigger
         else if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger) || Input.GetKeyDown(KeyCode.B))
         {
-            currentSlide--;
-            List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
-
-            if (currentSlide < 0)
+            if (currentSlide > 0) // Only decrement if not at the first slide
             {
-                currentSlide = instructions.Count - 1;  // Loop back to the last slide if necessary
+                currentSlide--;
+                List<Texture> instructions = GetRoleInstructionList();  // Get the correct list based on role
+                objRenderer.material.mainTexture = instructions[currentSlide];
             }
-
-            objRenderer.material.mainTexture = instructions[currentSlide];
         }
     }
 
