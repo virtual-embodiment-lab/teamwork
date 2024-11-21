@@ -76,30 +76,40 @@ public class InstructionPanel : MonoBehaviour
 
     public void DisplayInstruction()
     {
-        if (currentSlide == 6)
+        if (currentSlide >= 6 && currentSlide <= 9)
         {
-            transform.position = new Vector3(0f, 1.5f, 0f); //update
-            transform.rotation = //ask chatgpt, convert degree to radian?
+            transform.position = new Vector3(4.224f, 1.329f, 0.003f);
+            transform.rotation = Quaternion.Euler(-0.013f, -88.058f, 1.001f);
         }
 
         //explorer and collector
-        if (roleInstruction == Role.explorer && currentSlide == 10)
+        if (roleInstruction == Role.explorer && (currentSlide >= 10 && currentSlide <= 12 || currentSlide >= 17 && currentSlide <= 18))
         {
-            transform.position = new Vector3(0f, 0.85f, -0.91f);
+            transform.position = new Vector3(0.013f, 1.217f, -0.627f);
+            transform.rotation = Quaternion.Euler(0f, -180.94f, 0f);
         }
 
-        if (roleInstruction == Role.collector && currentSlide == 10)
+        if (roleInstruction == Role.collector && (currentSlide == 10 || (currentSlide >= 13 && currentSlide <= 16) || currentSlide == 19))
         {
-            transform.position = new Vector3(0f, 0.85f, -0.91f);
+            transform.position = new Vector3(0.013f, 1.217f, -0.627f);
+            transform.rotation = Quaternion.Euler(0f, -180.94f, 0f);
         }
 
         //tactical
-        if (roleInstruction == Role.tactical && currentSlide == 20 && currentSlide == 21) {
-            transform.position = new Vector3(0f, 1.01f, -1.375f);
+        if (roleInstruction == Role.tactical && (currentSlide == 20 && currentSlide == 21)) {
+            transform.position = new Vector3(0.013f, 1.217f, -0.627f);
+            transform.rotation = Quaternion.Euler(0f, -180.94f, 0f);
         }
 
         if (roleInstruction == Role.tactical && currentSlide >= 22 && currentSlide <= 26) {
-            transform.position = new Vector3(0f, 1.337f, -5.874f);
+            transform.position = new Vector3(-0.04f, 1.29f, -5.41f);
+            transform.rotation = Quaternion.Euler(0f, -180.94f, 0f);
+        }
+
+        if (currentSlide >= 27)
+        {
+            transform.position = new Vector3(-0.843f, 1.217f, 0.028f);
+            transform.rotation = Quaternion.Euler(0f, -88.341f, 0f);
         }
     }
 }
