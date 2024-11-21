@@ -1,20 +1,27 @@
 # Mazeworld
 
-![image](./Assets/Images/readmeimage_2024spring.png)
+![image](./Assets/Images/readmeimage_2024summer.png)
 
 Welcome to MazeWorld, this project has evolved over time but the goal is still the exploration of how to evaluate team preformance. The idea is to have participants solve a maze where they are given different roles and tasks to complete. The roles consist of an explorer, collector, and tactical which have different interdependant roles. The explorer is responsible for navigating the maze, the collector is responsible for collecting coins, and the tactical is responsible for directing the explorer and collector. There is still quite a bit to be done on the project so hopefully this document will help explain the current state of the project as well as future goals.
 
 Here is the current publication from the initial work on this project: [View Publication](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Wr3zbI8AAAAJ&citation_for_view=Wr3zbI8AAAAJ:u-x6o8ySG0sC)
 
+All copyrights are reserved by Cornell University and Iowa State University. Licensed under [Attribution-Noncommercial-Sharelike 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Developers and contributors are listed in the [CREDITS.md](./CREDITS.md) file.
+
 ## Table of Contents
 
-- [Task List](#task-list)
+- [How to Play](#how-to-play)
+  - [Locomotion Methods](#locomotion-methods)
+    - [Joystick](#joystick)
+    - [Teleportation](#teleportation)
+- [Multiplayer Networking with Normcore](#multiplayer-networking-with-normcore)
+  - [Normcore Settings](#normcore-settings)
+  - [Features Utilized in MazeWorld](#features-utilized-in-mazeworld)
+- [Bugs and Improvements](#bugs-and-improvements)
 - [Installation Guide](#installation-guide)
   - [Prerequisites](#prerequisites)
   - [Downloading the Project](#downloading-the-project)
   - [Setting Up Unity](#setting-up-unity)
-- [Multiplayer Networking with Normcore](#multiplayer-networking-with-normcore)
-  - [Features Utilized in MazeWorld](#features-utilized-in-mazeworld)
 - [Script Overview](#script-overview)
   - [Player Management](#player-management)
   - [Avatar Control](#avatar-control)
@@ -30,18 +37,79 @@ Here is the current publication from the initial work on this project: [View Pub
     - [Bug Fixes](#bug-fixes)
     - [Improvements](#improvements)
 
-## Task List
+## How to Play
+Three players work together to collect as many coins as possible in a limited time. The coin are placed acros a maze, and represented gray crosses. To collect the coins, the players have to activated them. The activated coins have each color and shape, and only the target shape coin can be collected.
+The three players have different roles: Explorer, Collector, and Tactical.
 
-- [ ] Place coins within the current maze and configure them correctly.
-- [x] Setup the new start area and import the scripts from the old one. [Spring, 2024]
-- [ ] Allow players to change between the two robot avatars and change color.
-- [ ] Fix head and hands (OVRPlayerController) go through the walls.
-- [ ] Add in logging functionality from the [VELLib](https://github.com/virtual-embodiment-lab/vellib).
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/basic_info.png" width="400">
 
-[VELLib](https://github.com/virtual-embodiment-lab/vellib) is a collection of scripts that were made to support development of project in the Virtual Emobodiment Lab.
+- Explorer: Walk around the maze and find items. They activate the coins using battery power. The battery canbe recharged by a dropped battery by the collector or a battery box in the start room.
 
-For more informaiton on how to work with VEL resources please visit the [onboarding](https://github.com/virtual-embodiment-lab/Onboarding) and [tutorial](https://github.com/virtual-embodiment-lab/unity-tutorial) documentation. If you do not have access to these respositories contact the lab manager for access.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/explorer.png" width="400">
 
+- Collector: Carry items to/from the start room. Carrying many items makes their movement slow. They collect the coins and bring them to the start room and pick up batteries from the battery box and bring them to the explorer.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/collector.png" width="400">
+
+- Tactical: Observe from a birdeye view and guide the other players. They control their drone cameras to adjust observing area and detailness. They can not access any items in the maze.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/tactical.png" width="400">
+
+- Common functions: 
+  - Information panel is shown and hidden with the A button.
+  - Instruction panel is shown and hidden with the B button.
+
+### Locomotion Methods
+We implemented two locomotino methods: Joystick and Teleportation. The main branch uses the joystich method, and the teleportation branch uses the teleporation method.
+
+#### Joystick
+Players can control the avatar's body direction with the the joystick on the right-hand controller and the avata's movement with thejoystick on the left-hand controller.
+
+#### Teleportation
+Players point where they want to go using the left-hand controller and teleport there with the side trigger on the left-hand controller. They can teleport to where their pointing line is green.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Locomotion.png" width="400">
+
+## Multiplayer Networking with Normcore
+
+MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver a seamless and interactive multiplayer Virtual Reality (VR) experience. Normcore is central to our ability to synchronize player actions in real-time, ensuring that every participant in the virtual environment experiences the same dynamic world simultaneously.
+
+### Normcore Settings
+1. Create a Normal cccount in [Normcore website](https://normcore.io)
+2. Click "Create ana application" or "Applications" in the dashboard.
+3. Enter any name and create an application.
+4. Note an App Key.
+5. In MazeWorld, select the "NormcoreAppSettings" under the "Assets/Normal/Resources/" and enter the App Key.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Normcore_instruction1.png" width="300">
+
+6. Select the "Realtime + VR Playeryer" under the "utility" from the hierarchy.
+  - Enter your App Key.
+  - Enter any room name.
+    - Players who want to play together must use the same App Key and room name.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Normcore_instruction2.png" width="300">
+
+### Features Utilized in MazeWorld
+
+- **Real-time Data Synchronization:** Normcore's real-time data synchronization is used to ensure that all interactive elements within the maze, including puzzles, obstacles, and collectibles, are consistently updated across all connected clients.
+- **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
+- **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
+
+## Bugs & Improvements
+
+- [ ] **Coin Placement:** Place coins within the current maze and configure them correctly.
+- [x] **Functions Transfer:** Setup the new start area and import the scripts from the old one. [Spring, 2024]
+- [ ] **Avatar Features:** Allow players to change between the two robot avatars and change color.
+- [x] **Wall Peeking:** Fix head and hands (OVRPlayerController) go through the walls. [Summer, 2024]
+- [x] **Logging System:** Add in logging functionality. [Spring, 2024]
+- [ ] **Avatat Size:** Adjust the avatar size or players' viewpoint depending on each player's height.
+- [ ] **Tutorial:** Make tutorial sessions.
+- [ ] **End of the Game:** The time-up sign is not shown.
+- [ ] **Increased Maze Complexity:** Enlarged the maze size to offer a greater challenge and encourage more strategic navigation. Add an automatic maze generation function.
+- [ ] **Added Navigational Cues:** Implemented visible landmarks, such as a mountain peak outside the maze, to aid in orientation and team communication.
+
+If you find any bugs or points to be improved, please contact to Miki Matsumuro (mm3398[at]cornell.edu).
 
 ## Installation Guide
 
@@ -82,9 +150,6 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Real-time Data Synchronization:** Normcore's real-time data synchronization is used to ensure that all interactive elements within the maze, including puzzles, obstacles, and collectibles, are consistently updated across all connected clients.
 - **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
-
-## How to Play
-<img src="./Assets/Images/controller.png" width="500">
 
 ## Script Overview
 

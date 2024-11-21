@@ -1,3 +1,7 @@
+// Copyright (c) Cornell University and Iowa State University
+// Licensed under CC BY-NC-SA 4.0
+// See CREDITS.md for a list of developers and contributors.
+
 using UnityEngine;
 using Normal.Realtime;
 using TMPro;
@@ -18,6 +22,7 @@ public class Player : RealtimeComponent<PlayerModel>
     [SerializeField] private Sprite crosshairSprite;
     [SerializeField] private float minWalkingSpeed = 1.0f;
     [SerializeField] private float maxEnergy = 100f;
+    [SerializeField] private float batteryConsumption = 33f;
     [SerializeField] private float batteryRechargeTime = 2.0f;
     [SerializeField] public string layerToActivate = "Collector";
 
@@ -36,8 +41,9 @@ public class Player : RealtimeComponent<PlayerModel>
     public float MaxEnergy => maxEnergy; // Expose max energy for the UI
     public int carryingBatteries { get; private set; } = 0; // Expose batteries for the UI
     public int carryingCoins { get; private set; } = 0;
-    //[SerializeField] private int carryingBatteries = 3;
-    public const int MaxBatteries = 3;
+    public int gamePhase { get; private set; } = 0; // 0 = tutorial, 1 = playing, 2 = timeout
+
+    [SerializeField] public const int MaxBatteries = 1;
 
     private UIManager uiManager; // Reference to the UIManager
     private Logger_new lg;
@@ -92,6 +98,7 @@ public class Player : RealtimeComponent<PlayerModel>
         canMove = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        gamePhase = 2;
         uiManager.DisplayTrialOverScreen();
     }
 
@@ -103,6 +110,11 @@ public class Player : RealtimeComponent<PlayerModel>
         SetRole(Role.None);
         GetComponent<RealtimeTransform>().RequestOwnership();
         currentEnergy = maxEnergy;
+    }
+
+    public void GetStarted()
+    {
+        gamePhase = 1;
     }
 
     void Update()
@@ -159,7 +171,6 @@ public class Player : RealtimeComponent<PlayerModel>
                 boxEvents(other);
                 break;
             default:
-                Debug.Log("collide player");
                 break;
         }
     }
@@ -179,7 +190,6 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Cursor.visible = !Cursor.visible;
-            //uiManager.SetCrosshairVisibility(Cursor.lockState == CursorLockMode.Locked);
         }
     }
 
@@ -191,8 +201,6 @@ public class Player : RealtimeComponent<PlayerModel>
 
         if (currentRole.Equals(Role.Explorer))
         {
-            //float energyRatio = currentEnergy / maxEnergy;
-
             // does not decrease walking speed as long as energy is not gone.
             float energyRatio = 1;
             if (currentEnergy <= 1)
@@ -228,17 +236,14 @@ public class Player : RealtimeComponent<PlayerModel>
         {
             rotationX -= Input.GetAxis("Mouse Y") * lookSpeed;
             rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            //playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.Rotate(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
-
 
     private void TriggerTactical(Collider other)
     {
         if (other.CompareTag("TacticalControlTrigger") && currentRole.Equals(Role.Tactical))
         {
-            //other.GetComponent<TacticalControlTrigger>().tacticalControl.AssignPlayerComponents(this, playerCamera);
             other.GetComponent<TacticalControlTrigger>().tacticalControl.IsTacticalModeActive = true;
             isTacticalModeActive = true;
             uiManager.UpdateRoleDependentUI();
@@ -250,8 +255,9 @@ public class Player : RealtimeComponent<PlayerModel>
         if (other.CompareTag("Battery") || (other.gameObject.name == "batteryBox"))
         {
             // Assuming batteries restore a fixed amount of energy
-            float energyRestored = 10f*maxEnergy/20f; // Adds 10 secs. Adjust this value as needed
-            currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
+            // float energyRestored = 10f*maxEnergy/20f; // Adds 10 secs. Adjust this value as needed
+            // currentEnergy = Mathf.Min(currentEnergy + energyRestored, maxEnergy);
+            currentEnergy = maxEnergy;
             lg.AddLine("Battery:pickUp");
             
             if (other.CompareTag("Battery"))
@@ -266,38 +272,7 @@ public class Player : RealtimeComponent<PlayerModel>
 
     public void HandleEnergyConsumption(Player player)
     {
-        /*
-        // Determine if the player is moving
-        isMoving = characterController.velocity.magnitude > 0;
-        
-        // If moving, deplete energy
-        if (isMoving)
-        {
-            // energy change based on time instead of movement
-            currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime*maxEnergy/45.0f, 1);
-        
-            //float energyRatio = currentEnergy / maxEnergy;
-            //float scaledSpeed = Mathf.Lerp(minWalkingSpeed, walkingSpeed, energyRatio);
-
-            //currentEnergy = Mathf.Max(currentEnergy - Time.deltaTime * scaledSpeed, 1); // Keep energy above 0 to avoid division by zero
-        }
-
-        // Handle energy reaching zero if needed
-
-        if (currentEnergy <= 5)
-        {
-            // Perform any logic for when energy depletes (like disabling movement)
-            GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>().Acceleration = 0.01f;
-        }
-        else if (currentEnergy <= 50)
-        {
-            OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
-            float currentAcceleration = playerCon.Acceleration;
-            playerCon.Acceleration = currentEnergy/500f;
-        }
-        */
-        player.currentEnergy -= 33;
-
+        player.currentEnergy -= batteryConsumption;
     }
 
     private void boxEvents(Collider other)
@@ -343,8 +318,6 @@ public class Player : RealtimeComponent<PlayerModel>
             OVRPlayerController playerCon = GameObject.Find("OVRPlayerController").GetComponent<OVRPlayerController>();
             float carryingLoad = (0.1f * 0.15f * carryingCoins) + (0.1f * 0.03f * carryingBatteries); //10% a coin, 3% a battery
             playerCon.Acceleration = 0.1f - carryingLoad;
-
-           //uiManager.UpdateBatteryRecharge();
         }
     }
 
