@@ -89,6 +89,7 @@ public class InstructionPanel : MonoBehaviour
             }
 
             objRenderer.material.mainTexture = instructions[currentSlide];
+            //test
         }
 
         // Go back to the previous slide with the left trigger
