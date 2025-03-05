@@ -266,7 +266,7 @@ public class ClientDataLogger : Utility
             if (!realtimeView.isOwnedLocallyInHierarchy)
             {
                 realtimeView.RequestOwnership();
-                return;
+                continue;
             }
 
             // Get current tick from Oracle
