@@ -58,3 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# AWS Key files
+AwsKeys.json
+
+# MacOS
+.DS_Store

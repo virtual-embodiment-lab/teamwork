@@ -879,6 +879,8 @@ GameObject:
   - component: {fileID: -3318412551965611739}
   - component: {fileID: 7454214575255867553}
   - component: {fileID: 1823107430206145892}
+  - component: {fileID: -2588653297183173745}
+  - component: {fileID: 9051603813446206827}
   - component: {fileID: 4471511654424974836}
   m_Layer: 3
   m_Name: VR Player new
@@ -937,6 +939,8 @@ MonoBehaviour:
     component: {fileID: 0}
   - componentID: 4
     component: {fileID: -3318412551965611739}
+  - componentID: 5
+    component: {fileID: -2588653297183173745}
   _childViews:
   - componentID: 1
     component: {fileID: 6316352312844503136}
@@ -1049,7 +1053,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8798984728026283834}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 697e2690188784279afe95ee356d1626, type: 3}
   m_Name: 
@@ -1077,6 +1081,53 @@ MonoBehaviour:
     Attributes: []
   tempLoggedString: 
   runLogging: 1
+  timeStampLive: {fileID: 0}
+--- !u!114 &-2588653297183173745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798984728026283834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bc2eeb87ffc24fc889fc067e12128b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentTick: 0
+--- !u!114 &9051603813446206827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798984728026283834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6bd7486cd184f7fbfc915a042bc823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  log: 1
+  logFileSampleRate: 50
+  LoggedObjects: []
+  head: {fileID: 0}
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}
+  oculusIntegration: 1
+  headRig: {fileID: 0}
+  leftHandRig: {fileID: 0}
+  rightHandRig: {fileID: 0}
+  rig: {fileID: 0}
+  ovrRig: {fileID: 0}
+  ovrRigRef: {fileID: 0}
+  trialName: test1
+  clientTickSync: {fileID: 0}
+  trackingTickSync: {fileID: 0}
+  startTrackingSync: {fileID: 0}
+  oracleModeDataCollection: {fileID: 0}
+  filePath: 
+  fileName: 
+  tempLoggedString: 
   timeStampLive: {fileID: 0}
 --- !u!81 &4471511654424974836
 AudioListener:
