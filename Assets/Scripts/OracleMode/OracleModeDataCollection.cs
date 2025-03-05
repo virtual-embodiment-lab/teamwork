@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
+using Normal.Realtime;
 
 public class OracleModeDataCollection : MonoBehaviour
 {
@@ -23,45 +23,64 @@ public class OracleModeDataCollection : MonoBehaviour
     private int expectedClientCount = 0;
     [SerializeField] private string currentFilePath;
     [SerializeField] private string fileName;
+    private RealtimeView realtimeView;
 
     void Start()
     {
-        avatars = new List<GameObject>();
-        avatarManager = FindObjectOfType<RealtimeAvatarManager>();
-        trackingTickSync = GetComponent<TrackingTickSync>();
-        startTrackingSync = GetComponent<StartTrackingSync>();
+        realtimeView = GetComponent<RealtimeView>();
 
-        // Initialize the current tick and is recording
-        currentTick = trackingTickSync.GetTrackingTick();
-        isRecording = startTrackingSync.GetTracking();
-
-        // Initialize the avatar list
-        if (avatarManager != null)
+        if (!realtimeView.isOwnedLocallyInHierarchy)
         {
-            avatarManager.avatarCreated += OnAvatarCreated;
-            avatarManager.avatarDestroyed += OnAvatarDestroyed;
+            realtimeView.RequestOwnership();
         }
 
-        // Initialize the tick time writer
-        fileName = $"oracle_mode_data_{DateTime.Now:yyyyMMdd_HHmmss}.tsv";
-        currentFilePath = Path.Combine(Application.persistentDataPath, fileName);
-        Debug.Log($"Saving file to: {currentFilePath}");
-        tickTimeWriter = new StreamWriter(currentFilePath);
-        tickTimeWriter.WriteLine("Tick\tServerTime\tLocalTime\tResponseCount\tExpectedCount");
+        if (realtimeView.isOwnedLocallyInHierarchy)
+        {
+            avatars = new List<GameObject>();
+            avatarManager = FindObjectOfType<RealtimeAvatarManager>();
+            trackingTickSync = GetComponent<TrackingTickSync>();
+            startTrackingSync = GetComponent<StartTrackingSync>();
+
+            // Initialize the current tick and is recording
+            currentTick = trackingTickSync.GetTrackingTick();
+            isRecording = startTrackingSync.GetTracking();
+
+            // Initialize the avatar list
+            if (avatarManager != null)
+            {
+                avatarManager.avatarCreated += OnAvatarCreated;
+                avatarManager.avatarDestroyed += OnAvatarDestroyed;
+            }
+
+            // Initialize the tick time writer
+            fileName = $"oracle_mode_data_{DateTime.Now:yyyyMMdd_HHmmss}.tsv";
+            currentFilePath = Path.Combine(Application.persistentDataPath, fileName);
+            Debug.Log($"Saving file to: {currentFilePath}");
+            tickTimeWriter = new StreamWriter(currentFilePath);
+            tickTimeWriter.WriteLine("Tick\tServerTime\tLocalTime\tResponseCount\tExpectedCount");
+        }
     }
 
     void Update()
     {
-        avatarCount = avatars.Count;
-
-        if (Input.GetKeyDown(KeyCode.F))
+        if (!realtimeView.isOwnedLocallyInHierarchy)
         {
-            ToggleRecording();
+            realtimeView.RequestOwnership();
         }
 
-        if (isRecording && Time.time >= nextTickTime)
+        if (realtimeView.isOwnedLocallyInHierarchy)
         {
-            ProcessNextTick();
+            avatarCount = avatars.Count;
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                ToggleRecording();
+            }
+
+            if (isRecording && Time.time >= nextTickTime)
+            {
+                ProcessNextTick();
+            }
         }
     }
 
