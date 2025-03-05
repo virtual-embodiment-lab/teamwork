@@ -96,6 +96,94 @@ MazeWorld uses [Normcore](https://normcore.io/) networking framework to deliver 
 - **Voice Chat:** The built-in voice chat functionality of Normcore has been integrated to facilitate communication among players. This feature enhances teamwork and strategy as players navigate the mazes together.
 - **Player Presence:** With Normcore's `RealtimeAvatar` system, the project supports dynamic player avatars that represent each participant in the virtual space, further enriching the sense of presence and immersion.
 
+## Oracle Mode
+### Section 1. Logic Behind Oracle Mode
+
+In this project, Oracle Mode is used to enhance researchers' experience in observing participants' behaviors and tracking data. After an experiment is completed, the data is automatically uploaded to AWS, eliminating the need for researchers to manually extract files from each headset. Additionally, some data is pre-processed to facilitate easier analysis.
+
+This section explains how Oracle Mode's data upload works, providing insights for future developers. The project utilizes **Normcore**, a networking plugin and hosting service. In the gameplay scene, there are four clients: three participants' avatars and the researcher's **Oracle invisible camera**. Two custom data models are created for avatar access and modification:
+
+- **`StartTrackDataModel`**: Notifies all avatars whether the data tracking script should start collecting local data.
+- **`TrackingTickModel`**: Records the current tick.
+- **`ClientTickModel`**: Tracks each participant's current tick.
+
+#### Challenges in Data Tracking
+
+Previously, researchers faced two main challenges:
+
+1. **Data Export Complexity**: TSV files were stored in local headsets, making the process redundant and time-consuming.
+2. **Timestamp Misalignment**: Since each headset recorded data locally, timestamps were inconsistent, making cross-device data analysis difficult.
+
+#### Solution: Oracle Mode & Tick Mechanism
+
+To address these issues, Oracle Mode integrates **AWS** and a **tick-based mechanism** to streamline data collection.
+
+1. When the researcher **presses the ‘F’ key**, the Oracle script:
+   - Sets `StartTrackDataModel` to `true`.
+   - Initializes `TrackingTickModel` to `1`.
+
+2. Each participant’s headset:
+   - Receives the model value update via the **Normcore server**.
+   - Creates a local TSV file.
+   - Compares `TrackingTickModel` with its local tick value.
+   - If `TrackingTickModel` is greater, relevant data is recorded in the local TSV file.
+   - Updates `ClientTickModel` and its local tick value to match `TrackingTickModel`.
+
+3. Oracle then:
+   - Waits for a predefined time for all clients to collect data.
+   - Compares each headset’s `ClientTickModel` value with `TrackingTickModel`.
+   - Records:
+     - Tick number.
+     - UTC time.
+     - Number of participants who successfully tracked data.
+     - Expected number of participants (total players in the room).
+
+4. The Oracle script increments `TrackingTickModel` and repeats the process until the researcher **presses ‘F’ again**, stopping data collection.
+
+5. After receiving the stop signal, each headset:
+   - Uploads its TSV file to an **AWS S3 bucket** under a folder named **`YY-MM-DD-HH`** (current UTC timestamp).
+   - Researchers can log into **AWS S3** and retrieve the data for analysis.
+   - Timestamp discrepancies across headsets are resolved, as Oracle Mode **synchronizes all data using ticks**.
+  
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Flowchart.png" width="600">
+
+---
+
+### Section 2. How to Use Oracle Mode
+
+#### Oracle Mode
+
+1. Navigate to **Utilities → Oracle Manager**.
+2. Enable **Oracle Mode Data Collection**.
+3. Disable **Utilities → Itime + VR Player**, and enable **Oracle + Realtime Manager**.
+4. Run Unity.
+5. Press the **‘F’ key** to toggle data tracking on/off.
+
+#### Player Mode
+
+1. Navigate to **Utilities → Oracle Manager**.
+2. Disable **Oracle Mode Data Collection**.
+3. Enable **Utilities → Itime + VR Player**, and disable **Oracle + Realtime Manager**.
+4. Compile the application to the headset.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Utilities.png" width="600">
+
+---
+
+### Section 3. Other Details
+
+Due to security reasons, **AWS access credentials** are ignored in GitHub. To configure access:
+
+1. Obtain the **AWS access key, secret key, and account details** from the manager.
+2. Create a file named **`AwsKeys.json`** in the project's root directory.
+3. Use the following format:
+
+   ```json
+   {
+       "awsAccessKey": "YOUR_AWS_ACCESS_KEY",
+       "awsSecretKey": "YOUR_AWS_SECRET_KEY"
+   }
+
 ## Bugs & Improvements
 
 - [ ] **Coin Placement:** Place coins within the current maze and configure them correctly.
