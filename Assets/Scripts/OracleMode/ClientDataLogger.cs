@@ -101,34 +101,27 @@ public class ClientDataLogger : Utility
 
             // Logger
             realtimeView = GetComponent<RealtimeView>();
-            if (realtimeView != null && realtimeView.isOwnedLocallySelf)
+            // Initialize tick sync components
+            clientTickSync = GetComponent<ClientTickSync>();
+
+            GameObject oracleManager = GameObject.Find("Oracle Manager");
+            if (oracleManager == null)
             {
-                // Initialize tick sync components
-                clientTickSync = GetComponent<ClientTickSync>();
-                if (clientTickSync == null)
-                {
-                    clientTickSync = gameObject.AddComponent<ClientTickSync>();
-                }
+                Debug.LogError("oracleManager not found in scene");
+            }
 
-                GameObject oracleManager = GameObject.Find("Oracle Manager");
-                if (oracleManager == null)
-                {
-                    Debug.LogError("oracleManager not found in scene");
-                }
-
-                trackingTickSync = oracleManager.GetComponent<TrackingTickSync>();
-                startTrackingSync = oracleManager.GetComponent<StartTrackingSync>();
-                if (!File.Exists(Application.persistentDataPath + "/player_log_" + trialName + ".tsv"))
-                {
-                    Debug.Log(" " + Application.persistentDataPath + "/player_log_" + trialName + ".tsv");
-                    FileStream file = File.Open(Application.persistentDataPath + "/player_log_" + trialName + ".tsv", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                    filePath = Application.persistentDataPath + "/player_log_" + trialName + ".tsv";
-                    fileName = "player_log_" + trialName + ".tsv";
-                    writer = new StreamWriter(file);
-                    writer.WriteLine("Player" + realtimeView.ownerID);
-                    writer.Flush();
-                    putVarNames();
-                }
+            trackingTickSync = oracleManager.GetComponent<TrackingTickSync>();
+            startTrackingSync = oracleManager.GetComponent<StartTrackingSync>();
+            if (!File.Exists(Application.persistentDataPath + "/player_log_" + trialName + ".tsv"))
+            {
+                Debug.Log(" " + Application.persistentDataPath + "/player_log_" + trialName + ".tsv");
+                FileStream file = File.Open(Application.persistentDataPath + "/player_log_" + trialName + ".tsv", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                filePath = Application.persistentDataPath + "/player_log_" + trialName + ".tsv";
+                fileName = "player_log_" + trialName + ".tsv";
+                writer = new StreamWriter(file);
+                writer.WriteLine("Player" + realtimeView.ownerID);
+                writer.Flush();
+                putVarNames();
             }
         }
     }
@@ -254,7 +247,7 @@ public class ClientDataLogger : Utility
                 lastRecordedTick = currentTick;
 
                 // Update our client's tick to show we've recorded this tick
-                clientTickSync.SetCurrentTick(currentTick);
+                clientTickSync.SetCurrentTick(lastRecordedTick);
             }
 
             yield return new WaitForSecondsRealtime((float)(1.0 / logFileSampleRate));
