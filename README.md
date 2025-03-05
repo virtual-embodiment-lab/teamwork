@@ -153,20 +153,23 @@ To address these issues, Oracle Mode integrates **AWS** and a **tick-based mecha
 
 #### Oracle Mode
 
-1. Navigate to **Utilities → Oracle Manager**.
-2. Enable **Oracle Mode Data Collection**.
-3. Disable **Utilities → Itime + VR Player**, and enable **Oracle + Realtime Manager**.
-4. Run Unity.
-5. Press the **‘F’ key** to toggle data tracking on/off.
+1. Navigate to **Oracle Manager**.
+2. Enable the component **Oracle Mode Data Collection** in **Oracle Manager**.
+3. In **Oracle Manager Realtime View**, change the **Realtime Instance** to **Oracle + Realtime Manager**. 
+4. Disable **Utilities → Itime + VR Player**, and enable **Oracle + Realtime Manager**.
+5. Run Unity.
+6. Press the **‘F’ key** to toggle data tracking on/off.
 
 #### Player Mode
 
-1. Navigate to **Utilities → Oracle Manager**.
-2. Disable **Oracle Mode Data Collection**.
-3. Enable **Utilities → Itime + VR Player**, and disable **Oracle + Realtime Manager**.
-4. Compile the application to the headset.
+1. Navigate to **Oracle Manager**.
+2. Disable **Oracle Mode Data Collection** in **Oracle Manager**.
+3. In **Oracle Manager Realtime View**, change the **Realtime Instance** to **Utilities → Itime + VR Player**.
+4. Enable **Utilities → Itime + VR Player**, and disable **Oracle + Realtime Manager**.
+5. Compile the application to the headset.
 
 &nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/Utilities.png" width="600">
+&nbsp;&nbsp;&nbsp;&nbsp;<img src="./Assets/Images/RealtimeviewOwnership.png" width="600">
 
 ---
 
