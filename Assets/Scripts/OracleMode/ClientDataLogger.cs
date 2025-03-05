@@ -100,7 +100,7 @@ public class ClientDataLogger : Utility
             Init();
 
             // Logger
-            RealtimeView realtimeView = this.GetComponent<RealtimeView>();
+            realtimeView = GetComponent<RealtimeView>();
             if (realtimeView != null && realtimeView.isOwnedLocallySelf)
             {
                 // Initialize tick sync components
@@ -110,50 +110,26 @@ public class ClientDataLogger : Utility
                     clientTickSync = gameObject.AddComponent<ClientTickSync>();
                 }
 
-                StartCoroutine(WaitForOracleManager());
+                GameObject oracleManager = GameObject.Find("Oracle Manager");
+                if (oracleManager == null)
+                {
+                    Debug.LogError("oracleManager not found in scene");
+                }
+
+                trackingTickSync = oracleManager.GetComponent<TrackingTickSync>();
+                startTrackingSync = oracleManager.GetComponent<StartTrackingSync>();
+                if (!File.Exists(Application.persistentDataPath + "/player_log_" + trialName + ".tsv"))
+                {
+                    Debug.Log(" " + Application.persistentDataPath + "/player_log_" + trialName + ".tsv");
+                    FileStream file = File.Open(Application.persistentDataPath + "/player_log_" + trialName + ".tsv", FileMode.OpenOrCreate, FileAccess.ReadWrite);
+                    filePath = Application.persistentDataPath + "/player_log_" + trialName + ".tsv";
+                    fileName = "player_log_" + trialName + ".tsv";
+                    writer = new StreamWriter(file);
+                    writer.WriteLine("Player" + realtimeView.ownerID);
+                    writer.Flush();
+                    putVarNames();
+                }
             }
-        }
-    }
-
-    private IEnumerator WaitForOracleManager()
-    {
-        // Wait for Realtime to connect
-        var realtime = FindObjectOfType<Realtime>();
-        while (!realtime.connected)
-            yield return new WaitForSeconds(0.1f);
-
-        // Find Oracle Manager and wait for its RealtimeView to be ready
-        GameObject oracleManager = GameObject.Find("Oracle Manager");
-        while (oracleManager == null)
-        {
-            oracleManager = GameObject.Find("Oracle Manager");
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        var oracleRealtimeView = oracleManager.GetComponent<RealtimeView>();
-        while (!oracleRealtimeView.isActiveAndEnabled)
-            yield return new WaitForSeconds(0.1f);
-
-        // Get components and verify they're connected
-        trackingTickSync = oracleManager.GetComponent<TrackingTickSync>();
-        startTrackingSync = oracleManager.GetComponent<StartTrackingSync>();
-
-        while (trackingTickSync == null || startTrackingSync == null)
-        {
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        // Now we can safely initialize the file
-        if (!File.Exists(Application.persistentDataPath + "/player_log_" + trialName + ".tsv"))
-        {
-            Debug.Log(" " + Application.persistentDataPath + "/player_log_" + trialName + ".tsv");
-            FileStream file = File.Open(Application.persistentDataPath + "/player_log_" + trialName + ".tsv", FileMode.OpenOrCreate, FileAccess.ReadWrite);
-            filePath = Application.persistentDataPath + "/player_log_" + trialName + ".tsv";
-            fileName = "player_log_" + trialName + ".tsv";
-            writer = new StreamWriter(file);
-            writer.WriteLine("Player" + GetComponent<RealtimeView>().ownerID);
-            writer.Flush();
-            putVarNames();
         }
     }
 
@@ -211,7 +187,7 @@ public class ClientDataLogger : Utility
 
     void Update()
     {
-        if (!realtimeView.isOwnedLocallyInHierarchy)
+        if (!realtimeView.isOwnedLocallySelf)
         {
             realtimeView.RequestOwnership();
             return;
@@ -263,12 +239,11 @@ public class ClientDataLogger : Utility
     {
         while (true)
         {
-            if (!realtimeView.isOwnedLocallyInHierarchy)
+            if (!realtimeView.isOwnedLocallySelf)
             {
                 realtimeView.RequestOwnership();
                 continue;
             }
-
             // Get current tick from Oracle
             int currentTick = trackingTickSync.GetTrackingTick();
 
