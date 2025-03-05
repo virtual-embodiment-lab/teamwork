@@ -15,8 +15,7 @@ internal class AwsCredentials
 
 public static class AWSUploader
 {
-    // private static readonly string awsBucketName = "vel-mazeworld";
-    private static readonly string awsBucketName = "vr-vel-testing";
+    private static readonly string awsBucketName = "vel-mazeworld";
     private static string awsAccessKey;
     private static string awsSecretKey;
     private static readonly string awsURLBaseVirtual = "https://" + awsBucketName + ".s3.amazonaws.com/";
