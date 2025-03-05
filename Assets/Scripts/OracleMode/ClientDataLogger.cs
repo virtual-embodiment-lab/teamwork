@@ -58,6 +58,7 @@ public class ClientDataLogger : Utility
     [SerializeField] public TMP_Text timeStampLive = null;
     private Coroutine loggingCoroutine = null;
     private bool isLogging = false;
+    [SerializeField] private RealtimeView realtimeView;
 
 
     internal void Setup(LoggerData loggerData)
@@ -210,6 +211,12 @@ public class ClientDataLogger : Utility
 
     void Update()
     {
+        if (!realtimeView.isOwnedLocallyInHierarchy)
+        {
+            realtimeView.RequestOwnership();
+            return;
+        }
+
         if (writer == null) return;
 
         // Start logging when tracking begins
@@ -256,6 +263,12 @@ public class ClientDataLogger : Utility
     {
         while (true)
         {
+            if (!realtimeView.isOwnedLocallyInHierarchy)
+            {
+                realtimeView.RequestOwnership();
+                return;
+            }
+
             // Get current tick from Oracle
             int currentTick = trackingTickSync.GetTrackingTick();
 
