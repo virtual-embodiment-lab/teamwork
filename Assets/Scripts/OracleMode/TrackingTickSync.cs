@@ -49,7 +49,7 @@ public class TrackingTickSync : RealtimeComponent<TrackingTickModel>
 
     public int GetTrackingTick()
     {
-        return model.trackingTick;
+        return _trackingTick;
     }
 
 }

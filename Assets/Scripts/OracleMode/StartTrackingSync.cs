@@ -48,6 +48,6 @@ public class StartTrackingSync : RealtimeComponent<StartTrackDataModel>
 
     public bool GetTracking()
     {
-        return model.isTracking;
+        return _isTracking;
     }
 }
